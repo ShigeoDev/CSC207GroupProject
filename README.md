@@ -1,7 +1,7 @@
 # Members
 Nigel Loh (Shigeodev)
 
-Brad Cho (BradC1)
+Brad Hyunsoo Cho (BradC1)
 
 Kevin Hu (kevinhu01)
 
