@@ -23,5 +23,7 @@ the recipes of salads.
 
 (Nigel) A user wants to store recipes so that they can access it later.
 
+(Group) User wants to figure out what to eat for three meals in a day. User can click a button to generate a meal plan for that day. 
+
 
 
