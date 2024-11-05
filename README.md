@@ -25,5 +25,9 @@ the recipes of salads.
 
 (Group) User wants to figure out what to eat for three meals in a day. User can click a button to generate a meal plan for that day. 
 
+# Image of Project View
+![CSC207 Group-2](https://github.com/user-attachments/assets/7626397b-22e4-42a5-9662-6788ead723c5)
+
+
 
 
