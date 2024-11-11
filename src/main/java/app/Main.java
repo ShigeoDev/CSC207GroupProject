@@ -4,6 +4,7 @@ import interface_adapter.Homepage.HomepageViewModel;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.store_recipe.StoreRecipeViewModel;
 import view.HomepageView;
+import view.StoreRecipeView;
 import view.ViewManager;
 
 import javax.swing.*;
@@ -32,9 +33,11 @@ public class Main {
         final StoreRecipeViewModel storeRecipeViewModel = new StoreRecipeViewModel();
         final HomepageViewModel homepageViewModel = new HomepageViewModel();
 
-        HomepageView homepageView = HomepageUseCaseFactory.create(viewManagerModel, homepageViewModel);
+        final HomepageView homepageView = HomepageUseCaseFactory.create(viewManagerModel, homepageViewModel);
+        final StoreRecipeView storeRecipeView = StoreRecipeUseCaseFactory.create(viewManagerModel, storeRecipeViewModel);
 
         views.add(homepageView, homepageView.getName());
+        views.add(storeRecipeView, storeRecipeView.getName());
 
         viewManagerModel.setActiveView(homepageView.getName());
         viewManagerModel.firePropertyChanged();
