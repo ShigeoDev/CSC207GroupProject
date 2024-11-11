@@ -3,7 +3,7 @@ package interface_adapter;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-public class ViewManagerModel {
+public class ViewManagerModel extends ViewModel<String> {
 
     private String activeViewName;
 
@@ -26,4 +26,7 @@ public class ViewManagerModel {
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         support.addPropertyChangeListener(listener);
     }
-}
+    public ViewManagerModel() {
+        super("view manager");
+        this.setState("");
+    }}
