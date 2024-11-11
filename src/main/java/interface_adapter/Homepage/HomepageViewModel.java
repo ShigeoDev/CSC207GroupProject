@@ -6,8 +6,6 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 public class HomepageViewModel extends ViewModel {
-    public final String TITLE_LABEL = "Sign Up View";
-
     public final String name = "Homepage View";
 
     public final String Search_BUTTON_LABEL = "Saved";
