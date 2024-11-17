@@ -47,13 +47,12 @@ public class AppBuilder {
     }
 
     public AppBuilder addHomepageUseCase() {
-        //final HomepageOutputBoundary homepageOutputBoundary = new HomepagePresenter(viewManagerModel,
-         //       homepageViewModel);
-        //final HomepageInputBoundary userSignupInteractor = new HomepageInteractor(
-          //      userDataAccessObject, signupOutputBoundary, userFactory);
+        final HomepageOutputBoundary homepageOutputBoundary = new HomepagePresenter(viewManagerModel,
+                homepageViewModel, storeRecipeViewModel);
+        final HomepageInputBoundary userStoreRecipeInteractor = new HomepageInteractor(homepageOutputBoundary);
 
-        //final HomepageController controller = new HomepageController(userSignupInteractor);
-        //homepageView.setSignupController(controller);
+        final HomepageController controller = new HomepageController(userStoreRecipeInteractor);
+        homepageView.setHomepageController(controller);
         return this;
     }
 

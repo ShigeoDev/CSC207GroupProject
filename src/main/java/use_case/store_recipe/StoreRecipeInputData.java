@@ -1,15 +1,15 @@
-package use_case.signup;
+package use_case.store_recipe;
 
 /**
  * The Input Data for the Signup Use Case.
  */
-public class SignupInputData {
+public class StoreRecipeInputData {
 
     private final String username;
     private final String password;
     private final String repeatPassword;
 
-    public SignupInputData(String username, String password, String repeatPassword) {
+    public StoreRecipeInputData(String username, String password, String repeatPassword) {
         this.username = username;
         this.password = password;
         this.repeatPassword = repeatPassword;

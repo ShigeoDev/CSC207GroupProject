@@ -1,39 +1,19 @@
-package use_case.signup;
-
-import entity.User;
-import entity.UserFactory;
+package use_case.store_recipe;
 
 /**
  * The Signup Interactor.
  */
-public class SignupInteractor implements SignupInputBoundary {
-    private final SignupUserDataAccessInterface userDataAccessObject;
-    private final SignupOutputBoundary userPresenter;
-    private final UserFactory userFactory;
+public class StoreRecipeInteractor implements StoreRecipeInputBoundary {
+    private final StoreRecipeOutputBoundary userPresenter;
 
-    public SignupInteractor(SignupUserDataAccessInterface signupDataAccessInterface,
-                            SignupOutputBoundary signupOutputBoundary,
-                            UserFactory userFactory) {
-        this.userDataAccessObject = signupDataAccessInterface;
+    public StoreRecipeInteractor(StoreRecipeOutputBoundary signupOutputBoundary) {
         this.userPresenter = signupOutputBoundary;
-        this.userFactory = userFactory;
     }
 
     @Override
-    public void execute(SignupInputData signupInputData) {
-        if (userDataAccessObject.existsByName(signupInputData.getUsername())) {
-            userPresenter.prepareFailView("User already exists.");
-        }
-        else if (!signupInputData.getPassword().equals(signupInputData.getRepeatPassword())) {
-            userPresenter.prepareFailView("Passwords don't match.");
-        }
-        else {
-            final User user = userFactory.create(signupInputData.getUsername(), signupInputData.getPassword());
-            userDataAccessObject.save(user);
-
-            final SignupOutputData signupOutputData = new SignupOutputData(user.getName(), false);
-            userPresenter.prepareSuccessView(signupOutputData);
-        }
+    public void execute(StoreRecipeInputData signupInputData) {
+        final StoreRecipeOutputData storeRecipeOutputData = new StoreRecipeOutputData();
+        userPresenter.prepareSuccessView(storeRecipeOutputData);
     }
 
     @Override
