@@ -11,7 +11,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class StoreRecipeView extends JPanel implements ActionListener, PropertyChangeListener {
-    private final String name = "Stored Recipes";
+    private final String name = "StoreRecipe";
     private final StoreRecipeViewModel storeRecipeViewModel;
 
     /**

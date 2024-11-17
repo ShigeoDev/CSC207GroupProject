@@ -1,5 +1,6 @@
 package view;
 
+import interface_adapter.Homepage.HomepageController;
 import interface_adapter.Homepage.HomepageState;
 import interface_adapter.Homepage.HomepageViewModel;
 
@@ -13,6 +14,8 @@ import java.beans.PropertyChangeListener;
 public class HomepageView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String name = "Homepage";
     private final HomepageViewModel homepageViewModel;
+
+    private HomepageController homepageController;
 
     final JButton SavedRecipes;
     final JButton SearchRecipes;
@@ -29,11 +32,20 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
 
         final JPanel buttons = new JPanel();
         SavedRecipes = new JButton(homepageViewModel.Saved_BUTTON_LABEL);
-        buttons.add(SavedRecipes);
         SearchRecipes = new JButton(homepageViewModel.Search_BUTTON_LABEL);
         buttons.add(SearchRecipes);
+        buttons.add(SavedRecipes);
 
-        SavedRecipes.addActionListener(this);
+        SavedRecipes.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        final HomepageState currentState = new HomepageState();
+
+                        homepageController.execute();
+                    }
+                }
+        );
         SearchRecipes.addActionListener(this);
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -59,6 +71,9 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
         // setFields(state);
     }
 
+    public void setHomepageController(HomepageController controller) {
+        this.homepageController = controller;
+    }
 }
 
 
