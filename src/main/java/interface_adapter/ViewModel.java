@@ -1,5 +1,7 @@
 package interface_adapter;
 
+import interface_adapter.signup.SignupState;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
@@ -24,14 +26,6 @@ public class ViewModel<T> {
 
     public String getViewName() {
         return this.viewName;
-    }
-
-    public T getState() {
-        return this.state;
-    }
-
-    public void setState(T state) {
-        this.state = state;
     }
 
     /**
@@ -60,5 +54,13 @@ public class ViewModel<T> {
      */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         this.support.addPropertyChangeListener(listener);
+    }
+    
+    public T getState() {
+        return this.state;
+    }
+
+    public void setState(T state) {
+        this.state = state;
     }
 }
