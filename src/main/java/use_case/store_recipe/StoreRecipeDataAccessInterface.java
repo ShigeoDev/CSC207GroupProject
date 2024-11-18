@@ -1,22 +1,11 @@
 package use_case.store_recipe;
 
-import entity.User;
-
 /**
- * DAO for the Signup Use Case.
+ * DAO for the Store Recipe Use Case.
  */
+import java.util.ArrayList;
+
 public interface StoreRecipeDataAccessInterface {
 
-    /**
-     * Checks if the given username exists.
-     * @param username the username to look for
-     * @return true if a user with the given username exists; false otherwise
-     */
-    boolean existsByName(String username);
-
-    /**
-     * Saves the user.
-     * @param user the user to save
-     */
-    void save(User user);
+    ArrayList getRecipes(String username);
 }

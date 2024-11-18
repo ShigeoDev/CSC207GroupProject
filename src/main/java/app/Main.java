@@ -16,6 +16,7 @@ public class Main {
                 .addSignupUseCase()
                 .addLoginUseCase()
                 .addHomepageUseCase()
+                .addStoreRecipeUseCase()
                 .build();
 
         application.pack();

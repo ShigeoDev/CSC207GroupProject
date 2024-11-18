@@ -1,6 +1,7 @@
 package app;
 
 import data_access.FileUserDataAccessObject;
+
 import entity.UserFactory;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
@@ -15,17 +16,33 @@ import use_case.Login.LoginUserDataAccessInterface;
 import use_case.Signup.SignupInputBoundary;
 import use_case.Signup.SignupInteractor;
 import use_case.Signup.SignupOutputBoundary;
+
+import interface_adapter.GetCalories.GetCaloriesController;
+import interface_adapter.GetCalories.GetCaloriesPresenter;
+import interface_adapter.GetCalories.GetCaloriesViewModel;
+
 import interface_adapter.Homepage.HomepageController;
 import interface_adapter.Homepage.HomepagePresenter;
 import interface_adapter.Homepage.HomepageViewModel;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.store_recipe.StoreRecipeController;
+import interface_adapter.store_recipe.StoreRecipePresenter;
 import interface_adapter.store_recipe.StoreRecipeViewModel;
+import use_case.GetCalories.GetCaloriesInputBoundary;
+import use_case.GetCalories.GetCaloriesInteractor;
+import use_case.GetCalories.GetCaloriesOutputBoundary;
 import use_case.Homepage.HomepageInputBoundary;
 import use_case.Homepage.HomepageInteractor;
 import use_case.Homepage.HomepageOutputBoundary;
+
 import use_case.Signup.SignupUserDataAccessInterface;
 import view.LoginView;
 import view.SignupView;
+
+import use_case.store_recipe.StoreRecipeInputBoundary;
+import use_case.store_recipe.StoreRecipeInteractor;
+import use_case.store_recipe.StoreRecipeOutputBoundary;
+import view.GetCaloriesView;
 import view.HomepageView;
 import view.StoreRecipeView;
 import view.ViewManager;
@@ -36,12 +53,11 @@ import java.awt.*;
 public class AppBuilder {
     private final JPanel cardPanel = new JPanel();
     private final CardLayout cardLayout = new CardLayout();
-     private final UserFactory userFactory = new UserFactory();
+    private final UserFactory userFactory = new UserFactory();
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
-    // thought question: is the hard dependency below a problem?
-     private final FileUserDataAccessObject userDataAccessObject = new FileUserDataAccessObject("data.json", userFactory);
+    private final FileUserDataAccessObject userDataAccessObject = new FileUserDataAccessObject("data.json", userFactory);
 
     private SignupView signupView;
     private SignupViewModel signupViewModel;
@@ -52,6 +68,9 @@ public class AppBuilder {
 
     private StoreRecipeView storeRecipeView;
     private StoreRecipeViewModel storeRecipeViewModel;
+
+    private GetCaloriesView getCaloriesView;
+    private GetCaloriesViewModel getCaloriesViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -123,9 +142,9 @@ public class AppBuilder {
     public AppBuilder addHomepageUseCase() {
         final HomepageOutputBoundary homepageOutputBoundary = new HomepagePresenter(viewManagerModel,
                 homepageViewModel, storeRecipeViewModel);
-        final HomepageInputBoundary userStoreRecipeInteractor = new HomepageInteractor(homepageOutputBoundary);
+        final HomepageInputBoundary userHomepageInteractor = new HomepageInteractor(userDataAccessObject, homepageOutputBoundary);
 
-        final HomepageController controller = new HomepageController(userStoreRecipeInteractor);
+        final HomepageController controller = new HomepageController(userHomepageInteractor);
         homepageView.setHomepageController(controller);
         return this;
     }
@@ -137,7 +156,19 @@ public class AppBuilder {
         return this;
     }
 
+    public AppBuilder addGetCaloriesView() {
+        getCaloriesViewModel = new GetCaloriesViewModel();
+        getCaloriesView = new GetCaloriesView(getCaloriesViewModel);
+        cardPanel.add(getCaloriesView, getCaloriesView.getName());
+        return this;
+    }
+
     public AppBuilder addStoreRecipeUseCase() {
+        final StoreRecipeOutputBoundary storeRecipeOutputBoundary = new StoreRecipePresenter(viewManagerModel, storeRecipeViewModel);
+        final StoreRecipeInputBoundary userStoreRecipeInteractor = new StoreRecipeInteractor(userDataAccessObject, storeRecipeOutputBoundary);
+
+        final StoreRecipeController controller = new StoreRecipeController(userStoreRecipeInteractor);
+        storeRecipeView.setStoreRecipeController(controller);
         return this;
     }
 
@@ -152,4 +183,6 @@ public class AppBuilder {
 
         return application;
     }
+
+
 }

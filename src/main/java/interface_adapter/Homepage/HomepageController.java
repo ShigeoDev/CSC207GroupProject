@@ -11,7 +11,7 @@ public class HomepageController {
     }
 
     public void execute() {
-        final HomepageInputData homepageInputData = new HomepageInputData();
+        final HomepageInputData homepageInputData = new HomepageInputData("test");
 
         userHomepageUseCaseInteractor.execute(homepageInputData);
     }
