@@ -4,10 +4,10 @@
     "password": "test",
     "recipes": [
       {
-        "name": "Chicken"
+        "title": "Chicken"
       },
       {
-        "name": "Beef"
+        "title": "Beef"
       }
     ]
   },
@@ -16,10 +16,10 @@
     "password": "test2",
     "recipes": [
       {
-        "name": "Chicken"
+        "title": "Chicken"
       },
       {
-        "name": "Beef"
+        "title": "Beef"
       }
     ]
   }

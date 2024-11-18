@@ -5,25 +5,13 @@ package use_case.store_recipe;
  */
 public class StoreRecipeInputData {
 
-    private final String username;
-    private final String password;
-    private final String repeatPassword;
+    private String username;
 
-    public StoreRecipeInputData(String username, String password, String repeatPassword) {
+    public StoreRecipeInputData(String username) {
         this.username = username;
-        this.password = password;
-        this.repeatPassword = repeatPassword;
     }
 
-    String getUsername() {
+    public String getUsername() {
         return username;
-    }
-
-    String getPassword() {
-        return password;
-    }
-
-    public String getRepeatPassword() {
-        return repeatPassword;
     }
 }

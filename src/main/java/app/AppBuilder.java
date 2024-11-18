@@ -1,5 +1,6 @@
 package app;
 
+import data_access.FileUserDataAccessObject;
 import interface_adapter.GetCalories.GetCaloriesController;
 import interface_adapter.GetCalories.GetCaloriesPresenter;
 import interface_adapter.GetCalories.GetCaloriesViewModel;
@@ -7,6 +8,8 @@ import interface_adapter.Homepage.HomepageController;
 import interface_adapter.Homepage.HomepagePresenter;
 import interface_adapter.Homepage.HomepageViewModel;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.store_recipe.StoreRecipeController;
+import interface_adapter.store_recipe.StoreRecipePresenter;
 import interface_adapter.store_recipe.StoreRecipeViewModel;
 import use_case.GetCalories.GetCaloriesInputBoundary;
 import use_case.GetCalories.GetCaloriesInteractor;
@@ -14,6 +17,9 @@ import use_case.GetCalories.GetCaloriesOutputBoundary;
 import use_case.Homepage.HomepageInputBoundary;
 import use_case.Homepage.HomepageInteractor;
 import use_case.Homepage.HomepageOutputBoundary;
+import use_case.store_recipe.StoreRecipeInputBoundary;
+import use_case.store_recipe.StoreRecipeInteractor;
+import use_case.store_recipe.StoreRecipeOutputBoundary;
 import view.GetCaloriesView;
 import view.HomepageView;
 import view.StoreRecipeView;
@@ -29,8 +35,7 @@ public class AppBuilder {
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
-    // thought question: is the hard dependency below a problem?
-    // private final InMemoryUserDataAccessObject userDataAccessObject = new InMemoryUserDataAccessObject();
+    private final FileUserDataAccessObject userDataAccessObject = new FileUserDataAccessObject("data.json");
 
     private HomepageView homepageView;
     private HomepageViewModel homepageViewModel;
@@ -59,9 +64,9 @@ public class AppBuilder {
     public AppBuilder addHomepageUseCase() {
         final HomepageOutputBoundary homepageOutputBoundary = new HomepagePresenter(viewManagerModel,
                 homepageViewModel, storeRecipeViewModel);
-        final HomepageInputBoundary userStoreRecipeInteractor = new HomepageInteractor(homepageOutputBoundary);
+        final HomepageInputBoundary userHomepageInteractor = new HomepageInteractor(userDataAccessObject, homepageOutputBoundary);
 
-        final HomepageController controller = new HomepageController(userStoreRecipeInteractor);
+        final HomepageController controller = new HomepageController(userHomepageInteractor);
         homepageView.setHomepageController(controller);
         return this;
     }
@@ -81,6 +86,11 @@ public class AppBuilder {
     }
 
     public AppBuilder addStoreRecipeUseCase() {
+        final StoreRecipeOutputBoundary storeRecipeOutputBoundary = new StoreRecipePresenter(viewManagerModel, storeRecipeViewModel);
+        final StoreRecipeInputBoundary userStoreRecipeInteractor = new StoreRecipeInteractor(userDataAccessObject, storeRecipeOutputBoundary);
+
+        final StoreRecipeController controller = new StoreRecipeController(userStoreRecipeInteractor);
+        storeRecipeView.setStoreRecipeController(controller);
         return this;
     }
 

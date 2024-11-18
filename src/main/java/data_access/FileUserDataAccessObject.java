@@ -33,7 +33,6 @@ public class FileUserDataAccessObject implements StoreRecipeDataAccessInterface 
                 final JSONObject user = jsonArray.getJSONObject(i);
                 account.put(user.getString("username"), user.getString("password"));
                 final JSONArray jsonrecipes = user.getJSONArray("recipes");
-                System.out.println(jsonrecipes.toList());
                 final ArrayList<JSONObject> recipeArray = new ArrayList<>();
                 for (int j = 0; j < jsonrecipes.length(); j++) {
                     final JSONObject recipe = jsonrecipes.getJSONObject(j);

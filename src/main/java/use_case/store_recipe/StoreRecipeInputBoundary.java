@@ -11,8 +11,4 @@ public interface StoreRecipeInputBoundary {
      */
     void execute(StoreRecipeInputData signupInputData);
 
-    /**
-     * Executes the switch to login view use case.
-     */
-    void switchToLoginView();
 }

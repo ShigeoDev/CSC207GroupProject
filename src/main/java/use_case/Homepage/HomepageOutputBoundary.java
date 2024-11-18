@@ -4,6 +4,6 @@ import use_case.store_recipe.StoreRecipeOutputBoundary;
 
 public interface HomepageOutputBoundary {
 
-    public void prepareSuccessView();
+    public void prepareSuccessView(HomepageOutputData homepageOutputData);
     public void switchToStoreRecipeView();
 }
