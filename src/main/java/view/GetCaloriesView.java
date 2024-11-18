@@ -20,7 +20,7 @@ public class GetCaloriesView extends JPanel implements ActionListener, PropertyC
         this.getCaloriesViewModel = getCaloriesViewModel;
         this.getCaloriesViewModel.addPropertyChangeListener(this);
 
-        final JLabel title = new JLabel("Get Calories Screen");
+        final JLabel title = new JLabel("Get Calories");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         final JLabel recipeNameInfo = new JLabel(GetCaloriesViewModel.RECIPE_LABEL);
@@ -35,9 +35,9 @@ public class GetCaloriesView extends JPanel implements ActionListener, PropertyC
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(title);
-        this.add(buttons);
         this.add(recipeNameInfo);
         this.add(recipeNameTextField);
+        this.add(buttons);
     }
 
     public String getName() {
