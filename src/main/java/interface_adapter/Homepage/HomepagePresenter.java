@@ -4,6 +4,7 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.store_recipe.StoreRecipeState;
 import interface_adapter.store_recipe.StoreRecipeViewModel;
 import use_case.Homepage.HomepageOutputBoundary;
+import use_case.Homepage.HomepageOutputData;
 import use_case.store_recipe.StoreRecipeOutputBoundary;
 
 public class HomepagePresenter implements HomepageOutputBoundary {
@@ -20,10 +21,11 @@ public class HomepagePresenter implements HomepageOutputBoundary {
     }
 
     @Override
-    public void prepareSuccessView() {
+    public void prepareSuccessView(HomepageOutputData homepageOutputData) {
         // On success, switch to the login view.
         final StoreRecipeState storeRecipeState = storeRecipeViewModel.getState();
-        // storeRecipeState.setUsername(response.getUsername());
+        storeRecipeState.setUsername(homepageOutputData.getUsername());
+        storeRecipeState.setRecipes(homepageOutputData.getRecipes());
         this.storeRecipeViewModel.setState(storeRecipeState);
         storeRecipeViewModel.firePropertyChanged();
 

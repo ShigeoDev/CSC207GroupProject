@@ -5,19 +5,18 @@ package use_case.store_recipe;
  */
 public class StoreRecipeInteractor implements StoreRecipeInputBoundary {
     private final StoreRecipeOutputBoundary userPresenter;
+    private final StoreRecipeDataAccessInterface storeRecipeDAO;
 
-    public StoreRecipeInteractor(StoreRecipeOutputBoundary signupOutputBoundary) {
+    public StoreRecipeInteractor(StoreRecipeDataAccessInterface storeRecipeDAO, StoreRecipeOutputBoundary signupOutputBoundary) {
         this.userPresenter = signupOutputBoundary;
+        this.storeRecipeDAO = storeRecipeDAO;
     }
 
     @Override
     public void execute(StoreRecipeInputData signupInputData) {
-        final StoreRecipeOutputData storeRecipeOutputData = new StoreRecipeOutputData();
-        userPresenter.prepareSuccessView(storeRecipeOutputData);
+        final String username = signupInputData.getUsername();
+        final StoreRecipeOutputData storeRecipeOutputData = new StoreRecipeOutputData(username);
+        userPresenter.prepareSuccessView();
     }
 
-    @Override
-    public void switchToLoginView() {
-        userPresenter.switchToLoginView();
-    }
 }
