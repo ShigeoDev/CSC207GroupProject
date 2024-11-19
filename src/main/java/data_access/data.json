@@ -1,26 +1,17 @@
 [
   {
-    "username": "test",
-    "password": "test",
-    "recipes": [
-      {
-        "name": "Chicken"
-      },
-      {
-        "name": "Beef"
-      }
-    ]
+    "recipes": [],
+    "password": "test2",
+    "username": "test2"
   },
   {
-    "username": "test2",
-    "password": "test2",
-    "recipes": [
-      {
-        "name": "Chicken"
-      },
-      {
-        "name": "Beef"
-      }
-    ]
+    "recipes": [],
+    "password": "test",
+    "username": "test"
+  },
+  {
+    "recipes": [],
+    "password": "t",
+    "username": "t"
   }
 ]
