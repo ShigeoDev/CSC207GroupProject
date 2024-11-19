@@ -7,7 +7,7 @@ import use_case.NutritionFilterPage.NutritionFilterPageInputData;
 import java.util.List;
 
 /**
- * Controller for the Filter Based on Nutrition Use Case.
+ * The Controller for the Filter Based on Nutrition Use Case.
  */
 public class NutritionFilterPageController {
     private final NutritionFilterPageInputBoundrary filterBasedOnNutritionUseCaseInteractor;
@@ -20,7 +20,7 @@ public class NutritionFilterPageController {
      * Executes the Filter Based on Nutrition Use Case.
      * @param selectedNutrients the selected nutrients
      */
-    public void execute(List<Nutrient> selectedNutrients) {
+    public void execute(List<String> selectedNutrients) {
         final NutritionFilterPageInputData nutritionFilterPageInputData = new NutritionFilterPageInputData(
                 selectedNutrients);
 
