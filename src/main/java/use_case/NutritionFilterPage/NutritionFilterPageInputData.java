@@ -9,13 +9,13 @@ import java.util.List;
  */
 public class NutritionFilterPageInputData {
 
-    private final List<Nutrient> selectedNutrients;
+    private final List<String> selectedNutrients;
 
-    public NutritionFilterPageInputData(List<Nutrient> selectedNutrients) {
+    public NutritionFilterPageInputData(List<String> selectedNutrients) {
         this.selectedNutrients = selectedNutrients;
     }
 
-    public List<Nutrient> getSelectedNutrients() {
+    public List<String> getSelectedNutrients() {
         return selectedNutrients;
     }
 }

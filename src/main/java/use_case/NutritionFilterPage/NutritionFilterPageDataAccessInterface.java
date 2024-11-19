@@ -9,5 +9,5 @@ import java.util.List;
  */
 public interface NutritionFilterPageDataAccessInterface {
 
-    List<Recipe> filterRecipes(NutritionFilterPageInputData inputData);
+    List<Recipe> getAllRecipes();
 }
