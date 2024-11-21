@@ -12,6 +12,7 @@ public class Main {
                 .addHomepageView()
                 .addStoreRecipeView()
                 .addHomepageUseCase()
+                .addStoreRecipeUseCase()
                 .build();
 
         application.pack();

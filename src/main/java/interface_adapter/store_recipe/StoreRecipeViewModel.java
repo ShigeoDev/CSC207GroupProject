@@ -6,7 +6,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 public class StoreRecipeViewModel extends ViewModel {
-    public final String name = "Store Recipe View";
+    private final String name = "Store Recipe View";
 
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
