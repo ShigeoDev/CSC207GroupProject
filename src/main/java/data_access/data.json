@@ -1,6 +1,9 @@
 [
   {
-    "recipes": [],
+    "recipes": [
+      {"title": "beef"},
+      {"title": "chicken"}
+    ],
     "password": "test2",
     "username": "test2"
   },

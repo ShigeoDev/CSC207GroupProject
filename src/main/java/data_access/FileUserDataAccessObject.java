@@ -69,13 +69,33 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
     private void save() {
         Path path = Paths.get("src/main/java/data_access/" + file.getName());
+        JSONArray jsonArray;
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path.toFile()))) {
-            JSONArray jsonArray = new JSONArray();
-            for (Map.Entry<String, User> entry : accounts.entrySet()) {
-                String username = entry.getKey();
+        if (Files.exists(path) && file.length() > 0) {
+            try {
+                String jsonString = Files.readString(path.toAbsolutePath());
+                jsonArray = new JSONArray(jsonString);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            jsonArray = new JSONArray();
+        }
+
+        for (Map.Entry<String, User> entry : accounts.entrySet()) {
+            String username = entry.getKey();
+            boolean userExists = false;
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject existingUser = jsonArray.getJSONObject(i);
+                if (existingUser.getString("username").equals(username)) {
+                    userExists = true;
+                    break;
+                }
+            }
+
+            if (!userExists) {
                 User user = entry.getValue();
-
                 JSONObject userJSON = new JSONObject();
                 userJSON.put("username", username);
                 userJSON.put("password", user.getPassword());
@@ -84,6 +104,9 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
                 userJSON.put("recipes", userRecipes);
                 jsonArray.put(userJSON);
             }
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path.toFile()))) {
             writer.write(jsonArray.toString(2));
         }
         catch (IOException e) {
@@ -117,8 +140,8 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         return accounts.containsKey(identifier);
     }
 
-//    @Override
-//    public ArrayList getRecipes(String username) {
-//        return recipes.get(username);
-//    }
+    @Override
+    public ArrayList getRecipes(String username) {
+        return recipes.get(username);
+    }
 }
