@@ -50,4 +50,9 @@ public class FileUserDataAccessObject implements StoreRecipeDataAccessInterface 
     public ArrayList getRecipes(String username) {
         return recipes.get(username);
     }
+
+    public int getRecipeCalories(String recipeName) {
+        return 0;
+    }
 }
+

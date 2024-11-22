@@ -1,5 +1,6 @@
 package view;
 
+import interface_adapter.GetCalories.GetCaloriesController;
 import interface_adapter.GetCalories.GetCaloriesState;
 import interface_adapter.GetCalories.GetCaloriesViewModel;
 
@@ -13,6 +14,8 @@ import java.beans.PropertyChangeListener;
 public class GetCaloriesView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String name = "CaloriesView";
     private final GetCaloriesViewModel getCaloriesViewModel;
+    private GetCaloriesController getCaloriesController;
+    private final JTextField recipeNameTextField;
 
     final JButton Submit;
 
@@ -24,7 +27,7 @@ public class GetCaloriesView extends JPanel implements ActionListener, PropertyC
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         final JLabel recipeNameInfo = new JLabel(GetCaloriesViewModel.RECIPE_LABEL);
-        final JTextField recipeNameTextField = new JTextField(15);
+        recipeNameTextField = new JTextField(15);
 
         final JPanel buttons = new JPanel();
         Submit = new JButton(getCaloriesViewModel.Submit_BUTTON_LABEL);
@@ -48,12 +51,21 @@ public class GetCaloriesView extends JPanel implements ActionListener, PropertyC
      * React to a button click that results in evt.
      */
     public void actionPerformed(ActionEvent evt) {
-        System.out.println("Click " + evt.getActionCommand());
+        if (evt.getSource().equals(Submit)) {
+            String recipeName = recipeNameTextField.getText();
+            getCaloriesController.execute(recipeName);
+        }
+    }
+
+    public void setGetCaloriesController(GetCaloriesController controller) {
+        this.getCaloriesController = controller;
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         GetCaloriesState state = (GetCaloriesState) evt.getNewValue();
-        // setFields(state);
+        if (state.getCaloriesError() != null) {
+            JOptionPane.showMessageDialog(this, state.getCaloriesError());
+        }
     }
 }
