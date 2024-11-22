@@ -54,7 +54,6 @@ public class AppBuilder {
 
     private DishTypeView dishTypeView;
     private DishTypeViewModel dishTypeViewModel;
-    private DishTypeUserDataAccessInterface dishTypeDAO;
 
     private GetCaloriesView getCaloriesView;
     private GetCaloriesViewModel getCaloriesViewModel;
@@ -117,10 +116,10 @@ public class AppBuilder {
     public AppBuilder addDishTypeUseCase() {
         final DishTypeOutputBoundary dishTypeOutputBoundary = new DishTypePresenter(dishTypeViewModel, viewManagerModel);
 
-        final DishTypeInputBoundary dishTypeInteractor = new DishTypeInteractor(dishTypeDAO, dishTypeOutputBoundary);
+        //final DishTypeInputBoundary dishTypeInteractor = new DishTypeInteractor(userDataAccessObject, dishTypeOutputBoundary);
 
-        final DishTypeController controller = new DishTypeController(dishTypeInteractor);
-        dishTypeView.setDishTypeController(controller);
+        //final DishTypeController controller = new DishTypeController(dishTypeInteractor);
+        //dishTypeView.setDishTypeController(controller);
         return this;
     }
 
@@ -135,18 +134,4 @@ public class AppBuilder {
 
         return application;
     }
-
-    public JFrame search() {
-        final JFrame application = new JFrame("Dish Type Example");
-        application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        application.add(cardPanel);
-
-        viewManagerModel.setState(dishTypeView.getName());
-        viewManagerModel.firePropertyChanged();
-
-        return application;
-    }
-
-
 }
