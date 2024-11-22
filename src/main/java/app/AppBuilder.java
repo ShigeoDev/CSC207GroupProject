@@ -1,5 +1,8 @@
 package app;
 
+import interface_adapter.DishType.DishTypeController;
+import interface_adapter.DishType.DishTypePresenter;
+import interface_adapter.DishType.DishTypeViewModel;
 import data_access.FileUserDataAccessObject;
 import entity.UserFactory;
 import interface_adapter.login.LoginController;
@@ -23,6 +26,7 @@ import interface_adapter.Homepage.HomepageController;
 import interface_adapter.Homepage.HomepagePresenter;
 import interface_adapter.Homepage.HomepageViewModel;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.signup.SignupController;
 import interface_adapter.store_recipe.StoreRecipeController;
 import interface_adapter.store_recipe.StoreRecipePresenter;
 import interface_adapter.store_recipe.StoreRecipeViewModel;
@@ -32,15 +36,19 @@ import use_case.GetCalories.GetCaloriesOutputBoundary;
 import use_case.Homepage.HomepageInputBoundary;
 import use_case.Homepage.HomepageInteractor;
 import use_case.Homepage.HomepageOutputBoundary;
+import use_case.searchByDishType.DishTypeInputBoundary;
+import use_case.searchByDishType.DishTypeInteractor;
+import use_case.searchByDishType.DishTypeOutputBoundary;
+import use_case.searchByDishType.DishTypeUserDataAccessInterface;
 import view.LoginView;
 import view.SignupView;
-
 import use_case.store_recipe.StoreRecipeInputBoundary;
 import use_case.store_recipe.StoreRecipeInteractor;
 import use_case.store_recipe.StoreRecipeOutputBoundary;
 import view.GetCaloriesView;
 import view.HomepageView;
 import view.StoreRecipeView;
+import view.DishTypeView;
 import view.ViewManager;
 
 import javax.swing.*;
@@ -64,6 +72,9 @@ public class AppBuilder {
 
     private StoreRecipeView storeRecipeView;
     private StoreRecipeViewModel storeRecipeViewModel;
+
+    private DishTypeView dishTypeView;
+    private DishTypeViewModel dishTypeViewModel;
 
     private GetCaloriesView getCaloriesView;
     private GetCaloriesViewModel getCaloriesViewModel;
@@ -138,9 +149,9 @@ public class AppBuilder {
     public AppBuilder addHomepageUseCase() {
         final HomepageOutputBoundary homepageOutputBoundary = new HomepagePresenter(viewManagerModel,
                 homepageViewModel, storeRecipeViewModel);
-        final HomepageInputBoundary userHomepageInteractor = new HomepageInteractor(userDataAccessObject, homepageOutputBoundary);
+        final HomepageInputBoundary userStoreRecipeInteractor = new HomepageInteractor(userDataAccessObject, homepageOutputBoundary);
 
-        final HomepageController controller = new HomepageController(userHomepageInteractor);
+        final HomepageController controller = new HomepageController(userStoreRecipeInteractor);
         homepageView.setHomepageController(controller);
         return this;
     }
@@ -168,6 +179,23 @@ public class AppBuilder {
         return this;
     }
 
+    public AppBuilder addDishTypeView() {
+        dishTypeViewModel = new DishTypeViewModel();
+        dishTypeView = new DishTypeView(dishTypeViewModel);
+        cardPanel.add(dishTypeView, dishTypeView.getName());
+        return this;
+    }
+
+    public AppBuilder addDishTypeUseCase() {
+        final DishTypeOutputBoundary dishTypeOutputBoundary = new DishTypePresenter(dishTypeViewModel, viewManagerModel);
+
+        //final DishTypeInputBoundary dishTypeInteractor = new DishTypeInteractor(userDataAccessObject, dishTypeOutputBoundary);
+
+        //final DishTypeController controller = new DishTypeController(dishTypeInteractor);
+        //dishTypeView.setDishTypeController(controller);
+        return this;
+    }
+
     public JFrame build() {
         final JFrame application = new JFrame("Login Example");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -179,6 +207,4 @@ public class AppBuilder {
 
         return application;
     }
-
-
 }
