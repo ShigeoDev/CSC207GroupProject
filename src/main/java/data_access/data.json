@@ -1,17 +1,5 @@
-[
-  {
-    "recipes": [],
-    "password": "test2",
-    "username": "test2"
-  },
-  {
-    "recipes": [],
-    "password": "test",
-    "username": "test"
-  },
-  {
-    "recipes": [],
-    "password": "t",
-    "username": "t"
-  }
-]
+[{
+  "recipes": [],
+  "password": "test",
+  "username": "test"
+}]

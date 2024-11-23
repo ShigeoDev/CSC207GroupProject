@@ -40,9 +40,9 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        final HomepageState currentState = new HomepageState();
+                        final HomepageState currentState = homepageViewModel.getState();
 
-                        homepageController.execute();
+                        homepageController.execute(currentState.getUsername());
                     }
                 }
         );

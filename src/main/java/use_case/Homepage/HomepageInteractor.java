@@ -2,8 +2,6 @@ package use_case.Homepage;
 
 import data_access.FileUserDataAccessObject;
 
-import java.io.File;
-
 public class HomepageInteractor implements HomepageInputBoundary{
 
     private final HomepageOutputBoundary userPresenter;
