@@ -15,7 +15,7 @@ public class StoreRecipeInteractor implements StoreRecipeInputBoundary {
     @Override
     public void execute(StoreRecipeInputData signupInputData) {
         final String username = signupInputData.getUsername();
-        final StoreRecipeOutputData storeRecipeOutputData = new StoreRecipeOutputData(username);
+        // final StoreRecipeOutputData storeRecipeOutputData = new StoreRecipeOutputData(username);
         userPresenter.prepareSuccessView();
     }
 

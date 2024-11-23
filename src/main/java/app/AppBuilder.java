@@ -1,10 +1,12 @@
 package app;
 
+import data_access.ApiDataAccessObject;
 import interface_adapter.DishType.DishTypeController;
 import interface_adapter.DishType.DishTypePresenter;
 import interface_adapter.DishType.DishTypeViewModel;
 import data_access.FileUserDataAccessObject;
 import entity.UserFactory;
+import interface_adapter.MealPlan.MealPlanViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
@@ -40,16 +42,10 @@ import use_case.searchByDishType.DishTypeInputBoundary;
 import use_case.searchByDishType.DishTypeInteractor;
 import use_case.searchByDishType.DishTypeOutputBoundary;
 import use_case.searchByDishType.DishTypeUserDataAccessInterface;
-import view.LoginView;
-import view.SignupView;
+import view.*;
 import use_case.store_recipe.StoreRecipeInputBoundary;
 import use_case.store_recipe.StoreRecipeInteractor;
 import use_case.store_recipe.StoreRecipeOutputBoundary;
-import view.GetCaloriesView;
-import view.HomepageView;
-import view.StoreRecipeView;
-import view.DishTypeView;
-import view.ViewManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -62,11 +58,14 @@ public class AppBuilder {
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
     private final FileUserDataAccessObject userDataAccessObject = new FileUserDataAccessObject("data.json", userFactory);
+    private final ApiDataAccessObject apiDataAccessObject = new ApiDataAccessObject();
 
     private SignupView signupView;
     private SignupViewModel signupViewModel;
+
     private LoginViewModel loginViewModel;
     private LoginView loginView;
+
     private HomepageView homepageView;
     private HomepageViewModel homepageViewModel;
 
@@ -78,6 +77,9 @@ public class AppBuilder {
 
     private GetCaloriesView getCaloriesView;
     private GetCaloriesViewModel getCaloriesViewModel;
+
+    private MealPlanViewModel mealPlanViewModel;
+    private MealPlanView mealPlanView;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -116,6 +118,17 @@ public class AppBuilder {
         return this;
     }
 
+    public AppBuilder addMealPlanView() {
+        mealPlanViewModel = new MealPlanViewModel();
+        mealPlanView = new MealPlanView(mealPlanViewModel);
+        cardPanel.add(mealPlanView, mealPlanView.getName());
+        return this;
+    }
+
+    public AppBuilder addMealPlanUseCase() {
+        return this;
+    }
+
     /**
      * Adds the Signup Use Case to the application.
      * @return this builder
@@ -148,8 +161,8 @@ public class AppBuilder {
 
     public AppBuilder addHomepageUseCase() {
         final HomepageOutputBoundary homepageOutputBoundary = new HomepagePresenter(viewManagerModel,
-                homepageViewModel, storeRecipeViewModel);
-        final HomepageInputBoundary userStoreRecipeInteractor = new HomepageInteractor(userDataAccessObject, homepageOutputBoundary);
+                homepageViewModel, storeRecipeViewModel, mealPlanViewModel);
+        final HomepageInputBoundary userStoreRecipeInteractor = new HomepageInteractor(userDataAccessObject, homepageOutputBoundary, apiDataAccessObject);
 
         final HomepageController controller = new HomepageController(userStoreRecipeInteractor);
         homepageView.setHomepageController(controller);
