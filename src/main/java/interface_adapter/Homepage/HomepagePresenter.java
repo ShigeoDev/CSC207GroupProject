@@ -40,9 +40,9 @@ public class HomepagePresenter implements HomepageOutputBoundary {
     }
 
     @Override
-    public void prepareMealPlanView(JSONObject recipes) {
+    public void prepareMealPlanView(JSONObject[] recipes) {
         final MealPlanState mealPlanState = mealPlanViewModel.getState();
-        mealPlanState.setRecipes(recipes.getJSONArray("hits")) ;
+        mealPlanState.setRecipes(recipes) ;
         mealPlanViewModel.firePropertyChanged();
 
         viewManagerModel.setState(mealPlanViewModel.getViewName());

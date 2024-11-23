@@ -6,6 +6,8 @@ import interface_adapter.DishType.DishTypePresenter;
 import interface_adapter.DishType.DishTypeViewModel;
 import data_access.FileUserDataAccessObject;
 import entity.UserFactory;
+import interface_adapter.MealPlan.MealPlanController;
+import interface_adapter.MealPlan.MealPlanPresenter;
 import interface_adapter.MealPlan.MealPlanViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
@@ -16,6 +18,9 @@ import interface_adapter.signup.SignupViewModel;
 import use_case.Login.LoginInputBoundary;
 import use_case.Login.LoginInteractor;
 import use_case.Login.LoginOutputBoundary;
+import use_case.MealPlan.MealPlanInputBoundary;
+import use_case.MealPlan.MealPlanInteractor;
+import use_case.MealPlan.MealPlanOutputBoundary;
 import use_case.Signup.SignupInputBoundary;
 import use_case.Signup.SignupInteractor;
 import use_case.Signup.SignupOutputBoundary;
@@ -126,6 +131,12 @@ public class AppBuilder {
     }
 
     public AppBuilder addMealPlanUseCase() {
+        final MealPlanOutputBoundary mealPlanOutputBoundary = new MealPlanPresenter(viewManagerModel,
+                homepageViewModel);
+        final MealPlanInputBoundary userMealPlanInteractor = new MealPlanInteractor(mealPlanOutputBoundary);
+
+        final MealPlanController controller = new MealPlanController(userMealPlanInteractor);
+        mealPlanView.setMealPlanController(controller);
         return this;
     }
 

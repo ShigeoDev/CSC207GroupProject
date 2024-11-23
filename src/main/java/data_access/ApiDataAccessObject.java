@@ -37,4 +37,29 @@ public class ApiDataAccessObject {
             throw new RuntimeException(e);
         }
     }
+
+    public JSONObject getRecipebyMeal(String mealName) {
+        final OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        final Request request = new Request.Builder()
+                .url(String.format("%s/api/recipes/v2?type=public&app_id=%s&app_key=%s&mealType=%s&random=True", Url, Id, Key, mealName))
+                .build();
+
+        try {
+            final Response response = client.newCall(request).execute();
+            final JSONObject responseBody = new JSONObject(response.body().string());
+
+            if (response.isSuccessful()) {
+                return responseBody.getJSONArray("hits")
+                        .getJSONObject(0).getJSONObject("recipe");
+            }
+            else {
+                throw new RuntimeException(responseBody.getString(MESSAGE));
+            }
+
+        }
+        catch (IOException | JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

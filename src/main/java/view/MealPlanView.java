@@ -3,8 +3,6 @@ package view;
 import interface_adapter.MealPlan.MealPlanController;
 import interface_adapter.MealPlan.MealPlanState;
 import interface_adapter.MealPlan.MealPlanViewModel;
-import interface_adapter.store_recipe.StoreRecipeState;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -13,7 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
 
 public class MealPlanView extends JPanel implements PropertyChangeListener, ActionListener {
 
@@ -24,6 +21,7 @@ public class MealPlanView extends JPanel implements PropertyChangeListener, Acti
 
     private JLabel title = new JLabel("Meal Plan");
     private JPanel recipesPanel = new JPanel();
+    private JButton home = new JButton("Home");
 
     public MealPlanView(MealPlanViewModel mealPlanViewModel) {
         this.mealPlanViewModel = mealPlanViewModel;
@@ -34,8 +32,20 @@ public class MealPlanView extends JPanel implements PropertyChangeListener, Acti
 
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        home.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        home.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        mealPlanController.goHome();
+                    }
+                }
+        );
+
         this.add(title);
         this.add(recipesPanel);
+        this.add(home);
     }
 
     public void setMealPlanController(MealPlanController mealPlanController) {
@@ -48,13 +58,12 @@ public class MealPlanView extends JPanel implements PropertyChangeListener, Acti
 
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("state")) {
+            recipesPanel.removeAll();
             final MealPlanState state = (MealPlanState) evt.getNewValue();
-            final JSONArray recipes = state.getRecipes();
-            for (int i = 0; i < 3; i++) {
-                final JSONObject recipe = recipes.getJSONObject(i);
-                System.out.println(recipe);
-                final String recipeName = recipe.getJSONObject("recipe").getString("label");
-                System.out.println(recipeName);
+            final JSONObject[] recipes = state.getRecipes();
+            for (int i = 0; i < recipes.length; i++) {
+                final JSONObject recipe = recipes[i];
+                final String recipeName = recipe.getString("label");
                 final JLabel recipeLabel = new JLabel(recipeName);
                 recipeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
                 recipesPanel.add(recipeLabel);

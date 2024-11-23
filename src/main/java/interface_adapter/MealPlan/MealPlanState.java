@@ -1,15 +1,15 @@
 package interface_adapter.MealPlan;
 
-import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class MealPlanState {
-    private JSONArray recipes;
+    private JSONObject[] recipes;
 
-    public JSONArray getRecipes() {
+    public JSONObject[] getRecipes() {
         return recipes;
     }
 
-    public void setRecipes(JSONArray recipes) {
+    public void setRecipes(JSONObject[] recipes) {
         this.recipes = recipes;
     }
 }
