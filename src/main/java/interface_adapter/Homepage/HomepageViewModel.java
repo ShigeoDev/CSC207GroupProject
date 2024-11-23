@@ -6,10 +6,9 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 public class HomepageViewModel extends ViewModel {
-    public final String name = "Homepage View";
-
     public final String Search_BUTTON_LABEL = "Search";
     public final String Saved_BUTTON_LABEL = "Saved";
+    public final String MealPlan_BUTTON_LABEL = "Meal Planner";
 
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 

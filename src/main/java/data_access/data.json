@@ -1,27 +1,5 @@
-[
-  {
-    "recipes": [
-      {"title": "beef"},
-      {"title": "chicken"}
-    ],
-    "password": "test2",
-    "username": "test2"
-  },
-  {
-    "recipes": [],
-    "password": "test",
-    "username": "test"
-  },
-  {
-    "recipes": [],
-    "password": "t",
-    "username": "t"
-  }
-]
-=======
 [{
   "recipes": [],
-  "password": "test",
-  "username": "test"
+  "password": "loh",
+  "username": "loh"
 }]
-

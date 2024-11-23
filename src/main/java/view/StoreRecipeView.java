@@ -57,6 +57,7 @@ public class StoreRecipeView extends JPanel implements ActionListener, PropertyC
             final ArrayList<JSONObject> recipes = state.getRecipes();
             for (int i = 0; i < recipes.size(); i++) {
                 final JLabel name = new JLabel(recipes.get(i).getString("title"));
+                name.setAlignmentX(Component.CENTER_ALIGNMENT);
                 recipesPanel.add(name);
             }
         }

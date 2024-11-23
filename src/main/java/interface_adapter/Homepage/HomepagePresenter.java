@@ -1,8 +1,11 @@
 package interface_adapter.Homepage;
 
+import interface_adapter.MealPlan.MealPlanState;
+import interface_adapter.MealPlan.MealPlanViewModel;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.store_recipe.StoreRecipeState;
 import interface_adapter.store_recipe.StoreRecipeViewModel;
+import org.json.JSONObject;
 import use_case.Homepage.HomepageOutputBoundary;
 import use_case.Homepage.HomepageOutputData;
 import use_case.store_recipe.StoreRecipeOutputBoundary;
@@ -11,13 +14,16 @@ public class HomepagePresenter implements HomepageOutputBoundary {
     private final HomepageViewModel homepageViewModel;
     private final ViewManagerModel viewManagerModel;
     private final StoreRecipeViewModel storeRecipeViewModel;
+    private final MealPlanViewModel mealPlanViewModel;
 
     public HomepagePresenter(ViewManagerModel viewManagerModel,
                              HomepageViewModel homepageViewModel,
-                             StoreRecipeViewModel storeRecipeViewModel) {
+                             StoreRecipeViewModel storeRecipeViewModel,
+                             MealPlanViewModel mealPlanViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.homepageViewModel = homepageViewModel;
         this.storeRecipeViewModel = storeRecipeViewModel;
+        this.mealPlanViewModel = mealPlanViewModel;
     }
 
     @Override
@@ -34,8 +40,12 @@ public class HomepagePresenter implements HomepageOutputBoundary {
     }
 
     @Override
-    public void switchToStoreRecipeView() {
-        viewManagerModel.setState(storeRecipeViewModel.getViewName());
+    public void prepareMealPlanView(JSONObject[] recipes) {
+        final MealPlanState mealPlanState = mealPlanViewModel.getState();
+        mealPlanState.setRecipes(recipes) ;
+        mealPlanViewModel.firePropertyChanged();
+
+        viewManagerModel.setState(mealPlanViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 }

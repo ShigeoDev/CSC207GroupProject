@@ -10,9 +10,13 @@ public class HomepageController {
         this.userHomepageUseCaseInteractor = userHomepageUseCaseInteractor;
     }
 
-    public void execute(String username) {
+    public void savedRecipe(String username) {
         final HomepageInputData homepageInputData = new HomepageInputData(username);
 
-        userHomepageUseCaseInteractor.execute(homepageInputData);
+        userHomepageUseCaseInteractor.savedRecipe(homepageInputData);
+    }
+
+    public void MealPlan() {
+        userHomepageUseCaseInteractor.mealPlan();
     }
 }
