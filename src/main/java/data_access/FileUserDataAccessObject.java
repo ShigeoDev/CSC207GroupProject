@@ -31,7 +31,6 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
     private Map<String, ArrayList> recipes = new HashMap<>();
     private String currentUsername;
 
-
     public FileUserDataAccessObject(String filename, UserFactory userFactory) {
         file = new File(filename);
         if (file.length() == 0) {
@@ -67,6 +66,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         }
     }
 
+
     private void save() {
         Path path = Paths.get("src/main/java/data_access/" + file.getName());
         JSONArray jsonArray;
@@ -99,10 +99,12 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
                 JSONObject userJSON = new JSONObject();
                 userJSON.put("username", username);
                 userJSON.put("password", user.getPassword());
+                accounts.put(username, user);
 
                 JSONArray userRecipes = new JSONArray();
                 userJSON.put("recipes", userRecipes);
                 jsonArray.put(userJSON);
+                recipes.put(username, new ArrayList<>());
             }
         }
 
@@ -144,4 +146,5 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
     public ArrayList getRecipes(String username) {
         return recipes.get(username);
     }
+
 }

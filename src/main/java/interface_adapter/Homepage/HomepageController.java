@@ -10,8 +10,8 @@ public class HomepageController {
         this.userHomepageUseCaseInteractor = userHomepageUseCaseInteractor;
     }
 
-    public void execute() {
-        final HomepageInputData homepageInputData = new HomepageInputData("test");
+    public void execute(String username) {
+        final HomepageInputData homepageInputData = new HomepageInputData(username);
 
         userHomepageUseCaseInteractor.execute(homepageInputData);
     }
