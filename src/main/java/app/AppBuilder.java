@@ -20,10 +20,7 @@ import use_case.Homepage.HomepageOutputBoundary;
 import use_case.store_recipe.StoreRecipeInputBoundary;
 import use_case.store_recipe.StoreRecipeInteractor;
 import use_case.store_recipe.StoreRecipeOutputBoundary;
-import view.GetCaloriesView;
-import view.HomepageView;
-import view.StoreRecipeView;
-import view.ViewManager;
+import view.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,6 +42,9 @@ public class AppBuilder {
 
     private GetCaloriesView getCaloriesView;
     private GetCaloriesViewModel getCaloriesViewModel;
+
+    private ReturnCaloriesView returnCaloriesView;
+
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -81,7 +81,24 @@ public class AppBuilder {
     public AppBuilder addGetCaloriesView() {
         getCaloriesViewModel = new GetCaloriesViewModel();
         getCaloriesView = new GetCaloriesView(getCaloriesViewModel);
+        returnCaloriesView = new ReturnCaloriesView(getCaloriesViewModel);
+
         cardPanel.add(getCaloriesView, getCaloriesView.getName());
+        cardPanel.add(returnCaloriesView, "Calorie Result");
+        return this;
+    }
+
+    public AppBuilder addGetCaloriesUseCase() {
+        final GetCaloriesOutputBoundary getCaloriesOutputBoundary = new GetCaloriesPresenter(
+                viewManagerModel,
+                getCaloriesViewModel);
+
+        final GetCaloriesInputBoundary getCaloriesInteractor = new GetCaloriesInteractor(
+                userDataAccessObject,
+                getCaloriesOutputBoundary);
+
+        final GetCaloriesController controller = new GetCaloriesController(getCaloriesInteractor);
+        getCaloriesView.setGetCaloriesController(controller);
         return this;
     }
 
