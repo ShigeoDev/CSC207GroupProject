@@ -2,6 +2,6 @@ package use_case.Homepage;
 
 public interface HomepageInputBoundary {
 
-    public void execute(HomepageInputData homepageInputData);
-    public void switchToLoginView() ;
+    public void savedRecipe(HomepageInputData homepageInputData);
+    public void mealPlan();
 }
