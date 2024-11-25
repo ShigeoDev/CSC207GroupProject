@@ -17,7 +17,7 @@ public class GetCaloriesViewModel extends ViewModel {
     private GetCaloriesState state = new GetCaloriesState();
 
     public GetCaloriesViewModel() {
-        super("GetCalories View");
+        super("Get Calories View");
     }
 
     public void setState(GetCaloriesState state) {

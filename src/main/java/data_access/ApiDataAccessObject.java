@@ -3,8 +3,10 @@ package data_access;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONArray;
 
 import java.io.IOException;
 
@@ -14,7 +16,7 @@ public class ApiDataAccessObject {
     public final String Id = System.getenv("Id");
     private static final String MESSAGE = "message";
 
-    public JSONObject getRecipebyName(String recipeName) {
+    public JSONArray getRecipebyName(String recipeName) {
         final OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         final Request request = new Request.Builder()
@@ -26,7 +28,7 @@ public class ApiDataAccessObject {
             final JSONObject responseBody = new JSONObject(response.body().string());
 
             if (response.isSuccessful()) {
-                return responseBody;
+                return responseBody.getJSONArray("hits");
             }
             else {
                 throw new RuntimeException(responseBody.getString(MESSAGE));
