@@ -35,35 +35,30 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
     public FileUserDataAccessObject(String filename, UserFactory userFactory) {
         file = new File(filename);
         final Path path = Paths.get("src/main/java/data_access/" + filename);
-        if (file.length() == 0) {
-            save();
-        }
-        else {
-            try {
-                final String jsonString = Files.readString(path.toAbsolutePath());
+        try {
+            final String jsonString = Files.readString(path.toAbsolutePath());
 
-                final JSONArray jsonArray = new JSONArray(jsonString);
+            final JSONArray jsonArray = new JSONArray(jsonString);
 
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    final JSONObject userJSON = jsonArray.getJSONObject(i);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                final JSONObject userJSON = jsonArray.getJSONObject(i);
 
-                    String username = userJSON.getString("username");
-                    String password = userJSON.getString("password");
-                    User user = userFactory.create(username, password);
-                    accounts.put(username, user);
+                String username = userJSON.getString("username");
+                String password = userJSON.getString("password");
+                User user = userFactory.create(username, password);
+                accounts.put(username, user);
 
-                    final JSONArray jsonrecipes = userJSON.getJSONArray("recipes");
-                    System.out.println(jsonrecipes.toList());
-                    final ArrayList<JSONObject> recipeArray = new ArrayList<>();
-                    for (int j = 0; j < jsonrecipes.length(); j++) {
-                        final JSONObject recipe = jsonrecipes.getJSONObject(j);
-                        recipeArray.add(recipe);
-                    }
-                    recipes.put(username, recipeArray);
+                final JSONArray jsonrecipes = userJSON.getJSONArray("recipes");
+                System.out.println(jsonrecipes.toList());
+                final ArrayList<JSONObject> recipeArray = new ArrayList<>();
+                for (int j = 0; j < jsonrecipes.length(); j++) {
+                    final JSONObject recipe = jsonrecipes.getJSONObject(j);
+                    recipeArray.add(recipe);
                 }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                recipes.put(username, recipeArray);
             }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
