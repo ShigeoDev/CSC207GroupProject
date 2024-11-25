@@ -17,10 +17,8 @@ public class NutritionFilterPagePresenter implements NutritionFilterPageOutputBo
     @Override
     public void prepareSuccessView(NutritionFilterPageOutputData outputData) {
         NutritionFilterPageState state = nutritionFilterPageViewModel.getState();
-        if (state == null) {
-            state = new NutritionFilterPageState();
-        }
-        state.setRecipeDetails(outputData.getRecipeNames());
+
+        state.setRecipeDetails(outputData.getRecipes());
         state.setSearchError(null);
 
         nutritionFilterPageViewModel.setState(state);
@@ -29,12 +27,10 @@ public class NutritionFilterPagePresenter implements NutritionFilterPageOutputBo
     @Override
     public void prepareFailView(String error) {
         NutritionFilterPageState state = nutritionFilterPageViewModel.getState();
-        if (state == null) {
-            state = new NutritionFilterPageState();
-        }
-        state.setSearchError(error);
-        state.setRecipeDetails(null); // Clear previous results
 
-        nutritionFilterPageViewModel.setState(state); // Update the ViewModel's state
+        state.setSearchError(error);
+        state.setRecipeDetails(null);
+
+        nutritionFilterPageViewModel.setState(state);
     }
 }

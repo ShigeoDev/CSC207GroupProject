@@ -8,23 +8,21 @@ import java.util.Map;
  */
 public class Recipe {
     private String name;
-    private String cuisineType;
-    private String dishType;
-    private String mealType;
+    private List<String> dishType;
+    private List<String> mealType;
     private List<String> ingredients;
-    private String instructions;
-    private int calories;
+    private String url;
+    private double calories;
     private Map<String, Double> nutrients;
 
     // Constructor
-    public Recipe(String name, String cuisineType, String dishType, String mealType, List<String> ingredients,
-                  String instructions, int calories, Map<String, Double> nutrients) {
+    public Recipe(String name, List<String> dishType, List<String> mealType, List<String> ingredients,
+                  String url, double calories, Map<String, Double> nutrients) {
         this.name = name;
-        this.cuisineType = cuisineType;
         this.dishType = dishType;
         this.mealType = mealType;
         this.ingredients = ingredients;
-        this.instructions = instructions;
+        this.url = url;
         this.calories = calories;
         this.nutrients = nutrients;
     }
@@ -38,27 +36,19 @@ public class Recipe {
         this.name = name;
     }
 
-    public String getCuisineType() {
-        return cuisineType;
-    }
-
-    public void setCuisineType(String cuisineType) {
-        this.cuisineType = cuisineType;
-    }
-
-    public String getDishType() {
+    public List<String> getDishType() {
         return dishType;
     }
 
-    public void setDishType(String dishType) {
+    public void setDishType(List<String> dishType) {
         this.dishType = dishType;
     }
 
-    public String getMealType() {
+    public List<String> getMealType() {
         return mealType;
     }
 
-    public void setMealType(String mealType) {
+    public void setMealType(List<String> mealType) {
         this.mealType = mealType;
     }
 
@@ -71,18 +61,18 @@ public class Recipe {
     }
 
     public String getInstructions() {
-        return instructions;
+        return url;
     }
 
-    public void setInstructions(String instructions) {
-        this.instructions = instructions;
+    public void setInstructions(String url) {
+        this.url = url;
     }
 
-    public int getCalories() {
+    public double getCalories() {
         return calories;
     }
 
-    public void setCalories(int calories) {
+    public void setCalories(double calories) {
         this.calories = calories;
     }
 
@@ -99,11 +89,10 @@ public class Recipe {
     public String toString() {
         return "Recipe{" +
                 "name='" + name + '\'' +
-                ", cuisineType='" + cuisineType + '\'' +
                 ", dishType='" + dishType + '\'' +
                 ", mealType='" + mealType + '\'' +
                 ", ingredients=" + ingredients +
-                ", instructions='" + instructions + '\'' +
+                ", instructions='" + url + '\'' +
                 ", calories=" + calories +
                 ", nutrients=" + nutrients +
                 '}';

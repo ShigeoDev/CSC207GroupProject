@@ -1,21 +1,22 @@
 package interface_adapter.NutritionFilterPage;
 
+import entity.Recipe;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * The State for the Filter Based on Nutrition Use Case.
  */
 public class NutritionFilterPageState {
-    private List<String> selectedNutrients;
+    private List<String> selectedNutrients = new ArrayList<>();
     private String selectionError;
-    private List<String> recipeDetails;
+    private List<Recipe> recipeDetails = new ArrayList<>();
     private String searchError;
 
-    // Default constructor
     public NutritionFilterPageState() {
     }
 
-    // Copy constructor
     public NutritionFilterPageState(NutritionFilterPageState copy) {
         this.selectedNutrients = copy.selectedNutrients;
         this.selectionError = copy.selectionError;
@@ -23,13 +24,15 @@ public class NutritionFilterPageState {
         this.searchError = copy.searchError;
     }
 
-    // Getters and Setters
     public List<String> getSelectedNutrients() {
         return selectedNutrients;
     }
 
     public void setSelectedNutrients(List<String> selectedNutrients) {
-        this.selectedNutrients = selectedNutrients;
+        this.selectedNutrients.clear();
+        if (selectedNutrients != null) {
+            this.selectedNutrients.addAll(selectedNutrients);
+        }
     }
 
     public String getSelectionError() {
@@ -40,12 +43,15 @@ public class NutritionFilterPageState {
         this.selectionError = selectionError;
     }
 
-    public List<String> getRecipeDetails() {
+    public List<Recipe> getRecipeDetails() {
         return recipeDetails;
     }
 
-    public void setRecipeDetails(List<String> recipeDetails) {
-        this.recipeDetails = recipeDetails;
+    public void setRecipeDetails(List<Recipe> recipeDetails) {
+        this.recipeDetails.clear();
+        if (recipeDetails != null) {
+            this.recipeDetails.addAll(recipeDetails);
+        }
     }
 
     public String getSearchError() {

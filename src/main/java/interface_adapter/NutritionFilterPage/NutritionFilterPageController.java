@@ -1,6 +1,5 @@
 package interface_adapter.NutritionFilterPage;
 
-import entity.Nutrient;
 import use_case.NutritionFilterPage.NutritionFilterPageInputBoundrary;
 import use_case.NutritionFilterPage.NutritionFilterPageInputData;
 
@@ -10,10 +9,10 @@ import java.util.List;
  * The Controller for the Filter Based on Nutrition Use Case.
  */
 public class NutritionFilterPageController {
-    private final NutritionFilterPageInputBoundrary filterBasedOnNutritionUseCaseInteractor;
+    private final NutritionFilterPageInputBoundrary interactor;
 
-    public NutritionFilterPageController(NutritionFilterPageInputBoundrary filterBasedOnNutritionUseCaseInteractor) {
-        this.filterBasedOnNutritionUseCaseInteractor = filterBasedOnNutritionUseCaseInteractor;
+    public NutritionFilterPageController(NutritionFilterPageInputBoundrary interactor) {
+        this.interactor = interactor;
     }
 
     /**
@@ -21,10 +20,14 @@ public class NutritionFilterPageController {
      * @param selectedNutrients the selected nutrients
      */
     public void execute(List<String> selectedNutrients) {
+        if (selectedNutrients == null || selectedNutrients.isEmpty()) {
+            throw new IllegalArgumentException("Selected nutrients cannot be null or empty.");
+        }
+
         final NutritionFilterPageInputData nutritionFilterPageInputData = new NutritionFilterPageInputData(
                 selectedNutrients);
 
-        filterBasedOnNutritionUseCaseInteractor.execute(nutritionFilterPageInputData);
+        interactor.execute(nutritionFilterPageInputData);
     }
 
 }

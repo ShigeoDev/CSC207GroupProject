@@ -9,16 +9,16 @@ import java.util.List;
  */
 public class NutritionFilterPageOutputData {
 
-    private final List<String> recipeNames;
+    private final List<Recipe> recipes;
     private final boolean useCaseFailed;
 
-    public NutritionFilterPageOutputData(List<String> recipeNames, boolean useCaseFailed) {
-        this.recipeNames = recipeNames;
+    public NutritionFilterPageOutputData(List<Recipe> recipes, boolean useCaseFailed) {
+        this.recipes = recipes;
         this.useCaseFailed = useCaseFailed;
     }
 
-    public List<String> getRecipeNames() {
-        return recipeNames;
+    public List<Recipe> getRecipes() {
+        return recipes;
     }
 
     public boolean isUseCaseFailed() {

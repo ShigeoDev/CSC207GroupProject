@@ -9,5 +9,5 @@ import java.util.List;
  */
 public interface NutritionFilterPageDataAccessInterface {
 
-    List<Recipe> getAllRecipes();
+    List<Recipe> getRecipesByNutrients(List<String> selectedNutrients);
 }

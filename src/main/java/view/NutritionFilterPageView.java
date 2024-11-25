@@ -1,5 +1,6 @@
 package view;
 
+import entity.Recipe;
 import interface_adapter.NutritionFilterPage.NutritionFilterPageController;
 import interface_adapter.NutritionFilterPage.NutritionFilterPageState;
 import interface_adapter.NutritionFilterPage.NutritionFilterPageViewModel;
@@ -225,8 +226,11 @@ public class NutritionFilterPageView extends JPanel implements ActionListener, P
         } else if (state.getRecipeDetails() != null) {
             errorLabel.setText("");
             StringBuilder results = new StringBuilder();
-            for (String recipeDetail : state.getRecipeDetails()) {
-                results.append(recipeDetail);
+            for (Recipe recipe : state.getRecipeDetails()) {
+                results.append("Name: ").append(recipe.getName()).append("\n")
+                        .append("Calories: ").append(recipe.getCalories()).append("\n")
+                        .append("Ingredients: ").append(String.join(", ", recipe.getIngredients())).append("\n")
+                        .append("URL: ").append(recipe.getInstructions()).append("\n\n");
             }
             resultsArea.setText(results.toString());
         }
