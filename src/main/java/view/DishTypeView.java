@@ -14,7 +14,7 @@ import java.beans.PropertyChangeListener;
 public class DishTypeView extends JPanel implements ActionListener, PropertyChangeListener {
 
     private final DishTypeViewModel dishTypeViewModel;
-
+    private String viewName = "Dish Type";
     private final JLabel dishType = new JLabel("Dish Type");
     private final JTextArea dishTypeInputField = new JTextArea();
     private final JButton searchButton = new JButton("Search");
@@ -69,5 +69,19 @@ public class DishTypeView extends JPanel implements ActionListener, PropertyChan
 
     public void setDishTypeController(DishTypeController controller) {
         this.dishTypeController = controller;
+    }
+
+    public String getName(){
+        return this.viewName;
+    }
+
+    private void showRecipesDialog(List<String> recipes) {
+        StringBuilder message = new StringBuilder("Recipes Found:\n\n");
+        for (String recipe : recipes) {
+            message.append("- ").append(recipe).append("\n");
+        }
+
+        JOptionPane.showMessageDialog(this, message.toString(),
+                "Search Results", JOptionPane.INFORMATION_MESSAGE);
     }
 }
