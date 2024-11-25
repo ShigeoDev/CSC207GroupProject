@@ -65,7 +65,15 @@ public class MealPlanView extends JPanel implements PropertyChangeListener, Acti
             final JSONObject[] recipes = state.getRecipes();
             final String[] mealnames = {"Breakfast: ", "Lunch: ", "Dinner: "};
             for (int i = 0; i < recipes.length; i++) {
-                final RecipePanel recipePanel = new RecipePanel(recipes[i]);
+                final JSONObject recipe = recipes[i];
+                final RecipeSavePanel recipePanel = new RecipeSavePanel(recipe);
+                recipePanel.getSaveButton().addActionListener(
+                        new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                mealPlanController.saveRecipe(recipe, mealPlanViewModel.getState().getUser());
+                            }
+                        }
+                );
                 recipesPanel.add(recipePanel);
             }
         }
