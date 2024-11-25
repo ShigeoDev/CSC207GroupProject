@@ -44,7 +44,9 @@ public class MealPlanView extends JPanel implements PropertyChangeListener, Acti
         );
 
         this.add(title);
+        this.add(Box.createVerticalStrut(20));
         this.add(recipesPanel);
+        this.add(Box.createVerticalStrut(20));
         this.add(home);
     }
 
@@ -61,12 +63,10 @@ public class MealPlanView extends JPanel implements PropertyChangeListener, Acti
             recipesPanel.removeAll();
             final MealPlanState state = (MealPlanState) evt.getNewValue();
             final JSONObject[] recipes = state.getRecipes();
+            final String[] mealnames = {"Breakfast: ", "Lunch: ", "Dinner: "};
             for (int i = 0; i < recipes.length; i++) {
-                final JSONObject recipe = recipes[i];
-                final String recipeName = recipe.getString("label");
-                final JLabel recipeLabel = new JLabel(recipeName);
-                recipeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                recipesPanel.add(recipeLabel);
+                final RecipePanel recipePanel = new RecipePanel(recipes[i]);
+                recipesPanel.add(recipePanel);
             }
         }
     }
