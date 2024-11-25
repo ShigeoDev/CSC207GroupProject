@@ -19,4 +19,8 @@ public class HomepageController {
     public void MealPlan() {
         userHomepageUseCaseInteractor.mealPlan();
     }
+
+    public void switchToDishType(){
+        userHomepageUseCaseInteractor.switchToDishType();
+    }
 }

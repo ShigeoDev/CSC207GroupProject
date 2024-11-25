@@ -2,6 +2,8 @@ package use_case.searchByDishType;
 
 import entity.User;
 
+import java.util.List;
+
 public interface DishTypeUserDataAccessInterface {
-    String searchDishType(String dishType);
+    List<String> getRecipeByDishType(String dishType);
 }

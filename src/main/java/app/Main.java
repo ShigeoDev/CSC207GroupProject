@@ -14,11 +14,13 @@ public class Main {
                 .addHomepageView()
                 .addStoreRecipeView()
                 .addMealPlanView()
+                .addDishTypeView()
                 .addSignupUseCase()
                 .addLoginUseCase()
                 .addHomepageUseCase()
                 .addStoreRecipeUseCase()
                 .addMealPlanUseCase()
+                .addDishTypeUseCase()
                 .build();
 
         application.pack();

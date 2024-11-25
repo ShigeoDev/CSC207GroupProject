@@ -14,7 +14,7 @@ public class DishTypeInteractor implements DishTypeInputBoundary{
     @Override
     public void execute(DishTypeInputData dishTypeInputData) {
         String dishType = dishTypeInputData.getDishType();
-        final DishTypeOutputData outputData = new DishTypeOutputData(userDataAccessInterface.searchDishType(dishType),
+        final DishTypeOutputData outputData = new DishTypeOutputData(userDataAccessInterface.getRecipeByDishType(dishType),
                 false
         );
         userPresenter.prepareSuccessView(outputData);

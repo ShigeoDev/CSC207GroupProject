@@ -20,6 +20,7 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
     final JButton SavedRecipes;
     final JButton SearchRecipes;
     final JButton MealPlan;
+    final JButton DishType;
 
     /**
      * A window with a title and a JButton.
@@ -35,9 +36,11 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
         SavedRecipes = new JButton(homepageViewModel.Saved_BUTTON_LABEL);
         SearchRecipes = new JButton(homepageViewModel.Search_BUTTON_LABEL);
         MealPlan = new JButton(homepageViewModel.MealPlan_BUTTON_LABEL);
+        DishType = new JButton("Search By Dish Type");
         buttons.add(MealPlan);
         buttons.add(SearchRecipes);
         buttons.add(SavedRecipes);
+        buttons.add(DishType);
 
         MealPlan.addActionListener(
                 new ActionListener() {
@@ -59,6 +62,14 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
                 }
         );
         SearchRecipes.addActionListener(this);
+
+        DishType.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        homepageController.switchToDishType();
+                    }
+                }
+        );
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 

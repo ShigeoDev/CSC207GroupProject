@@ -8,4 +8,5 @@ public interface HomepageOutputBoundary {
 
     public void prepareSuccessView(HomepageOutputData homepageOutputData);
     public void prepareMealPlanView(JSONObject[] recipes);
+    void prepareDishType();
 }

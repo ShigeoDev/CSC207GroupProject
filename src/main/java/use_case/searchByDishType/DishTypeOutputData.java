@@ -1,15 +1,17 @@
 package use_case.searchByDishType;
 
+import java.util.List;
+
 public class DishTypeOutputData {
-    private String recipe;
+    private List<String> recipe;
     private final boolean useCaseFailed;
 
-    public DishTypeOutputData(String recipe, boolean useCaseFailed) {
+    public DishTypeOutputData(List<String> recipe, boolean useCaseFailed) {
         this.recipe = recipe;
         this.useCaseFailed = useCaseFailed;
     }
 
-    public String getRecipe() {
+    public List<String> getRecipe() {
         return recipe;
     }
 

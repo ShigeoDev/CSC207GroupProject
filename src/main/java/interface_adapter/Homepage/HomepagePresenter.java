@@ -1,5 +1,6 @@
 package interface_adapter.Homepage;
 
+import interface_adapter.DishType.DishTypeViewModel;
 import interface_adapter.MealPlan.MealPlanState;
 import interface_adapter.MealPlan.MealPlanViewModel;
 import interface_adapter.ViewManagerModel;
@@ -15,15 +16,17 @@ public class HomepagePresenter implements HomepageOutputBoundary {
     private final ViewManagerModel viewManagerModel;
     private final StoreRecipeViewModel storeRecipeViewModel;
     private final MealPlanViewModel mealPlanViewModel;
+    private final DishTypeViewModel dishTypeViewModel;
 
     public HomepagePresenter(ViewManagerModel viewManagerModel,
                              HomepageViewModel homepageViewModel,
                              StoreRecipeViewModel storeRecipeViewModel,
-                             MealPlanViewModel mealPlanViewModel) {
+                             MealPlanViewModel mealPlanViewModel, DishTypeViewModel dishTypeViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.homepageViewModel = homepageViewModel;
         this.storeRecipeViewModel = storeRecipeViewModel;
         this.mealPlanViewModel = mealPlanViewModel;
+        this.dishTypeViewModel = dishTypeViewModel;
     }
 
     @Override
@@ -46,6 +49,12 @@ public class HomepagePresenter implements HomepageOutputBoundary {
         mealPlanViewModel.firePropertyChanged();
 
         viewManagerModel.setState(mealPlanViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
+
+    public void prepareDishType(){
+        dishTypeViewModel.firePropertyChanged();
+        viewManagerModel.setState(dishTypeViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 }

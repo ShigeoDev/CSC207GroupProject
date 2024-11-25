@@ -4,6 +4,8 @@ import interface_adapter.ViewManagerModel;
 import use_case.searchByDishType.DishTypeOutputBoundary;
 import use_case.searchByDishType.DishTypeOutputData;
 
+import java.util.List;
+
 public class DishTypePresenter implements DishTypeOutputBoundary {
 
     private final DishTypeViewModel dishTypeViewModel;
@@ -16,7 +18,7 @@ public class DishTypePresenter implements DishTypeOutputBoundary {
 
     @Override
     public void prepareSuccessView(DishTypeOutputData outputData) {
-        String recipe = outputData.getRecipe();
+        List<String> recipe = outputData.getRecipe();
         System.out.println("Dish found: " + recipe);
     }
 

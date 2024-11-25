@@ -172,7 +172,7 @@ public class AppBuilder {
 
     public AppBuilder addHomepageUseCase() {
         final HomepageOutputBoundary homepageOutputBoundary = new HomepagePresenter(viewManagerModel,
-                homepageViewModel, storeRecipeViewModel, mealPlanViewModel);
+                homepageViewModel, storeRecipeViewModel, mealPlanViewModel, dishTypeViewModel);
         final HomepageInputBoundary userStoreRecipeInteractor = new HomepageInteractor(userDataAccessObject, homepageOutputBoundary, apiDataAccessObject);
 
         final HomepageController controller = new HomepageController(userStoreRecipeInteractor);
@@ -213,10 +213,10 @@ public class AppBuilder {
     public AppBuilder addDishTypeUseCase() {
         final DishTypeOutputBoundary dishTypeOutputBoundary = new DishTypePresenter(dishTypeViewModel, viewManagerModel);
 
-        //final DishTypeInputBoundary dishTypeInteractor = new DishTypeInteractor(userDataAccessObject, dishTypeOutputBoundary);
+        final DishTypeInputBoundary dishTypeInteractor = new DishTypeInteractor(apiDataAccessObject, dishTypeOutputBoundary);
 
-        //final DishTypeController controller = new DishTypeController(dishTypeInteractor);
-        //dishTypeView.setDishTypeController(controller);
+        final DishTypeController controller = new DishTypeController(dishTypeInteractor);
+        dishTypeView.setDishTypeController(controller);
         return this;
     }
 
