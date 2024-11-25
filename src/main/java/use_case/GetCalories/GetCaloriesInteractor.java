@@ -18,8 +18,7 @@ public class GetCaloriesInteractor implements GetCaloriesInputBoundary {
     @Override
     public void execute(GetCaloriesInputData getCaloriesInputData) {
         try {
-            JSONObject response = apiDataAccessObject.getRecipebyName(getCaloriesInputData.getRecipeName());
-            JSONArray hits = response.getJSONArray("hits");
+            JSONArray hits = apiDataAccessObject.getRecipebyName(getCaloriesInputData.getRecipeName());
             if (hits.length() > 0) {
                 JSONObject firstRecipe = hits.getJSONObject(0).getJSONObject("recipe");
                 String actualRecipeName = firstRecipe.getString("label");
