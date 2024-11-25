@@ -1,5 +1,8 @@
 package use_case.GetCalories;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import data_access.ApiDataAccessObject;
 
 public class GetCaloriesInteractor implements GetCaloriesInputBoundary {
@@ -15,11 +18,17 @@ public class GetCaloriesInteractor implements GetCaloriesInputBoundary {
     @Override
     public void execute(GetCaloriesInputData getCaloriesInputData) {
         try {
-            // Use the getRecipeCalories method instead of parsing JSON directly
-            int calories = apiDataAccessObject.getRecipeCalories(getCaloriesInputData.getRecipeName());
-            GetCaloriesOutputData getCaloriesOutputData =
-                    new GetCaloriesOutputData(getCaloriesInputData.getRecipeName(), calories);
-            getCaloriesPresenter.prepareSuccessView(getCaloriesOutputData);
+            JSONObject response = apiDataAccessObject.getRecipebyName(getCaloriesInputData.getRecipeName());
+            JSONArray hits = response.getJSONArray("hits");
+            if (hits.length() > 0) {
+                JSONObject firstRecipe = hits.getJSONObject(0).getJSONObject("recipe");
+                String actualRecipeName = firstRecipe.getString("label");
+                int calories = firstRecipe.getInt("calories");
+
+                GetCaloriesOutputData getCaloriesOutputData =
+                        new GetCaloriesOutputData(actualRecipeName, calories);
+                getCaloriesPresenter.prepareSuccessView(getCaloriesOutputData);
+            }
         } catch (Exception e) {
             getCaloriesPresenter.prepareFailView(e.getMessage());
         }
