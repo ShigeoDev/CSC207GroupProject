@@ -1,5 +1,6 @@
 package interface_adapter.MealPlan;
 
+import org.json.JSONObject;
 import use_case.MealPlan.MealPlanInputBoundary;
 
 public class MealPlanController {
@@ -12,5 +13,9 @@ public class MealPlanController {
 
     public void goHome() {
         mealPlanInputBoundary.goHome();
+    }
+
+    public void saveRecipe(JSONObject recipe, String username) {
+        mealPlanInputBoundary.saveRecipe(recipe, username);
     }
 }

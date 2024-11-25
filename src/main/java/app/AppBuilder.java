@@ -133,7 +133,7 @@ public class AppBuilder {
     public AppBuilder addMealPlanUseCase() {
         final MealPlanOutputBoundary mealPlanOutputBoundary = new MealPlanPresenter(viewManagerModel,
                 homepageViewModel);
-        final MealPlanInputBoundary userMealPlanInteractor = new MealPlanInteractor(mealPlanOutputBoundary);
+        final MealPlanInputBoundary userMealPlanInteractor = new MealPlanInteractor(mealPlanOutputBoundary, userDataAccessObject);
 
         final MealPlanController controller = new MealPlanController(userMealPlanInteractor);
         mealPlanView.setMealPlanController(controller);
