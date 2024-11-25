@@ -27,45 +27,39 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface, StoreRecipeDataAccessInterface {
 
     private final File file;
-    private final Map<String, User> accounts = new HashMap<>();
+    private final ArrayList<User> accounts = new ArrayList<>();
     private Map<String, ArrayList> recipes = new HashMap<>();
     private String currentUsername;
 
     public FileUserDataAccessObject(String filename, UserFactory userFactory) {
         file = new File(filename);
-        if (file.length() == 0) {
-            save();
-        }
-        else {
-            try {
-                final Path path = Paths.get("src/main/java/data_access/" + filename);
-                final String jsonString = Files.readString(path.toAbsolutePath());
+        try {
+            final Path path = Paths.get("src/main/java/data_access/" + filename);
+            final String jsonString = Files.readString(path.toAbsolutePath());
 
-                final JSONArray jsonArray = new JSONArray(jsonString);
+            final JSONArray jsonArray = new JSONArray(jsonString);
 
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    final JSONObject userJSON = jsonArray.getJSONObject(i);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                final JSONObject userJSON = jsonArray.getJSONObject(i);
 
-                    String username = userJSON.getString("username");
-                    String password = userJSON.getString("password");
-                    User user = userFactory.create(username, password);
-                    accounts.put(username, user);
+                String username = userJSON.getString("username");
+                String password = userJSON.getString("password");
+                User user = userFactory.create(username, password);
+                accounts.add(user);
 
-                    final JSONArray jsonrecipes = userJSON.getJSONArray("recipes");
-                    System.out.println(jsonrecipes.toList());
-                    final ArrayList<JSONObject> recipeArray = new ArrayList<>();
-                    for (int j = 0; j < jsonrecipes.length(); j++) {
-                        final JSONObject recipe = jsonrecipes.getJSONObject(j);
-                        recipeArray.add(recipe);
-                    }
-                    recipes.put(username, recipeArray);
+                final JSONArray jsonrecipes = userJSON.getJSONArray("recipes");
+                System.out.println(jsonrecipes.toList());
+                final ArrayList<JSONObject> recipeArray = new ArrayList<>();
+                for (int j = 0; j < jsonrecipes.length(); j++) {
+                    final JSONObject recipe = jsonrecipes.getJSONObject(j);
+                    recipeArray.add(recipe);
                 }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+                recipes.put(username, recipeArray);
+                }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
-
 
     private void save() {
         Path path = Paths.get("src/main/java/data_access/" + file.getName());
@@ -82,10 +76,9 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
             jsonArray = new JSONArray();
         }
 
-        for (Map.Entry<String, User> entry : accounts.entrySet()) {
-            String username = entry.getKey();
+        for (int n = 0; n < accounts.size(); n++) {
+            String username = accounts.get(n).getName();
             boolean userExists = false;
-
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject existingUser = jsonArray.getJSONObject(i);
                 if (existingUser.getString("username").equals(username)) {
@@ -95,11 +88,10 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
             }
 
             if (!userExists) {
-                User user = entry.getValue();
                 JSONObject userJSON = new JSONObject();
                 userJSON.put("username", username);
-                userJSON.put("password", user.getPassword());
-                accounts.put(username, user);
+                userJSON.put("password", accounts.get(n).getPassword());
+                accounts.add(accounts.get(n));
 
                 JSONArray userRecipes = new JSONArray();
                 userJSON.put("recipes", userRecipes);
@@ -118,13 +110,18 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
     @Override
     public void save(User user) {
-        accounts.put(user.getName(), user);
+        accounts.add(user);
         this.save();
     }
 
     @Override
-    public User get(String username) {
-        return accounts.get(username);
+    public User get(String user) {
+        for (User account : accounts) {
+            if (account.getName().equals(user)) {
+                return account;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -138,13 +135,17 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
     }
 
     @Override
-    public boolean existsByName(String identifier) {
-        return accounts.containsKey(identifier);
+    public boolean existsByName(User user) {
+        for (User account : accounts) {
+            if (account.getName().equals(user.getName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public ArrayList getRecipes(String username) {
         return recipes.get(username);
     }
-
 }
