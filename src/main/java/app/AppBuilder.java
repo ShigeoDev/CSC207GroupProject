@@ -245,7 +245,7 @@ public class AppBuilder {
 
         application.add(cardPanel);
 
-        viewManagerModel.setState(getCaloriesView.getName());
+        viewManagerModel.setState(signupView.getName());
         viewManagerModel.firePropertyChanged();
 
         return application;
