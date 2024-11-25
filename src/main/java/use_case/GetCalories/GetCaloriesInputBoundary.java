@@ -1,4 +1,5 @@
 package use_case.GetCalories;
 
-public class GetCaloriesInputBoundary {
+public interface GetCaloriesInputBoundary {
+    void execute(GetCaloriesInputData getCaloriesInputData);
 }

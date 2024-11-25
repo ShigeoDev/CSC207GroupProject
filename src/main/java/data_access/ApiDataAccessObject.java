@@ -6,6 +6,7 @@ import okhttp3.Response;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONArray;
 
 import java.io.IOException;
 
@@ -60,6 +61,41 @@ public class ApiDataAccessObject {
 
         }
         catch (IOException | JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int getRecipeCalories(String recipeName) {
+        final OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+
+        String encodedRecipeName = recipeName.replace(" ", "+");
+
+        final Request request = new Request.Builder()
+                .url(String.format("%s/api/recipes/v2?type=public&q=%s&app_id=%s&app_key=%s",
+                        Url, encodedRecipeName, Id, Key))
+                .build();
+
+        try {
+            final Response response = client.newCall(request).execute();
+            final JSONObject responseBody = new JSONObject(response.body().string());
+
+            if (response.isSuccessful()) {
+                JSONArray hits = responseBody.getJSONArray("hits");
+                if (hits.length() > 0) {
+                    JSONObject recipe = hits.getJSONObject(0).getJSONObject("recipe");
+
+                    System.out.println("Recipe found: " + recipe.getString("label"));
+                    int calories = recipe.getInt("calories");
+                    System.out.println("Calories: " + calories);
+
+                    return calories;
+                }
+                throw new RuntimeException("No recipe found");
+            } else {
+                throw new RuntimeException(responseBody.getString(MESSAGE));
+            }
+        } catch (IOException | JSONException e) {
             throw new RuntimeException(e);
         }
     }

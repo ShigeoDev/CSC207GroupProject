@@ -83,6 +83,8 @@ public class AppBuilder {
     private GetCaloriesView getCaloriesView;
     private GetCaloriesViewModel getCaloriesViewModel;
 
+    private ReturnCaloriesView returnCaloriesView;
+
     private MealPlanViewModel mealPlanViewModel;
     private MealPlanView mealPlanView;
 
@@ -190,7 +192,24 @@ public class AppBuilder {
     public AppBuilder addGetCaloriesView() {
         getCaloriesViewModel = new GetCaloriesViewModel();
         getCaloriesView = new GetCaloriesView(getCaloriesViewModel);
+        returnCaloriesView = new ReturnCaloriesView(getCaloriesViewModel);
+
         cardPanel.add(getCaloriesView, getCaloriesView.getName());
+        cardPanel.add(returnCaloriesView, "Calorie Result");
+        return this;
+    }
+
+    public AppBuilder addGetCaloriesUseCase() {
+        final GetCaloriesOutputBoundary getCaloriesOutputBoundary = new GetCaloriesPresenter(
+                viewManagerModel,
+                getCaloriesViewModel);
+
+        final GetCaloriesInputBoundary getCaloriesInteractor = new GetCaloriesInteractor(
+                apiDataAccessObject,
+                getCaloriesOutputBoundary);
+
+        final GetCaloriesController controller = new GetCaloriesController(getCaloriesInteractor);
+        getCaloriesView.setGetCaloriesController(controller);
         return this;
     }
 
@@ -226,7 +245,7 @@ public class AppBuilder {
 
         application.add(cardPanel);
 
-        viewManagerModel.setState(signupView.getName());
+        viewManagerModel.setState(getCaloriesView.getName());
         viewManagerModel.firePropertyChanged();
 
         return application;
