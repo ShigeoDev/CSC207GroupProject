@@ -2,6 +2,7 @@ package interface_adapter.MealPlan;
 
 import interface_adapter.Homepage.HomepageViewModel;
 import interface_adapter.ViewManagerModel;
+import org.json.JSONObject;
 import use_case.MealPlan.MealPlanOutputBoundary;
 
 public class MealPlanPresenter implements MealPlanOutputBoundary {

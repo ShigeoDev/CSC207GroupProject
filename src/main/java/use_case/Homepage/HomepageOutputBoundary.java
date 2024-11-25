@@ -7,6 +7,6 @@ import use_case.store_recipe.StoreRecipeOutputBoundary;
 public interface HomepageOutputBoundary {
 
     public void prepareSuccessView(HomepageOutputData homepageOutputData);
-    public void prepareMealPlanView(JSONObject[] recipes);
+    public void prepareMealPlanView(JSONObject[] recipes, String username);
     void prepareDishType();
 }

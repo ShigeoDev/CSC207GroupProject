@@ -83,6 +83,8 @@ public class AppBuilder {
     private GetCaloriesView getCaloriesView;
     private GetCaloriesViewModel getCaloriesViewModel;
 
+    private ReturnCaloriesView returnCaloriesView;
+
     private MealPlanViewModel mealPlanViewModel;
     private MealPlanView mealPlanView;
 
@@ -133,7 +135,7 @@ public class AppBuilder {
     public AppBuilder addMealPlanUseCase() {
         final MealPlanOutputBoundary mealPlanOutputBoundary = new MealPlanPresenter(viewManagerModel,
                 homepageViewModel);
-        final MealPlanInputBoundary userMealPlanInteractor = new MealPlanInteractor(mealPlanOutputBoundary);
+        final MealPlanInputBoundary userMealPlanInteractor = new MealPlanInteractor(mealPlanOutputBoundary, userDataAccessObject);
 
         final MealPlanController controller = new MealPlanController(userMealPlanInteractor);
         mealPlanView.setMealPlanController(controller);
@@ -190,7 +192,24 @@ public class AppBuilder {
     public AppBuilder addGetCaloriesView() {
         getCaloriesViewModel = new GetCaloriesViewModel();
         getCaloriesView = new GetCaloriesView(getCaloriesViewModel);
+        returnCaloriesView = new ReturnCaloriesView(getCaloriesViewModel);
+
         cardPanel.add(getCaloriesView, getCaloriesView.getName());
+        cardPanel.add(returnCaloriesView, "Calorie Result");
+        return this;
+    }
+
+    public AppBuilder addGetCaloriesUseCase() {
+        final GetCaloriesOutputBoundary getCaloriesOutputBoundary = new GetCaloriesPresenter(
+                viewManagerModel,
+                getCaloriesViewModel);
+
+        final GetCaloriesInputBoundary getCaloriesInteractor = new GetCaloriesInteractor(
+                apiDataAccessObject,
+                getCaloriesOutputBoundary);
+
+        final GetCaloriesController controller = new GetCaloriesController(getCaloriesInteractor);
+        getCaloriesView.setGetCaloriesController(controller);
         return this;
     }
 

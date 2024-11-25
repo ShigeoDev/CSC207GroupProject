@@ -3,10 +3,11 @@ package data_access;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.json.JSONException;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import use_case.searchByDishType.DishTypeUserDataAccessInterface;
+import org.json.JSONArray;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,7 +19,7 @@ public class ApiDataAccessObject implements DishTypeUserDataAccessInterface {
     public final String Id = System.getenv("Id");
     private static final String MESSAGE = "message";
 
-    public JSONObject getRecipebyName(String recipeName) {
+    public JSONArray getRecipebyName(String recipeName) {
         final OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         final Request request = new Request.Builder()
@@ -30,7 +31,7 @@ public class ApiDataAccessObject implements DishTypeUserDataAccessInterface {
             final JSONObject responseBody = new JSONObject(response.body().string());
 
             if (response.isSuccessful()) {
-                return responseBody;
+                return responseBody.getJSONArray("hits");
             }
             else {
                 throw new RuntimeException(responseBody.getString(MESSAGE));

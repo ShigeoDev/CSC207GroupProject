@@ -1,4 +1,6 @@
 package use_case.GetCalories;
 
-public class GetCaloriesOutputBoundary {
+public interface GetCaloriesOutputBoundary {
+    void prepareSuccessView(GetCaloriesOutputData getCaloriesOutputData);
+    void prepareFailView(String error);
 }
