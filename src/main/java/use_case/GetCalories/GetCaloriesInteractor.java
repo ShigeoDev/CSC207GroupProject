@@ -1,22 +1,22 @@
 package use_case.GetCalories;
 
-import data_access.FileUserDataAccessObject;
+import data_access.ApiDataAccessObject;
 
 public class GetCaloriesInteractor implements GetCaloriesInputBoundary {
     final GetCaloriesOutputBoundary getCaloriesPresenter;
-    final FileUserDataAccessObject userDataAccessObject;
+    final ApiDataAccessObject apiDataAccessObject;
 
-    public GetCaloriesInteractor(FileUserDataAccessObject userDataAccessObject,
+    public GetCaloriesInteractor(ApiDataAccessObject apiDataAccessObject,
                                  GetCaloriesOutputBoundary getCaloriesOutputBoundary) {
-        this.userDataAccessObject = userDataAccessObject;
+        this.apiDataAccessObject = apiDataAccessObject;
         this.getCaloriesPresenter = getCaloriesOutputBoundary;
     }
 
     @Override
     public void execute(GetCaloriesInputData getCaloriesInputData) {
         try {
-            // Get the calories from your DAO
-            int calories = userDataAccessObject.getRecipeCalories(getCaloriesInputData.getRecipeName());
+            // Use the getRecipeCalories method instead of parsing JSON directly
+            int calories = apiDataAccessObject.getRecipeCalories(getCaloriesInputData.getRecipeName());
             GetCaloriesOutputData getCaloriesOutputData =
                     new GetCaloriesOutputData(getCaloriesInputData.getRecipeName(), calories);
             getCaloriesPresenter.prepareSuccessView(getCaloriesOutputData);

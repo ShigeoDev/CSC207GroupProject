@@ -205,7 +205,7 @@ public class AppBuilder {
                 getCaloriesViewModel);
 
         final GetCaloriesInputBoundary getCaloriesInteractor = new GetCaloriesInteractor(
-                userDataAccessObject,
+                apiDataAccessObject,
                 getCaloriesOutputBoundary);
 
         final GetCaloriesController controller = new GetCaloriesController(getCaloriesInteractor);
@@ -245,7 +245,7 @@ public class AppBuilder {
 
         application.add(cardPanel);
 
-        viewManagerModel.setState(signupView.getName());
+        viewManagerModel.setState(getCaloriesView.getName());
         viewManagerModel.firePropertyChanged();
 
         return application;
