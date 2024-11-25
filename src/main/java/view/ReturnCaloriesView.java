@@ -11,6 +11,7 @@ import java.beans.PropertyChangeListener;
 public class ReturnCaloriesView extends JPanel implements PropertyChangeListener {
     private final GetCaloriesViewModel getCaloriesViewModel;
     private final JLabel caloriesLabel;
+    private final JPanel caloriesPanel = new JPanel();
 
     public ReturnCaloriesView(GetCaloriesViewModel getCaloriesViewModel) {
         this.getCaloriesViewModel = getCaloriesViewModel;
@@ -24,6 +25,7 @@ public class ReturnCaloriesView extends JPanel implements PropertyChangeListener
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
+        this.add(caloriesPanel);
         this.add(caloriesLabel);
     }
     public String getName() {
@@ -35,6 +37,7 @@ public class ReturnCaloriesView extends JPanel implements PropertyChangeListener
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         GetCaloriesState state = (GetCaloriesState) evt.getNewValue();
+        caloriesPanel.add(new RecipeSavePanel(state.getRecipeObject()));
         caloriesLabel.setText(String.format("%s contains %d calories",
                 state.getRecipeName(), state.getCalories()));
     }

@@ -25,7 +25,7 @@ public class GetCaloriesInteractor implements GetCaloriesInputBoundary {
                 int calories = firstRecipe.getInt("calories");
 
                 GetCaloriesOutputData getCaloriesOutputData =
-                        new GetCaloriesOutputData(actualRecipeName, calories);
+                        new GetCaloriesOutputData(actualRecipeName, calories, firstRecipe);
                 getCaloriesPresenter.prepareSuccessView(getCaloriesOutputData);
             }
         } catch (Exception e) {
