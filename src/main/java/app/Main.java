@@ -22,6 +22,7 @@ public class Main {
                 .build();
 
         application.pack();
+        application.setSize(1000,800);
         application.setVisible(true);
     }
 }
