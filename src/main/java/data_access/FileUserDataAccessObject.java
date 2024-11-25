@@ -62,7 +62,6 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         }
     }
 
-
     private void save() {
         Path path = Paths.get("src/main/java/data_access/" + file.getName());
         JSONArray jsonArray;
