@@ -9,7 +9,7 @@ public interface LoginUserDataAccessInterface {
 
     /**
      * Checks if the given username exists.
-     * @param user the username to look for
+     * @param user the user entity to look for
      * @return true if a user with the given username exists; false otherwise
      */
     boolean existsByName(User user);

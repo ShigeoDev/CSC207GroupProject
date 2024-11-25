@@ -137,7 +137,17 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
     @Override
     public boolean existsByName(User user) {
         for (User account : accounts) {
-            if (account.getName().equals(user.getName())) {
+            if (account == user) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean existsByUsername(String username) {
+        for (User account : accounts) {
+            if (account.getName().equals(username)) {
                 return true;
             }
         }
