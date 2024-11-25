@@ -29,17 +29,17 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
     private final File file;
     private final Map<String, User> accounts = new HashMap<>();
-    private Map<String, ArrayList> recipes = new HashMap<>();
+    private Map<String, ArrayList<JSONObject>> recipes = new HashMap<>();
     private String currentUsername;
 
     public FileUserDataAccessObject(String filename, UserFactory userFactory) {
         file = new File(filename);
+        final Path path = Paths.get("src/main/java/data_access/" + filename);
         if (file.length() == 0) {
             save();
         }
         else {
             try {
-                final Path path = Paths.get("src/main/java/data_access/" + filename);
                 final String jsonString = Files.readString(path.toAbsolutePath());
 
                 final JSONArray jsonArray = new JSONArray(jsonString);
@@ -150,27 +150,35 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
     @Override
     public void saveRecipe(JSONObject recipe, String username) {
-        recipes.get(username).add(recipe);
+        boolean in = false;
+        for (int i = 0; i < recipes.get(username).size(); i++) {
+                if (recipes.get(username).get(i).getString("label").equals(recipe.getString("label"))) {
+                    in = true;
+                }
+        }
+        if (!in) {
+            recipes.get(username).add(recipe);
 
-        try {
-            final Path path = Paths.get("src/main/java/data_access/" + file.getName());
-            final String jsonString = Files.readString(path.toAbsolutePath());
+            try {
+                final Path path = Paths.get("src/main/java/data_access/" + file.getName());
+                final String jsonString = Files.readString(path.toAbsolutePath());
 
-            final JSONArray jsonArray = new JSONArray(jsonString);
+                final JSONArray jsonArray = new JSONArray(jsonString);
 
-            for (int i = 0; i < jsonArray.length(); i++) {
-                final JSONObject userJSON = jsonArray.getJSONObject(i);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    final JSONObject userJSON = jsonArray.getJSONObject(i);
 
-                if (username.equals(userJSON.getString("username"))) {
-                    final JSONArray jsonrecipes = userJSON.getJSONArray("recipes");
-                    jsonrecipes.put(recipe);
-                    try (BufferedWriter writer = new BufferedWriter(new FileWriter(path.toFile()))) {
-                        writer.write(jsonArray.toString(2));
+                    if (username.equals(userJSON.getString("username"))) {
+                        final JSONArray jsonrecipes = userJSON.getJSONArray("recipes");
+                        jsonrecipes.put(recipe);
+                        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path.toFile()))) {
+                            writer.write(jsonArray.toString(2));
+                        }
                     }
                 }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 }
