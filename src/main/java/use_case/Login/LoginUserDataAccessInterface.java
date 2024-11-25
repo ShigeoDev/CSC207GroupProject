@@ -8,9 +8,9 @@ import entity.User;
 public interface LoginUserDataAccessInterface {
 
     /**
-     * Checks if the given username exists.
+     * Checks if the given user exists.
      * @param user the user entity to look for
-     * @return true if a user with the given username exists; false otherwise
+     * @return true if the user exists; false otherwise
      */
     boolean existsByName(User user);
 
@@ -28,7 +28,7 @@ public interface LoginUserDataAccessInterface {
     User get(String username);
 
     /**
-     * Returns the username of the curren user of the application.
+     * Returns the username of the current user of the application.
      * @return the username of the current user; null indicates that no one is logged into the application.
      */
     String getCurrentUsername();
