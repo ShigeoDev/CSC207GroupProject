@@ -22,4 +22,9 @@ public class StoreRecipeInteractor implements StoreRecipeInputBoundary {
         userPresenter.prepareSuccessView();
     }
 
+    @Override
+    public void goHome() {
+        userPresenter.goHome();
+    }
+
 }

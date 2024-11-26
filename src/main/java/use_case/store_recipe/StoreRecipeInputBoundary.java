@@ -11,4 +11,5 @@ public interface StoreRecipeInputBoundary {
      */
     void execute(StoreRecipeInputData signupInputData);
 
+    void goHome();
 }
