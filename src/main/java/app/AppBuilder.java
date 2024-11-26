@@ -226,6 +226,7 @@ public class AppBuilder {
         final StoreRecipeController controller = new StoreRecipeController(userStoreRecipeInteractor);
         homepageView.setStoreRecipeController(controller);
         mealPlanView.setStoreRecipeController(controller);
+        returnCaloriesView.setStoreRecipeController(controller);
         return this;
     }
 
