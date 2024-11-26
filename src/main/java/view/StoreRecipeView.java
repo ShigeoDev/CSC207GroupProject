@@ -1,5 +1,6 @@
 package view;
 
+import interface_adapter.Homepage.HomepageController;
 import interface_adapter.store_recipe.StoreRecipeController;
 import interface_adapter.store_recipe.StoreRecipeState;
 import interface_adapter.store_recipe.StoreRecipeViewModel;
@@ -18,6 +19,7 @@ public class StoreRecipeView extends JPanel implements ActionListener, PropertyC
     private final String name = "StoreRecipe";
     private final StoreRecipeViewModel storeRecipeViewModel;
     private StoreRecipeController storeRecipeController;
+    private HomepageController homepageController;
     private final JButton homeButton = new JButton("Home");
 
     private final JPanel recipesPanel = new JPanel();
@@ -38,7 +40,7 @@ public class StoreRecipeView extends JPanel implements ActionListener, PropertyC
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        storeRecipeController.goHome();
+                        homepageController.execute();
                     }
                 }
         );
@@ -77,6 +79,9 @@ public class StoreRecipeView extends JPanel implements ActionListener, PropertyC
 
     public void setStoreRecipeController(StoreRecipeController controller) {
         this.storeRecipeController = controller;
+    }
+    public void setHomepageController(HomepageController controller) {
+        this.homepageController = controller;
     }
 }
 

@@ -25,7 +25,7 @@ import java.util.Map;
  * DAO for user data implemented using a File to persist the data.
  */
 public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
-        LoginUserDataAccessInterface, StoreRecipeDataAccessInterface, MealPlanDataAccessInterface {
+        LoginUserDataAccessInterface, StoreRecipeDataAccessInterface {
 
     private final File file;
     private final ArrayList<User> accounts = new ArrayList<>();
@@ -50,7 +50,6 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
                 accounts.add(user);
 
                 final JSONArray jsonrecipes = userJSON.getJSONArray("recipes");
-                System.out.println(jsonrecipes.toList());
                 final ArrayList<JSONObject> recipeArray = new ArrayList<>();
                 for (int j = 0; j < jsonrecipes.length(); j++) {
                     final JSONObject recipe = jsonrecipes.getJSONObject(j);

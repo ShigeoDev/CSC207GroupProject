@@ -134,11 +134,12 @@ public class AppBuilder {
 
     public AppBuilder addMealPlanUseCase() {
         final MealPlanOutputBoundary mealPlanOutputBoundary = new MealPlanPresenter(viewManagerModel,
-                homepageViewModel);
-        final MealPlanInputBoundary userMealPlanInteractor = new MealPlanInteractor(mealPlanOutputBoundary, userDataAccessObject);
+                homepageViewModel,
+                mealPlanViewModel);
+        final MealPlanInputBoundary userMealPlanInteractor = new MealPlanInteractor(mealPlanOutputBoundary, apiDataAccessObject);
 
         final MealPlanController controller = new MealPlanController(userMealPlanInteractor);
-        mealPlanView.setMealPlanController(controller);
+        homepageView.setMealPlanController(controller);
         return this;
     }
 
@@ -179,6 +180,8 @@ public class AppBuilder {
 
         final HomepageController controller = new HomepageController(userStoreRecipeInteractor);
         homepageView.setHomepageController(controller);
+        mealPlanView.setHomepageController(controller);
+        storeRecipeView.setHomepageController(controller);
         return this;
     }
 
@@ -221,6 +224,8 @@ public class AppBuilder {
 
         final StoreRecipeController controller = new StoreRecipeController(userStoreRecipeInteractor);
         storeRecipeView.setStoreRecipeController(controller);
+        homepageView.setStoreRecipeController(controller);
+        mealPlanView.setStoreRecipeController(controller);
         return this;
     }
 
