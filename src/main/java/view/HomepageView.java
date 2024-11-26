@@ -116,6 +116,9 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
     public void setStoreRecipeController(StoreRecipeController controller) {
         this.storeRecipeController = controller;
     }
+    public void setGetCaloriesController(GetCaloriesController controller) {
+        this.getCaloriesController = controller;
+    }
 }
 
 

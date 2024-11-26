@@ -216,6 +216,7 @@ public class AppBuilder {
         final GetCaloriesController controller = new GetCaloriesController(getCaloriesInteractor);
         getCaloriesView.setGetCaloriesController(controller);
         returnCaloriesView.setController(controller);
+        homepageView.setGetCaloriesController(controller);
         return this;
     }
 
