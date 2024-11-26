@@ -19,20 +19,8 @@ public class HomepageInteractor implements HomepageInputBoundary{
     }
 
     @Override
-    public void savedRecipe(HomepageInputData homepageInputData) {
-        final HomepageOutputData homepageOutputData = new HomepageOutputData(homepageInputData.getUsername(),
-                fileUserDataAccessObject.getRecipes(homepageInputData.getUsername()));
-        userPresenter.prepareSuccessView(homepageOutputData);
+    public void execute() {
+        userPresenter.prepareSuccessView();
     }
 
-    public void mealPlan(String username) {
-        final JSONObject[] recipes = new JSONObject[3];
-        final JSONObject breakfast = apiDataAccessObject.getRecipebyMeal("Breakfast");
-        final JSONObject lunch = apiDataAccessObject.getRecipebyMeal("lunch");
-        final JSONObject dinner = apiDataAccessObject.getRecipebyMeal("dinner");
-        recipes[0] = breakfast;
-        recipes[1] = lunch;
-        recipes[2] = dinner;
-        userPresenter.prepareMealPlanView(recipes, username);
-    }
 }

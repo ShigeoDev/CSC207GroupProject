@@ -16,13 +16,20 @@ public class MealPlanInteractor implements MealPlanInputBoundary {
         this.mealPlanDataAccessInterface = mealPlanDataAccessInterface;
     }
 
-    @Override
-    public void goHome() {
-        presenter.goHome();
+    public void execute(MealPlanInputData mealPlanInputData) {
+        final JSONObject[] recipes = new JSONObject[3];
+        final JSONObject breakfast = mealPlanDataAccessInterface.getRecipebyMeal("breakfast");
+        final JSONObject lunch = mealPlanDataAccessInterface.getRecipebyMeal("lunch");
+        final JSONObject dinner = mealPlanDataAccessInterface.getRecipebyMeal("dinner");
+        recipes[0] = breakfast;
+        recipes[1] = lunch;
+        recipes[2] = dinner;
+        final MealPlanOutputData mealPlanOutputData = new MealPlanOutputData(recipes, mealPlanInputData.getUsername());
+        presenter.prepareSuccessView(mealPlanOutputData);
     }
 
     @Override
-    public void saveRecipe(JSONObject recipe, String username) {
-        mealPlanDataAccessInterface.saveRecipe(recipe, username);
+    public void goHome() {
+        presenter.goHome();
     }
 }

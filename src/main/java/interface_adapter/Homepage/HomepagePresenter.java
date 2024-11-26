@@ -26,27 +26,9 @@ public class HomepagePresenter implements HomepageOutputBoundary {
         this.mealPlanViewModel = mealPlanViewModel;
     }
 
-    @Override
-    public void prepareSuccessView(HomepageOutputData homepageOutputData) {
+    public void prepareSuccessView() {
         // On success, switch to the login view.
-        final StoreRecipeState storeRecipeState = storeRecipeViewModel.getState();
-        storeRecipeState.setUsername(homepageOutputData.getUsername());
-        storeRecipeState.setRecipes(homepageOutputData.getRecipes());
-        this.storeRecipeViewModel.setState(storeRecipeState);
-        storeRecipeViewModel.firePropertyChanged();
-
-        viewManagerModel.setState(storeRecipeViewModel.getViewName());
-        viewManagerModel.firePropertyChanged();
-    }
-
-    @Override
-    public void prepareMealPlanView(JSONObject[] recipes, String username) {
-        final MealPlanState mealPlanState = mealPlanViewModel.getState();
-        mealPlanState.setRecipes(recipes) ;
-        mealPlanState.setUser(username);
-        mealPlanViewModel.firePropertyChanged();
-
-        viewManagerModel.setState(mealPlanViewModel.getViewName());
+        viewManagerModel.setState(homepageViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 }

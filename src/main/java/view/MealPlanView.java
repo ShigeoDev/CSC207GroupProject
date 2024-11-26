@@ -1,8 +1,10 @@
 package view;
 
+import interface_adapter.Homepage.HomepageController;
 import interface_adapter.MealPlan.MealPlanController;
 import interface_adapter.MealPlan.MealPlanState;
 import interface_adapter.MealPlan.MealPlanViewModel;
+import interface_adapter.store_recipe.StoreRecipeController;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -15,7 +17,8 @@ import java.beans.PropertyChangeListener;
 public class MealPlanView extends JPanel implements PropertyChangeListener, ActionListener {
 
     private final MealPlanViewModel mealPlanViewModel;
-    private MealPlanController mealPlanController;
+    private StoreRecipeController storeRecipeController;
+    private HomepageController homepageController;
 
     private String viewName = "MealPlan";
 
@@ -38,7 +41,7 @@ public class MealPlanView extends JPanel implements PropertyChangeListener, Acti
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        mealPlanController.goHome();
+                        homepageController.execute();
                     }
                 }
         );
@@ -50,8 +53,12 @@ public class MealPlanView extends JPanel implements PropertyChangeListener, Acti
         this.add(home);
     }
 
-    public void setMealPlanController(MealPlanController mealPlanController) {
-        this.mealPlanController = mealPlanController;
+    public void setHomepageController(HomepageController homepageController) {
+        this.homepageController = homepageController;
+    }
+
+    public void setStoreRecipeController(StoreRecipeController storeRecipeController) {
+        this.storeRecipeController = storeRecipeController;
     }
 
     public void actionPerformed(ActionEvent evt) {
@@ -70,7 +77,7 @@ public class MealPlanView extends JPanel implements PropertyChangeListener, Acti
                 recipePanel.getSaveButton().addActionListener(
                         new ActionListener() {
                             public void actionPerformed(ActionEvent e) {
-                                mealPlanController.saveRecipe(recipe, mealPlanViewModel.getState().getUser());
+                                storeRecipeController.execute(recipe, mealPlanViewModel.getState().getUser());
                             }
                         }
                 );

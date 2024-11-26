@@ -7,10 +7,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONArray;
+import use_case.MealPlan.MealPlanDataAccessInterface;
 
 import java.io.IOException;
 
-public class ApiDataAccessObject {
+public class ApiDataAccessObject implements MealPlanDataAccessInterface {
     public final String Url = "https://api.edamam.com";
     public final String Key = System.getenv("Key");
     public final String Id = System.getenv("Id");
