@@ -19,13 +19,13 @@ public class HomepageInteractor implements HomepageInputBoundary{
     }
 
     @Override
-    public void savedRecipe(HomepageInputData homepageInputData) {
-        final HomepageOutputData homepageOutputData = new HomepageOutputData(homepageInputData.getUsername(),
-                fileUserDataAccessObject.getRecipes(homepageInputData.getUsername()));
-        userPresenter.prepareSuccessView(homepageOutputData);
-    }
     public void execute() {
         userPresenter.prepareSuccessView();
+    }
+
+    @Override
+    public void savedRecipe(HomepageInputData homepageInputData) {
+
     }
 
     public void mealPlan(String username) {

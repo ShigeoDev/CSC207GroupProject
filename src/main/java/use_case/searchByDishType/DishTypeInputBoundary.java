@@ -1,6 +1,8 @@
 package use_case.searchByDishType;
 
+import org.json.JSONArray;
+
 public interface DishTypeInputBoundary {
 
-    void execute(DishTypeInputData dishTypeInputData);
+    JSONArray execute(DishTypeInputData dishTypeInputData);
 }

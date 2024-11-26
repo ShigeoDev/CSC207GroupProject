@@ -1,17 +1,19 @@
 package use_case.searchByDishType;
 
+import org.json.JSONArray;
+
 import java.util.List;
 
 public class DishTypeOutputData {
-    private List<String> recipe;
+    private JSONArray recipe;
     private final boolean useCaseFailed;
 
-    public DishTypeOutputData(List<String> recipe, boolean useCaseFailed) {
+    public DishTypeOutputData(JSONArray recipe, boolean useCaseFailed) {
         this.recipe = recipe;
         this.useCaseFailed = useCaseFailed;
     }
 
-    public List<String> getRecipe() {
+    public JSONArray getRecipe() {
         return recipe;
     }
 

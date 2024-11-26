@@ -9,8 +9,8 @@ public interface DishTypeOutputBoundary {
 
     /**
      * Prepares the failure view for the Note related Use Cases.
-     * @param errorMessage the explanation of the failure
+     * @param  outputData the explanation of the failure
      */
-    void prepareFailView(String errorMessage);
+    void prepareFailView(DishTypeOutputData outputData);
 }
 

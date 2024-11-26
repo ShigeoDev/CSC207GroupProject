@@ -70,37 +70,25 @@ public class ApiDataAccessObject implements DishTypeUserDataAccessInterface, Mea
     }
 
     @Override
-    public List<String> getRecipeByDishType(String dishType) {
+    public JSONArray getRecipeByDishType(String dishType) {
         final OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         final Request request = new Request.Builder()
                 .url(String.format("%s/api/recipes/v2?type=public&app_id=%s&app_key=%s&dishType=%s&random=True", Url, Id, Key, dishType))
                 .build();
 
-        try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) {
-                throw new RuntimeException("Request failed: " + response.message());
+        try {
+            final Response response = client.newCall(request).execute();
+            final JSONObject responseBody = new JSONObject(response.body().string());
+            if (response.isSuccessful()) {
+                return responseBody.getJSONArray("hits");
+            } else {
+                throw new RuntimeException(responseBody.getString(MESSAGE));
             }
-
-            // Parse response body
-            if (response.body() == null) {
-                throw new RuntimeException("Response body is null");
-            }
-
-            String responseBody = response.body().string();
-            JSONObject jsonResponse = new JSONObject(responseBody);
-
-            JSONArray hits = jsonResponse.getJSONArray("hits");
-            List<String> recipes = new ArrayList<>();
-
-            for (int i = 0; i < hits.length(); i++) {
-                JSONObject recipe = hits.getJSONObject(i).getJSONObject("recipe");
-                recipes.add(recipe.getString("label")); // Extract recipe name or other details
-            }
-            return recipes;
         }
         catch (IOException | JSONException e) {
             throw new RuntimeException(e);
         }
     }
+
 }

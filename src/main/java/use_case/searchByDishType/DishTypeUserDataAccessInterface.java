@@ -1,9 +1,10 @@
 package use_case.searchByDishType;
 
 import entity.User;
+import org.json.JSONArray;
 
 import java.util.List;
 
 public interface DishTypeUserDataAccessInterface {
-    List<String> getRecipeByDishType(String dishType);
+    JSONArray getRecipeByDishType(String dishType);
 }

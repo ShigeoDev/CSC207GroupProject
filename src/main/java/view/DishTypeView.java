@@ -3,6 +3,9 @@ package view;
 import interface_adapter.DishType.DishTypeController;
 import interface_adapter.DishType.DishTypeState;
 import interface_adapter.DishType.DishTypeViewModel;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,6 +22,9 @@ public class DishTypeView extends JPanel implements ActionListener, PropertyChan
     private final JTextArea dishTypeInputField = new JTextArea();
     private final JButton searchButton = new JButton("Search");
     private DishTypeController dishTypeController;
+    private final JPanel resultsPanel = new JPanel();
+    private final JScrollPane resultsScrollPane = new JScrollPane(resultsPanel);
+    private JSONArray recipes;
 
     public DishTypeView(DishTypeViewModel dishTypeViewModel) {
 
@@ -32,17 +38,20 @@ public class DishTypeView extends JPanel implements ActionListener, PropertyChan
         searchButton.addActionListener(
                 evt -> {
                     if (evt.getSource().equals(searchButton)) {
-                        dishTypeController.execute(dishTypeInputField.getText());
-
+                        recipes = dishTypeController.execute(dishTypeInputField.getText());
+                        updateResultsPanel(recipes);
                     }
                 }
         );
+        resultsPanel.setLayout(new BoxLayout(resultsPanel, BoxLayout.Y_AXIS));
+        resultsScrollPane.setPreferredSize(new Dimension(400, 300));
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(dishType);
         this.add(dishTypeInputField);
         this.add(buttons);
+        this.add(resultsScrollPane);
     }
 
     /**
@@ -55,11 +64,18 @@ public class DishTypeView extends JPanel implements ActionListener, PropertyChan
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        final DishTypeState state = (DishTypeState) evt.getNewValue();
-        setFields(state);
+        DishTypeState state = (DishTypeState) evt.getNewValue();
+        state.setRecipes(dishTypeController.execute(dishTypeInputField.getText()));
         if (state.getError() != null) {
             JOptionPane.showMessageDialog(this, state.getError(),
                     "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // If state contains recipe data, update the results panel
+        JSONArray recipes = state.getRecipes(); // Assuming `state.getRecipes()` returns a JSONArray
+        if (recipes != null) {
+            updateResultsPanel(recipes);
         }
     }
 
@@ -75,13 +91,41 @@ public class DishTypeView extends JPanel implements ActionListener, PropertyChan
         return this.viewName;
     }
 
-    private void showRecipesDialog(List<String> recipes) {
+    public void showRecipesDialog(JSONArray recipes) {
         StringBuilder message = new StringBuilder("Recipes Found:\n\n");
-        for (String recipe : recipes) {
-            message.append("- ").append(recipe).append("\n");
+
+        for (int i = 0; i < recipes.length(); i++) {
+            try {
+                JSONObject recipe = recipes.getJSONObject(i);
+                message.append("- ").append(recipe.getString("label")).append("\n");
+            } catch (JSONException e) {
+                message.append("- Error parsing recipe at index ").append(i).append("\n");
+            }
         }
 
         JOptionPane.showMessageDialog(this, message.toString(),
                 "Search Results", JOptionPane.INFORMATION_MESSAGE);
     }
+
+    private void updateResultsPanel(JSONArray recipes) {
+        resultsPanel.removeAll();
+
+        resultsPanel.add(new JLabel("Recipes Found:"));
+
+        for (int i = 0; i < recipes.length(); i++) {
+            try {
+                JSONObject recipe = recipes.getJSONObject(i);
+                String label = recipe.getJSONObject("recipe").getString("label");
+                resultsPanel.add(new JLabel("- " + label));
+            } catch (JSONException e) {
+                resultsPanel.add(new JLabel("- Error parsing recipe at index " + i));
+            }
+        }
+
+        resultsPanel.revalidate();
+        resultsPanel.repaint();
+    }
+
+
+
 }

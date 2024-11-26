@@ -1,6 +1,6 @@
 package use_case.searchByDishType;
 
-import entity.User;
+import org.json.JSONArray;
 
 public class DishTypeInteractor implements DishTypeInputBoundary{
     private final DishTypeUserDataAccessInterface userDataAccessInterface;
@@ -12,11 +12,17 @@ public class DishTypeInteractor implements DishTypeInputBoundary{
     }
 
     @Override
-    public void execute(DishTypeInputData dishTypeInputData) {
+    public JSONArray execute(DishTypeInputData dishTypeInputData) {
         String dishType = dishTypeInputData.getDishType();
-        final DishTypeOutputData outputData = new DishTypeOutputData(userDataAccessInterface.getRecipeByDishType(dishType),
-                false
-        );
-        userPresenter.prepareSuccessView(outputData);
+        try {
+            JSONArray recipes = userDataAccessInterface.getRecipeByDishType(dishType);
+            DishTypeOutputData outputData = new DishTypeOutputData(recipes, false);
+            userPresenter.prepareSuccessView(outputData);
+            return userDataAccessInterface.getRecipeByDishType(dishType);
+        } catch (Exception e) {
+            DishTypeOutputData errorData = new DishTypeOutputData(new JSONArray(), true);
+            userPresenter.prepareFailView(errorData);
+        }
+        return null;
     }
 }

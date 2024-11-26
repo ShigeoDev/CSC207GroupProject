@@ -1,6 +1,7 @@
 package interface_adapter.DishType;
 
 import interface_adapter.ViewManagerModel;
+import org.json.JSONArray;
 import use_case.searchByDishType.DishTypeOutputBoundary;
 import use_case.searchByDishType.DishTypeOutputData;
 
@@ -18,12 +19,12 @@ public class DishTypePresenter implements DishTypeOutputBoundary {
 
     @Override
     public void prepareSuccessView(DishTypeOutputData outputData) {
-        List<String> recipe = outputData.getRecipe();
+        JSONArray recipe = outputData.getRecipe();
         System.out.println("Dish found: " + recipe);
     }
 
     @Override
-    public void prepareFailView(String errorMessage) {
+    public void prepareFailView(DishTypeOutputData errorMessage) {
 
     }
 }
