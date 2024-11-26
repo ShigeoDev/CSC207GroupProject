@@ -60,7 +60,7 @@ public class HomepagePresenter implements HomepageOutputBoundary {
     public void prepareGetCaloriesView(String username) {
         getCaloriesViewModel.getState().setUsername(username);
 
-        viewManagerModel.setState("CaloriesView");
+        viewManagerModel.setState(getCaloriesViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 }

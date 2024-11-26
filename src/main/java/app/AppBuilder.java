@@ -195,7 +195,7 @@ public class AppBuilder {
         getCaloriesView = new GetCaloriesView(getCaloriesViewModel);
         returnCaloriesView = new ReturnCaloriesView(getCaloriesViewModel);
 
-        cardPanel.add(getCaloriesView, "CaloriesView");
+        cardPanel.add(getCaloriesView, getCaloriesView.getName());
         cardPanel.add(returnCaloriesView, "Calorie Result");
         return this;
     }
