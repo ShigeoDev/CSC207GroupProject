@@ -35,4 +35,8 @@ public class HomepageInteractor implements HomepageInputBoundary{
         recipes[2] = dinner;
         userPresenter.prepareMealPlanView(recipes, username);
     }
+
+    public void getCalories(String username) {
+        userPresenter.prepareGetCaloriesView(username);
+    }
 }

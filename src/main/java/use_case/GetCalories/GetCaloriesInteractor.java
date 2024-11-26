@@ -41,4 +41,9 @@ public class GetCaloriesInteractor implements GetCaloriesInputBoundary {
     public void saveRecipe(JSONObject recipe, String username) {
         fileUserDataAccessObject.saveRecipe(recipe, username);
     }
+
+    @Override
+    public void backToHome() {
+        getCaloriesPresenter.prepareHomeView();
+    }
 }

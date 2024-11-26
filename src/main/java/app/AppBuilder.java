@@ -173,8 +173,9 @@ public class AppBuilder {
     }
 
     public AppBuilder addHomepageUseCase() {
+
         final HomepageOutputBoundary homepageOutputBoundary = new HomepagePresenter(viewManagerModel,
-                homepageViewModel, storeRecipeViewModel, mealPlanViewModel);
+                homepageViewModel, storeRecipeViewModel, mealPlanViewModel, getCaloriesViewModel);
         final HomepageInputBoundary userStoreRecipeInteractor = new HomepageInteractor(userDataAccessObject, homepageOutputBoundary, apiDataAccessObject);
 
         final HomepageController controller = new HomepageController(userStoreRecipeInteractor);
@@ -194,7 +195,7 @@ public class AppBuilder {
         getCaloriesView = new GetCaloriesView(getCaloriesViewModel);
         returnCaloriesView = new ReturnCaloriesView(getCaloriesViewModel);
 
-        cardPanel.add(getCaloriesView, getCaloriesView.getName());
+        cardPanel.add(getCaloriesView, "CaloriesView");
         cardPanel.add(returnCaloriesView, "Calorie Result");
         return this;
     }

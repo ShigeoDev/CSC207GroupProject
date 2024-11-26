@@ -17,6 +17,12 @@ public class HomepageController {
     }
 
     public void MealPlan(String username) {
+
         userHomepageUseCaseInteractor.mealPlan(username);
     }
+
+    public void getCalories(String username) {
+        userHomepageUseCaseInteractor.getCalories(username);
+    }
 }
+
