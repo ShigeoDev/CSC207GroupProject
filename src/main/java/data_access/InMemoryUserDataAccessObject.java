@@ -86,4 +86,9 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     public ArrayList getRecipes(String username) {
         return null;
     }
+
+    @Override
+    public JSONObject getRecipebyMeal(String mealName) {
+        return null;
+    }
 }
