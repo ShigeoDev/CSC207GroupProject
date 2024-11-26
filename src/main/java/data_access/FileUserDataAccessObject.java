@@ -29,7 +29,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
     private final File file;
     private final ArrayList<User> accounts = new ArrayList<>();
-    private Map<String, ArrayList> recipes = new HashMap<>();
+    private Map<String, ArrayList<JSONObject>> recipes = new HashMap<>();
 
     private String currentUsername;
 
@@ -111,7 +111,7 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
     }
 
     @Override
-    public void save(User user) {
+    public void saveUser(User user) {
         accounts.add(user);
         this.save();
     }
