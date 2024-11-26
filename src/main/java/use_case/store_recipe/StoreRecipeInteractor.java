@@ -22,11 +22,6 @@ public class StoreRecipeInteractor implements StoreRecipeInputBoundary {
     }
 
     @Override
-    public void goHome() {
-        userPresenter.goHome();
-    }
-
-    @Override
     public void goView(String username) {
         final StoreRecipeOutputData outputData = new StoreRecipeOutputData(username, storeRecipeDAO.getRecipes(username));
         userPresenter.goView(outputData);

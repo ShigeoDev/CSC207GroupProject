@@ -18,7 +18,6 @@ import java.util.ArrayList;
 public class StoreRecipeView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String name = "StoreRecipe";
     private final StoreRecipeViewModel storeRecipeViewModel;
-    private StoreRecipeController storeRecipeController;
     private HomepageController homepageController;
     private final JButton homeButton = new JButton("Home");
 
@@ -44,6 +43,7 @@ public class StoreRecipeView extends JPanel implements ActionListener, PropertyC
                     }
                 }
         );
+        this.homeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -77,9 +77,6 @@ public class StoreRecipeView extends JPanel implements ActionListener, PropertyC
         }
     }
 
-    public void setStoreRecipeController(StoreRecipeController controller) {
-        this.storeRecipeController = controller;
-    }
     public void setHomepageController(HomepageController controller) {
         this.homepageController = controller;
     }

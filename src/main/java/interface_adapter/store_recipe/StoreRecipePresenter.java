@@ -23,12 +23,6 @@ public class StoreRecipePresenter implements StoreRecipeOutputBoundary {
     }
 
     @Override
-    public void goHome() {
-        viewManagerModel.setState(homepageViewModel.getViewName());
-        viewManagerModel.firePropertyChanged();
-    }
-
-    @Override
     public void goView(StoreRecipeOutputData storeRecipeOutputData) {
         final StoreRecipeState storeRecipeState = storeRecipeViewModel.getState();
         storeRecipeState.setUsername(storeRecipeOutputData.getUsername());

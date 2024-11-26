@@ -39,6 +39,7 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
         SavedRecipes = new JButton(homepageViewModel.Saved_BUTTON_LABEL);
         SearchRecipes = new JButton(homepageViewModel.Search_BUTTON_LABEL);
         MealPlan = new JButton(homepageViewModel.MealPlan_BUTTON_LABEL);
+        buttons.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttons.add(MealPlan);
         buttons.add(SearchRecipes);
         buttons.add(SavedRecipes);
