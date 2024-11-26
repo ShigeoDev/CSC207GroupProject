@@ -183,6 +183,8 @@ public class AppBuilder {
         homepageView.setHomepageController(controller);
         mealPlanView.setHomepageController(controller);
         storeRecipeView.setHomepageController(controller);
+        getCaloriesView.setHomepageController(controller);
+        returnCaloriesView.setHomepageController(controller);
         return this;
     }
 

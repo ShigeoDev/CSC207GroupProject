@@ -3,6 +3,7 @@ package view;
 import interface_adapter.GetCalories.GetCaloriesController;
 import interface_adapter.GetCalories.GetCaloriesState;
 import interface_adapter.GetCalories.GetCaloriesViewModel;
+import interface_adapter.Homepage.HomepageController;
 import interface_adapter.Homepage.HomepageViewModel;
 
 import javax.swing.*;
@@ -16,6 +17,7 @@ public class GetCaloriesView extends JPanel implements ActionListener, PropertyC
     private final String name = "CaloriesView";
     private final GetCaloriesViewModel getCaloriesViewModel;
     private GetCaloriesController getCaloriesController;
+    private HomepageController homepageController;
     private final JTextField recipeNameTextField;
 
     final JButton Submit;
@@ -60,12 +62,15 @@ public class GetCaloriesView extends JPanel implements ActionListener, PropertyC
             String recipeName = recipeNameTextField.getText();
             getCaloriesController.execute(recipeName, getCaloriesViewModel.getUsername());
         } else if (evt.getSource().equals(backButton)) {
-            getCaloriesController.backToHome();
+            homepageController.execute();
         }
     }
 
     public void setGetCaloriesController(GetCaloriesController controller) {
         this.getCaloriesController = controller;
+    }
+    public void setHomepageController(HomepageController controller) {
+        this.homepageController = controller;
     }
 
     @Override

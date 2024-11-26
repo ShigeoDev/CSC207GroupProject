@@ -3,6 +3,7 @@ package view;
 import interface_adapter.GetCalories.GetCaloriesController;
 import interface_adapter.GetCalories.GetCaloriesState;
 import interface_adapter.GetCalories.GetCaloriesViewModel;
+import interface_adapter.Homepage.HomepageController;
 import interface_adapter.store_recipe.StoreRecipeController;
 
 import javax.swing.*;
@@ -18,6 +19,7 @@ public class ReturnCaloriesView extends JPanel implements PropertyChangeListener
     private final JPanel caloriesPanel = new JPanel();
     private GetCaloriesController getCaloriesController;
     private StoreRecipeController storeRecipeController;
+    private HomepageController homepageController;
     private final JButton backButton;
 
     public ReturnCaloriesView(GetCaloriesViewModel getCaloriesViewModel) {
@@ -36,7 +38,7 @@ public class ReturnCaloriesView extends JPanel implements PropertyChangeListener
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource().equals(backButton)) {
-                    getCaloriesController.backToHome();
+                    homepageController.execute();
                 }
             }
         });
@@ -80,5 +82,8 @@ public class ReturnCaloriesView extends JPanel implements PropertyChangeListener
     }
     public void setStoreRecipeController(StoreRecipeController storeRecipeController) {
         this.storeRecipeController = storeRecipeController;
+    }
+    public void setHomepageController(HomepageController homepageController) {
+        this.homepageController = homepageController;
     }
 }
