@@ -8,12 +8,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import use_case.searchByDishType.DishTypeUserDataAccessInterface;
 import org.json.JSONArray;
+import use_case.MealPlan.MealPlanDataAccessInterface;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 
-public class ApiDataAccessObject implements DishTypeUserDataAccessInterface {
+public class ApiDataAccessObject implements DishTypeUserDataAccessInterface, MealPlanDataAccessInterface {
     public final String Url = "https://api.edamam.com";
     public final String Key = System.getenv("Key");
     public final String Id = System.getenv("Id");

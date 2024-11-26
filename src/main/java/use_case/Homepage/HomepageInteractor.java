@@ -24,6 +24,9 @@ public class HomepageInteractor implements HomepageInputBoundary{
                 fileUserDataAccessObject.getRecipes(homepageInputData.getUsername()));
         userPresenter.prepareSuccessView(homepageOutputData);
     }
+    public void execute() {
+        userPresenter.prepareSuccessView();
+    }
 
     public void mealPlan(String username) {
         final JSONObject[] recipes = new JSONObject[3];
@@ -39,5 +42,9 @@ public class HomepageInteractor implements HomepageInputBoundary{
     @Override
     public void switchToDishType() {
         userPresenter.prepareDishType();
+    }
+
+    public void getCalories(String username) {
+        userPresenter.prepareGetCaloriesView(username);
     }
 }

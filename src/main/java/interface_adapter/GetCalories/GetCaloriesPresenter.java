@@ -18,6 +18,8 @@ public class GetCaloriesPresenter implements GetCaloriesOutputBoundary {
         GetCaloriesState getCaloriesState = getCaloriesViewModel.getState();
         getCaloriesState.setRecipeName(getCaloriesOutputData.getRecipeName());
         getCaloriesState.setCalories(getCaloriesOutputData.getCalories());
+        getCaloriesState.setRecipeObject(getCaloriesOutputData.getRecipeObject());
+        getCaloriesState.setUsername(getCaloriesOutputData.getUsername());
         getCaloriesViewModel.firePropertyChanged();
 
         // Update the view state using setState
@@ -30,5 +32,11 @@ public class GetCaloriesPresenter implements GetCaloriesOutputBoundary {
         GetCaloriesState getCaloriesState = getCaloriesViewModel.getState();
         getCaloriesState.setCaloriesError(error);
         getCaloriesViewModel.firePropertyChanged();
+    }
+
+    @Override
+    public void prepareHomeView() {
+        viewManagerModel.setState("Homepage");
+        viewManagerModel.firePropertyChanged();
     }
 }

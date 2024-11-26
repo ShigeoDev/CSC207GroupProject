@@ -25,11 +25,12 @@ import java.util.Map;
  * DAO for user data implemented using a File to persist the data.
  */
 public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
-        LoginUserDataAccessInterface, StoreRecipeDataAccessInterface, MealPlanDataAccessInterface {
+        LoginUserDataAccessInterface, StoreRecipeDataAccessInterface {
 
     private final File file;
-    private final Map<String, User> accounts = new HashMap<>();
+    private final ArrayList<User> accounts = new ArrayList<>();
     private Map<String, ArrayList<JSONObject>> recipes = new HashMap<>();
+
     private String currentUsername;
 
     public FileUserDataAccessObject(String filename, UserFactory userFactory) {
@@ -46,10 +47,9 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
                 String username = userJSON.getString("username");
                 String password = userJSON.getString("password");
                 User user = userFactory.create(username, password);
-                accounts.put(username, user);
+                accounts.add(user);
 
                 final JSONArray jsonrecipes = userJSON.getJSONArray("recipes");
-                System.out.println(jsonrecipes.toList());
                 final ArrayList<JSONObject> recipeArray = new ArrayList<>();
                 for (int j = 0; j < jsonrecipes.length(); j++) {
                     final JSONObject recipe = jsonrecipes.getJSONObject(j);
@@ -61,7 +61,6 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
             throw new RuntimeException(e);
         }
     }
-
 
     private void save() {
         Path path = Paths.get("src/main/java/data_access/" + file.getName());
@@ -78,10 +77,9 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
             jsonArray = new JSONArray();
         }
 
-        for (Map.Entry<String, User> entry : accounts.entrySet()) {
-            String username = entry.getKey();
+        for (int n = 0; n < accounts.size(); n++) {
+            String username = accounts.get(n).getName();
             boolean userExists = false;
-
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject existingUser = jsonArray.getJSONObject(i);
                 if (existingUser.getString("username").equals(username)) {
@@ -91,11 +89,10 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
             }
 
             if (!userExists) {
-                User user = entry.getValue();
                 JSONObject userJSON = new JSONObject();
                 userJSON.put("username", username);
-                userJSON.put("password", user.getPassword());
-                accounts.put(username, user);
+                userJSON.put("password", accounts.get(n).getPassword());
+                accounts.add(accounts.get(n));
 
                 JSONArray userRecipes = new JSONArray();
                 userJSON.put("recipes", userRecipes);
@@ -114,13 +111,18 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
 
     @Override
     public void saveUser(User user) {
-        accounts.put(user.getName(), user);
+        accounts.add(user);
         this.save();
     }
 
     @Override
-    public User get(String username) {
-        return accounts.get(username);
+    public User get(String user) {
+        for (User account : accounts) {
+            if (account.getName().equals(user)) {
+                return account;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -134,8 +136,23 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
     }
 
     @Override
-    public boolean existsByName(String identifier) {
-        return accounts.containsKey(identifier);
+    public boolean existsByName(User user) {
+        for (User account : accounts) {
+            if (account == user) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean existsByUsername(String username) {
+        for (User account : accounts) {
+            if (account.getName().equals(username)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

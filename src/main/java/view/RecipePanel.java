@@ -16,18 +16,24 @@ public class RecipePanel extends JPanel {
     private JLabel name;
 
     public RecipePanel(JSONObject recipe) {
+        boolean imageexists = true;
         try {
             image = ImageIO.read(new URL(recipe.getJSONObject("images")
                     .getJSONObject("THUMBNAIL")
                     .getString("url")));
         }
         catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("No Image");
+            imageexists = false;
         }
-        imageLabel = new JLabel(new ImageIcon(image));
-        name = new JLabel(recipe.getString("label"));
+        finally {
+            if (imageexists) {
+                imageLabel = new JLabel(new ImageIcon(image));
+                this.add(imageLabel);
+            }
+            name = new JLabel(recipe.getString("label"));
 
-        this.add(imageLabel);
-        this.add(name);
+            this.add(name);
+        }
     }
 }

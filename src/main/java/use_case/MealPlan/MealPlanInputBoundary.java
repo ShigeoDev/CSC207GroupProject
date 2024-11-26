@@ -6,5 +6,5 @@ public interface MealPlanInputBoundary {
 
     public void goHome();
 
-    public void saveRecipe(JSONObject recipe, String username);
+    public void execute(MealPlanInputData mealPlanInputData);
 }

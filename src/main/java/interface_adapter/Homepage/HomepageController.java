@@ -16,11 +16,16 @@ public class HomepageController {
         userHomepageUseCaseInteractor.savedRecipe(homepageInputData);
     }
 
-    public void MealPlan(String username) {
-        userHomepageUseCaseInteractor.mealPlan(username);
+    public void execute() {
+        userHomepageUseCaseInteractor.execute();
+    }
+
+    public void getCalories(String username) {
+        userHomepageUseCaseInteractor.getCalories(username);
     }
 
     public void switchToDishType(){
         userHomepageUseCaseInteractor.switchToDishType();
     }
 }
+

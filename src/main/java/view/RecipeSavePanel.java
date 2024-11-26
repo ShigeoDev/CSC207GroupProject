@@ -18,22 +18,28 @@ public class RecipeSavePanel extends JPanel {
     private JButton saveButton;
 
     public RecipeSavePanel(JSONObject recipe) {
+        boolean imageexists = true;
         try {
             image = ImageIO.read(new URL(recipe.getJSONObject("images")
                     .getJSONObject("THUMBNAIL")
                     .getString("url")));
         }
         catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("No Image Found");
+            imageexists = false;
         }
-        imageLabel = new JLabel(new ImageIcon(image));
-        name = new JLabel(recipe.getString("label"));
+        finally {
+            if (imageexists) {
+                imageLabel = new JLabel(new ImageIcon(image));
+                this.add(imageLabel);
+            }
+            name = new JLabel(recipe.getString("label"));
 
-        saveButton = new JButton("Save");
+            saveButton = new JButton("Save");
 
-        this.add(imageLabel);
-        this.add(name);
-        this.add(saveButton);
+            this.add(name);
+            this.add(saveButton);
+        }
     }
 
     public JButton getSaveButton() {

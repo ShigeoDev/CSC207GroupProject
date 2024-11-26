@@ -1,15 +1,18 @@
 package interface_adapter.Homepage;
 
 import interface_adapter.DishType.DishTypeViewModel;
+import interface_adapter.GetCalories.GetCaloriesViewModel;
 import interface_adapter.MealPlan.MealPlanState;
 import interface_adapter.MealPlan.MealPlanViewModel;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.store_recipe.StoreRecipeState;
 import interface_adapter.store_recipe.StoreRecipeViewModel;
+import interface_adapter.GetCalories.GetCaloriesState;
 import org.json.JSONObject;
 import use_case.Homepage.HomepageOutputBoundary;
 import use_case.Homepage.HomepageOutputData;
 import use_case.store_recipe.StoreRecipeOutputBoundary;
+import view.GetCaloriesView;
 
 public class HomepagePresenter implements HomepageOutputBoundary {
     private final HomepageViewModel homepageViewModel;
@@ -17,28 +20,23 @@ public class HomepagePresenter implements HomepageOutputBoundary {
     private final StoreRecipeViewModel storeRecipeViewModel;
     private final MealPlanViewModel mealPlanViewModel;
     private final DishTypeViewModel dishTypeViewModel;
+    private final GetCaloriesViewModel getCaloriesViewModel;
 
     public HomepagePresenter(ViewManagerModel viewManagerModel,
                              HomepageViewModel homepageViewModel,
                              StoreRecipeViewModel storeRecipeViewModel,
-                             MealPlanViewModel mealPlanViewModel, DishTypeViewModel dishTypeViewModel) {
+                             MealPlanViewModel mealPlanViewModel, DishTypeViewModel dishTypeViewModel, GetCaloriesViewModel getCaloriesViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.homepageViewModel = homepageViewModel;
         this.storeRecipeViewModel = storeRecipeViewModel;
         this.mealPlanViewModel = mealPlanViewModel;
         this.dishTypeViewModel = dishTypeViewModel;
+        this.getCaloriesViewModel = getCaloriesViewModel;
     }
 
-    @Override
-    public void prepareSuccessView(HomepageOutputData homepageOutputData) {
+    public void prepareSuccessView() {
         // On success, switch to the login view.
-        final StoreRecipeState storeRecipeState = storeRecipeViewModel.getState();
-        storeRecipeState.setUsername(homepageOutputData.getUsername());
-        storeRecipeState.setRecipes(homepageOutputData.getRecipes());
-        this.storeRecipeViewModel.setState(storeRecipeState);
-        storeRecipeViewModel.firePropertyChanged();
-
-        viewManagerModel.setState(storeRecipeViewModel.getViewName());
+        viewManagerModel.setState(homepageViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 
@@ -50,6 +48,13 @@ public class HomepagePresenter implements HomepageOutputBoundary {
         mealPlanViewModel.firePropertyChanged();
 
         viewManagerModel.setState(mealPlanViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
+
+    public void prepareGetCaloriesView(String username) {
+        getCaloriesViewModel.getState().setUsername(username);
+
+        viewManagerModel.setState(getCaloriesViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 

@@ -1,6 +1,7 @@
 package use_case.Login;
 
 import entity.User;
+import entity.UserFactory;
 
 /**
  * The Login Interactor.
@@ -19,7 +20,8 @@ public class LoginInteractor implements LoginInputBoundary {
     public void execute(LoginInputData loginInputData) {
         final String username = loginInputData.getUsername();
         final String password = loginInputData.getPassword();
-        if (!userDataAccessObject.existsByName(username)) {
+        final User user1 = userDataAccessObject.get(username);
+        if (!userDataAccessObject.existsByName(user1)) {
             loginPresenter.prepareFailView(username + ": Account does not exist.");
         }
         else {

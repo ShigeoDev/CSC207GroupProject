@@ -15,15 +15,18 @@ public class Main {
                 .addStoreRecipeView()
                 .addMealPlanView()
                 .addDishTypeView()
+                .addGetCaloriesView()
                 .addSignupUseCase()
                 .addLoginUseCase()
                 .addHomepageUseCase()
                 .addStoreRecipeUseCase()
                 .addMealPlanUseCase()
                 .addDishTypeUseCase()
+                .addGetCaloriesUseCase()
                 .build();
 
         application.pack();
+        application.setSize(1000,800);
         application.setVisible(true);
     }
 }

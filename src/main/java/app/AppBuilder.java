@@ -174,7 +174,7 @@ public class AppBuilder {
 
     public AppBuilder addHomepageUseCase() {
         final HomepageOutputBoundary homepageOutputBoundary = new HomepagePresenter(viewManagerModel,
-                homepageViewModel, storeRecipeViewModel, mealPlanViewModel, dishTypeViewModel);
+                homepageViewModel, storeRecipeViewModel, mealPlanViewModel, dishTypeViewModel, getCaloriesViewModel);
         final HomepageInputBoundary userStoreRecipeInteractor = new HomepageInteractor(userDataAccessObject, homepageOutputBoundary, apiDataAccessObject);
 
         final HomepageController controller = new HomepageController(userStoreRecipeInteractor);
@@ -206,19 +206,22 @@ public class AppBuilder {
 
         final GetCaloriesInputBoundary getCaloriesInteractor = new GetCaloriesInteractor(
                 apiDataAccessObject,
-                getCaloriesOutputBoundary);
+                getCaloriesOutputBoundary,
+                userDataAccessObject);
 
         final GetCaloriesController controller = new GetCaloriesController(getCaloriesInteractor);
         getCaloriesView.setGetCaloriesController(controller);
+        returnCaloriesView.setController(controller);
         return this;
     }
 
     public AppBuilder addStoreRecipeUseCase() {
-        final StoreRecipeOutputBoundary storeRecipeOutputBoundary = new StoreRecipePresenter(viewManagerModel, storeRecipeViewModel);
+        final StoreRecipeOutputBoundary storeRecipeOutputBoundary = new StoreRecipePresenter(viewManagerModel, storeRecipeViewModel, homepageViewModel);
         final StoreRecipeInputBoundary userStoreRecipeInteractor = new StoreRecipeInteractor(userDataAccessObject, storeRecipeOutputBoundary);
 
         final StoreRecipeController controller = new StoreRecipeController(userStoreRecipeInteractor);
-        storeRecipeView.setStoreRecipeController(controller);
+        homepageView.setStoreRecipeController(controller);
+        mealPlanView.setStoreRecipeController(controller);
         return this;
     }
 

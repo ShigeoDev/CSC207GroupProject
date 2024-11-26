@@ -3,6 +3,7 @@ package view;
 import interface_adapter.GetCalories.GetCaloriesController;
 import interface_adapter.GetCalories.GetCaloriesState;
 import interface_adapter.GetCalories.GetCaloriesViewModel;
+import interface_adapter.Homepage.HomepageViewModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,6 +19,7 @@ public class GetCaloriesView extends JPanel implements ActionListener, PropertyC
     private final JTextField recipeNameTextField;
 
     final JButton Submit;
+    final JButton backButton;
 
     public GetCaloriesView(GetCaloriesViewModel getCaloriesViewModel) {
         this.getCaloriesViewModel = getCaloriesViewModel;
@@ -31,9 +33,12 @@ public class GetCaloriesView extends JPanel implements ActionListener, PropertyC
 
         final JPanel buttons = new JPanel();
         Submit = new JButton(getCaloriesViewModel.Submit_BUTTON_LABEL);
+        backButton = new JButton("Back to home");
         buttons.add(Submit);
+        buttons.add(backButton);
 
         Submit.addActionListener(this);
+        backButton.addActionListener(this);
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -53,7 +58,9 @@ public class GetCaloriesView extends JPanel implements ActionListener, PropertyC
     public void actionPerformed(ActionEvent evt) {
         if (evt.getSource().equals(Submit)) {
             String recipeName = recipeNameTextField.getText();
-            getCaloriesController.execute(recipeName);
+            getCaloriesController.execute(recipeName, getCaloriesViewModel.getUsername());
+        } else if (evt.getSource().equals(backButton)) {
+            getCaloriesController.backToHome();
         }
     }
 
