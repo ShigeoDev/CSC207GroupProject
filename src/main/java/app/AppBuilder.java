@@ -206,15 +206,17 @@ public class AppBuilder {
 
         final GetCaloriesInputBoundary getCaloriesInteractor = new GetCaloriesInteractor(
                 apiDataAccessObject,
-                getCaloriesOutputBoundary);
+                getCaloriesOutputBoundary,
+                userDataAccessObject);
 
         final GetCaloriesController controller = new GetCaloriesController(getCaloriesInteractor);
         getCaloriesView.setGetCaloriesController(controller);
+        returnCaloriesView.setController(controller);
         return this;
     }
 
     public AppBuilder addStoreRecipeUseCase() {
-        final StoreRecipeOutputBoundary storeRecipeOutputBoundary = new StoreRecipePresenter(viewManagerModel, storeRecipeViewModel);
+        final StoreRecipeOutputBoundary storeRecipeOutputBoundary = new StoreRecipePresenter(viewManagerModel, storeRecipeViewModel, homepageViewModel);
         final StoreRecipeInputBoundary userStoreRecipeInteractor = new StoreRecipeInteractor(userDataAccessObject, storeRecipeOutputBoundary);
 
         final StoreRecipeController controller = new StoreRecipeController(userStoreRecipeInteractor);

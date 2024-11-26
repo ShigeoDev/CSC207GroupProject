@@ -11,4 +11,5 @@ public interface StoreRecipeOutputBoundary {
      */
     void prepareSuccessView();
 
+    void goHome();
 }

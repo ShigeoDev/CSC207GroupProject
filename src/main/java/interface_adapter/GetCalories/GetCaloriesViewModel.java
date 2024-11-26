@@ -35,4 +35,8 @@ public class GetCaloriesViewModel extends ViewModel {
     public GetCaloriesState getState() {
         return state;
     }
+
+    public String getUsername() {
+        return state.getUsername();
+    }
 }

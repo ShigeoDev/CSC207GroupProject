@@ -19,6 +19,7 @@ public class GetCaloriesPresenter implements GetCaloriesOutputBoundary {
         getCaloriesState.setRecipeName(getCaloriesOutputData.getRecipeName());
         getCaloriesState.setCalories(getCaloriesOutputData.getCalories());
         getCaloriesState.setRecipeObject(getCaloriesOutputData.getRecipeObject());
+        getCaloriesState.setUsername(getCaloriesOutputData.getUsername());
         getCaloriesViewModel.firePropertyChanged();
 
         // Update the view state using setState

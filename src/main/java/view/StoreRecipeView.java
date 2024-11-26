@@ -18,6 +18,7 @@ public class StoreRecipeView extends JPanel implements ActionListener, PropertyC
     private final String name = "StoreRecipe";
     private final StoreRecipeViewModel storeRecipeViewModel;
     private StoreRecipeController storeRecipeController;
+    private final JButton homeButton = new JButton("Home");
 
     private final JPanel recipesPanel = new JPanel();
 
@@ -33,10 +34,20 @@ public class StoreRecipeView extends JPanel implements ActionListener, PropertyC
 
         recipesPanel.setLayout(new BoxLayout(recipesPanel, BoxLayout.Y_AXIS));
 
+        homeButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        storeRecipeController.goHome();
+                    }
+                }
+        );
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(title);
         this.add(recipesPanel);
+        this.add(homeButton);
     }
 
     public String getName() {
@@ -52,6 +63,7 @@ public class StoreRecipeView extends JPanel implements ActionListener, PropertyC
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        recipesPanel.removeAll();
         if (evt.getPropertyName().equals("state")) {
             final StoreRecipeState state = (StoreRecipeState) evt.getNewValue();
             final ArrayList<JSONObject> recipes = state.getRecipes();
