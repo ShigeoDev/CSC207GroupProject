@@ -7,8 +7,6 @@ import java.beans.PropertyChangeSupport;
 
 public class GetCaloriesViewModel extends ViewModel {
 
-    public final String name = "Get Calories View";
-
     public static final String RECIPE_LABEL = "Recipe Name";
     public final String Submit_BUTTON_LABEL = "Submit";
 
@@ -17,7 +15,7 @@ public class GetCaloriesViewModel extends ViewModel {
     private GetCaloriesState state = new GetCaloriesState();
 
     public GetCaloriesViewModel() {
-        super("Get Calories View");
+        super("CaloriesView");
     }
 
     public void setState(GetCaloriesState state) {

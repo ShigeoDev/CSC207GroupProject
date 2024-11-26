@@ -24,6 +24,7 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
     final JButton SavedRecipes;
     final JButton SearchRecipes;
     final JButton MealPlan;
+    final JButton GetCalories;
 
     /**
      * A window with a title and a JButton.
@@ -39,10 +40,24 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
         SavedRecipes = new JButton(homepageViewModel.Saved_BUTTON_LABEL);
         SearchRecipes = new JButton(homepageViewModel.Search_BUTTON_LABEL);
         MealPlan = new JButton(homepageViewModel.MealPlan_BUTTON_LABEL);
+        GetCalories = new JButton(homepageViewModel.GetCalories_BUTTON_LABEL);
+
         buttons.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         buttons.add(MealPlan);
         buttons.add(SearchRecipes);
         buttons.add(SavedRecipes);
+        buttons.add(GetCalories);
+
+        GetCalories.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        final HomepageState currentState = homepageViewModel.getState();
+                        homepageController.getCalories(currentState.getUsername());
+                    }
+                }
+        );
 
         MealPlan.addActionListener(
                 new ActionListener() {
