@@ -13,7 +13,6 @@ public interface StoreRecipeInputBoundary {
      * @param signupInputData the input data
      */
     public void execute(StoreRecipeInputData storeRecipeInputData);
-    void goHome();
 
     void goView(String username);
 

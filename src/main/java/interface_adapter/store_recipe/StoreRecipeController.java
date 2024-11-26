@@ -17,10 +17,6 @@ public class StoreRecipeController {
         userStoreRecipeUseCaseInteractor.execute(storeRecipeInputData);
     }
 
-    public void goHome() {
-        userStoreRecipeUseCaseInteractor.goHome();
-    }
-
     public void goView(String username) {
         userStoreRecipeUseCaseInteractor.goView(username);
     }

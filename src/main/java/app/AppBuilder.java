@@ -223,7 +223,6 @@ public class AppBuilder {
         final StoreRecipeInputBoundary userStoreRecipeInteractor = new StoreRecipeInteractor(userDataAccessObject, storeRecipeOutputBoundary);
 
         final StoreRecipeController controller = new StoreRecipeController(userStoreRecipeInteractor);
-        storeRecipeView.setStoreRecipeController(controller);
         homepageView.setStoreRecipeController(controller);
         mealPlanView.setStoreRecipeController(controller);
         return this;
