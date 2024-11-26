@@ -3,6 +3,8 @@ package view;
 import interface_adapter.Homepage.HomepageController;
 import interface_adapter.Homepage.HomepageState;
 import interface_adapter.Homepage.HomepageViewModel;
+import interface_adapter.MealPlan.MealPlanController;
+import interface_adapter.store_recipe.StoreRecipeController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +18,8 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
     private final HomepageViewModel homepageViewModel;
 
     private HomepageController homepageController;
+    private StoreRecipeController storeRecipeController;
+    private MealPlanController mealPlanController;
 
     final JButton SavedRecipes;
     final JButton SearchRecipes;
@@ -37,6 +41,9 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
         SearchRecipes = new JButton(homepageViewModel.Search_BUTTON_LABEL);
         MealPlan = new JButton(homepageViewModel.MealPlan_BUTTON_LABEL);
         GetCalories = new JButton(homepageViewModel.GetCalories_BUTTON_LABEL);
+
+        buttons.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         buttons.add(MealPlan);
         buttons.add(SearchRecipes);
         buttons.add(SavedRecipes);
@@ -58,7 +65,7 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
                     public void actionPerformed(ActionEvent e) {
                         final HomepageState currentState = homepageViewModel.getState();
 
-                        homepageController.MealPlan(currentState.getUsername());
+                        mealPlanController.execute(currentState.getUsername());
                     }
                 }
         );
@@ -69,7 +76,7 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
                     public void actionPerformed(ActionEvent e) {
                         final HomepageState currentState = homepageViewModel.getState();
 
-                        homepageController.savedRecipe(currentState.getUsername());
+                        storeRecipeController.goView(currentState.getUsername());
                     }
                 }
         );
@@ -100,6 +107,12 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
 
     public void setHomepageController(HomepageController controller) {
         this.homepageController = controller;
+    }
+    public void setMealPlanController(MealPlanController controller) {
+        this.mealPlanController = controller;
+    }
+    public void setStoreRecipeController(StoreRecipeController controller) {
+        this.storeRecipeController = controller;
     }
 }
 
