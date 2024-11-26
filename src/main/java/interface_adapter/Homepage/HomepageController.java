@@ -19,9 +19,5 @@ public class HomepageController {
     public void execute() {
         userHomepageUseCaseInteractor.execute();
     }
-
-    public void getCalories(String username) {
-        userHomepageUseCaseInteractor.getCalories(username);
-    }
 }
 

@@ -46,4 +46,9 @@ public class GetCaloriesInteractor implements GetCaloriesInputBoundary {
     public void backToHome() {
         getCaloriesPresenter.prepareHomeView();
     }
+
+    @Override
+    public void getCalories(String username) {
+        getCaloriesPresenter.prepareGetCaloriesView(username);
+    }
 }

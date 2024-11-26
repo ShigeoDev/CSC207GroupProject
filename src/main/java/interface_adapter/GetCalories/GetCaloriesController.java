@@ -24,5 +24,9 @@ public class GetCaloriesController {
     public void backToHome() {
         getCaloriesUseCaseInteractor.backToHome();
     }
+
+    public void getCalories(String username) {
+        getCaloriesUseCaseInteractor.getCalories(username);
+    }
 }
 
