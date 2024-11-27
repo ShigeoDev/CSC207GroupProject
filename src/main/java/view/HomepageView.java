@@ -91,7 +91,8 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
         DishType.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        dishTypeController.switchToDishType();
+                        final HomepageState currentState = homepageViewModel.getState();
+                        dishTypeController.switchToDishType(currentState.getUsername());
                     }
                 }
         );

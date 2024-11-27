@@ -36,8 +36,8 @@ public class DishTypeController {
     /**
      * Switches to the dish type view (may be used for navigation or UI-related logic).
      */
-    public void switchToDishType() {
-        dishTypeInteractor.switchToDishType();
+    public void switchToDishType(String username) {
+        dishTypeInteractor.switchToDishType(username);
     }
 }
 

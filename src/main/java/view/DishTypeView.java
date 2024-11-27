@@ -3,6 +3,7 @@ package view;
 import interface_adapter.DishType.DishTypeController;
 import interface_adapter.DishType.DishTypeState;
 import interface_adapter.DishType.DishTypeViewModel;
+import interface_adapter.store_recipe.StoreRecipeController;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,6 +30,7 @@ public class DishTypeView extends JPanel implements ActionListener, PropertyChan
     private final JLabel dishType = new JLabel("Select Dish Types:");  // Label for the dish type selection
     private final JButton searchButton = new JButton("Search");  // Button to trigger search
     private DishTypeController dishTypeController;  // Controller for handling dish type logic
+    private StoreRecipeController storeRecipeController;
     private final JPanel resultsPanel = new JPanel();  // Panel to display search results
     private final JScrollPane resultsScrollPane = new JScrollPane(resultsPanel);  // Scrollable panel for results
     private final List<JCheckBox> checkBoxList = new ArrayList<>();  // List of checkboxes for dish type selection
@@ -144,6 +146,10 @@ public class DishTypeView extends JPanel implements ActionListener, PropertyChan
         this.dishTypeController = controller;
     }
 
+    public void setStoreRecipeController(StoreRecipeController controller) {
+        this.storeRecipeController = controller;
+    }
+
     /**
      * Retrieves the name of the view (used for view identification).
      *
@@ -190,9 +196,17 @@ public class DishTypeView extends JPanel implements ActionListener, PropertyChan
         // Add each recipe label to the results panel
         for (int i = 0; i < recipes.length(); i++) {
             try {
-                JSONObject recipe = recipes.getJSONObject(i);
-                String label = recipe.getJSONObject("recipe").getString("label");
-                resultsPanel.add(new JLabel("- " + label));
+                JSONObject recipe = recipes.getJSONObject(i).getJSONObject("recipe");
+                RecipeSavePanel recipePanel = new RecipeSavePanel(recipe);
+                resultsPanel.add(recipePanel);
+                recipePanel.getSaveButton().addActionListener(
+                        new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                storeRecipeController.execute(recipe, dishTypeViewModel.getState().getUsername());
+                            }
+                        }
+                );
             } catch (JSONException e) {
                 resultsPanel.add(new JLabel("- Error parsing recipe at index " + i));
             }

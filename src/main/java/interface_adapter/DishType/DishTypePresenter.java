@@ -58,7 +58,10 @@ public class DishTypePresenter implements DishTypeOutputBoundary {
      * and updating the state in the ViewManager.
      */
     @Override
-    public void prepareDishType() {
+    public void prepareDishType(String username) {
+        DishTypeState state = new DishTypeState();
+        state.setUsername(username);
+        dishTypeViewModel.setState(state);
         dishTypeViewModel.firePropertyChanged();  // Notifies that the ViewModel state has changed
         viewManagerModel.setState(dishTypeViewModel.getViewName());  // Sets the current view state
         viewManagerModel.firePropertyChanged();  // Notifies that the ViewManager state has changed

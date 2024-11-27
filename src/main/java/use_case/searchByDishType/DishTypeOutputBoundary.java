@@ -31,5 +31,5 @@ public interface DishTypeOutputBoundary {
      * Prepares the dish type view, typically used for displaying or transitioning to
      * the user interface related to dish types.
      */
-    void prepareDishType();
+    void prepareDishType(String username);
 }

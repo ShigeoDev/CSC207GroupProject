@@ -229,6 +229,7 @@ public class AppBuilder {
         homepageView.setStoreRecipeController(controller);
         mealPlanView.setStoreRecipeController(controller);
         returnCaloriesView.setStoreRecipeController(controller);
+        dishTypeView.setStoreRecipeController(controller);
         return this;
     }
 
