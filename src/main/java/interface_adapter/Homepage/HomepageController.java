@@ -20,10 +20,6 @@ public class HomepageController {
         userHomepageUseCaseInteractor.mealPlan(username);
     }
 
-    public void switchToDishType(){
-        userHomepageUseCaseInteractor.switchToDishType();
-    }
-
     public void execute() {
         userHomepageUseCaseInteractor.execute();
     }

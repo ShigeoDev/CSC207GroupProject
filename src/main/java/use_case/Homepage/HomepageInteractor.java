@@ -40,10 +40,6 @@ public class HomepageInteractor implements HomepageInputBoundary{
     }
 
     @Override
-    public void switchToDishType() {
-        userPresenter.prepareDishType();
-    }
-
     public void getCalories(String username) {
         userPresenter.prepareGetCaloriesView(username);
     }

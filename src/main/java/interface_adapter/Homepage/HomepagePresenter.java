@@ -57,10 +57,4 @@ public class HomepagePresenter implements HomepageOutputBoundary {
         viewManagerModel.setState(getCaloriesViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
-
-    public void prepareDishType(){
-        dishTypeViewModel.firePropertyChanged();
-        viewManagerModel.setState(dishTypeViewModel.getViewName());
-        viewManagerModel.firePropertyChanged();
-    }
 }

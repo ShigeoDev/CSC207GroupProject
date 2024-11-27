@@ -1,5 +1,6 @@
 package view;
 
+import interface_adapter.DishType.DishTypeController;
 import interface_adapter.Homepage.HomepageController;
 import interface_adapter.Homepage.HomepageState;
 import interface_adapter.Homepage.HomepageViewModel;
@@ -20,6 +21,7 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
     private HomepageController homepageController;
     private StoreRecipeController storeRecipeController;
     private MealPlanController mealPlanController;
+    private DishTypeController dishTypeController;
 
     final JButton SavedRecipes;
     final JButton SearchRecipes;
@@ -85,10 +87,13 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
         );
         SearchRecipes.addActionListener(this);
 
+        /**
+         * Add dish type button listener.
+         */
         DishType.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        homepageController.switchToDishType();
+                        dishTypeController.switchToDishType();
                     }
                 }
         );
@@ -124,6 +129,13 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
     }
     public void setStoreRecipeController(StoreRecipeController controller) {
         this.storeRecipeController = controller;
+    }
+
+    /**
+     * Set Dish Type Controller.
+     */
+    public void setDishTypeController(DishTypeController controller) {
+        this.dishTypeController = controller;
     }
 }
 
