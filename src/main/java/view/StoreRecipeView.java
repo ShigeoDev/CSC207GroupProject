@@ -22,6 +22,7 @@ public class StoreRecipeView extends JPanel implements ActionListener, PropertyC
     private final JButton homeButton = new JButton("Home");
 
     private final JPanel recipesPanel = new JPanel();
+    private final JScrollPane recipesScrollPane = new JScrollPane(recipesPanel);
 
     /**
      * A window with a title and a JButton.
@@ -48,7 +49,7 @@ public class StoreRecipeView extends JPanel implements ActionListener, PropertyC
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(title);
-        this.add(recipesPanel);
+        this.add(recipesScrollPane);
         this.add(homeButton);
     }
 
