@@ -1,5 +1,6 @@
 package view;
 
+import interface_adapter.GetCalories.GetCaloriesController;
 import interface_adapter.Homepage.HomepageController;
 import interface_adapter.Homepage.HomepageState;
 import interface_adapter.Homepage.HomepageViewModel;
@@ -20,6 +21,7 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
     private HomepageController homepageController;
     private StoreRecipeController storeRecipeController;
     private MealPlanController mealPlanController;
+    private GetCaloriesController getCaloriesController;;
 
     final JButton SavedRecipes;
     final JButton SearchRecipes;
@@ -54,7 +56,7 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         final HomepageState currentState = homepageViewModel.getState();
-                        homepageController.getCalories(currentState.getUsername());
+                        getCaloriesController.getCalories(currentState.getUsername());
                     }
                 }
         );
@@ -113,6 +115,9 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
     }
     public void setStoreRecipeController(StoreRecipeController controller) {
         this.storeRecipeController = controller;
+    }
+    public void setGetCaloriesController(GetCaloriesController controller) {
+        this.getCaloriesController = controller;
     }
 }
 

@@ -39,4 +39,12 @@ public class GetCaloriesPresenter implements GetCaloriesOutputBoundary {
         viewManagerModel.setState("Homepage");
         viewManagerModel.firePropertyChanged();
     }
+
+    @Override
+    public void prepareGetCaloriesView(String username) {
+        getCaloriesViewModel.getState().setUsername(username);
+
+        viewManagerModel.setState(getCaloriesViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
 }

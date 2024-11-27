@@ -183,6 +183,8 @@ public class AppBuilder {
         homepageView.setHomepageController(controller);
         mealPlanView.setHomepageController(controller);
         storeRecipeView.setHomepageController(controller);
+        getCaloriesView.setHomepageController(controller);
+        returnCaloriesView.setHomepageController(controller);
         return this;
     }
 
@@ -216,6 +218,7 @@ public class AppBuilder {
         final GetCaloriesController controller = new GetCaloriesController(getCaloriesInteractor);
         getCaloriesView.setGetCaloriesController(controller);
         returnCaloriesView.setController(controller);
+        homepageView.setGetCaloriesController(controller);
         return this;
     }
 
@@ -226,6 +229,7 @@ public class AppBuilder {
         final StoreRecipeController controller = new StoreRecipeController(userStoreRecipeInteractor);
         homepageView.setStoreRecipeController(controller);
         mealPlanView.setStoreRecipeController(controller);
+        returnCaloriesView.setStoreRecipeController(controller);
         return this;
     }
 

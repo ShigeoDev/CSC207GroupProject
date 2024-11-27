@@ -8,4 +8,6 @@ public interface GetCaloriesInputBoundary {
     void saveRecipe(JSONObject recipe, String username);
 
     void backToHome();
+
+    void getCalories(String username);
 }

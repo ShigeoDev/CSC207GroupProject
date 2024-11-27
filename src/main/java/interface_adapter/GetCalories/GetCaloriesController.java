@@ -17,12 +17,12 @@ public class GetCaloriesController {
         getCaloriesUseCaseInteractor.execute(getCaloriesInputData);
     }
 
-    public void saveRecipe(JSONObject recipe, String username) {
-        getCaloriesUseCaseInteractor.saveRecipe(recipe, username);
-    }
-
     public void backToHome() {
         getCaloriesUseCaseInteractor.backToHome();
+    }
+
+    public void getCalories(String username) {
+        getCaloriesUseCaseInteractor.getCalories(username);
     }
 }
 
