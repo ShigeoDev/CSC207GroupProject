@@ -21,6 +21,7 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
 
     private final List<User> users = new ArrayList<User>();
     private final Map<User, ArrayList<JSONObject>> recipes = new HashMap<>();
+    private JSONObject[] meals = new JSONObject[3];
 
     private String currentUsername;
 
@@ -79,16 +80,46 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
 
     @Override
     public void saveRecipe(JSONObject recipe, String username) {
-        recipes.get(username).add(recipe);
+        for (User user : users) {
+            if (user.getName().equals(username)) {
+                recipes.get(user).add(recipe);
+            }
+        }
     }
 
     @Override
     public ArrayList getRecipes(String username) {
+        for (User user : users) {
+            if (user.getName().equals(username)) {
+                return recipes.get(user);
+            }
+        }
         return null;
     }
 
     @Override
     public JSONObject getRecipebyMeal(String mealName) {
+        if (mealName.equals("breakfast")) {
+            return meals[0];
+        }
+        else if (mealName.equals("lunch")) {
+            return meals[1];
+        }
+        else if (mealName.equals("dinner")) {
+            return meals[2];
+        }
         return null;
+    }
+
+    public void setRecipebyMeal(JSONObject recipe, String mealName) {
+        if (mealName.equals("breakfast")) {
+            this.meals[0] = recipe;
+        }
+        else if (mealName.equals("lunch")) {
+            this.meals[1] = recipe;
+        }
+        else if (mealName.equals("dinner")) {
+            this.meals[2] = recipe;
+        }
     }
 }

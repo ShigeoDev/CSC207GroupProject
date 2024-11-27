@@ -24,6 +24,7 @@ public class MealPlanView extends JPanel implements PropertyChangeListener, Acti
 
     private JLabel title = new JLabel("Meal Plan");
     private JPanel recipesPanel = new JPanel();
+    private JScrollPane scrollPane = new JScrollPane(recipesPanel);
     private JButton home = new JButton("Home");
 
     public MealPlanView(MealPlanViewModel mealPlanViewModel) {
@@ -48,7 +49,7 @@ public class MealPlanView extends JPanel implements PropertyChangeListener, Acti
 
         this.add(title);
         this.add(Box.createVerticalStrut(20));
-        this.add(recipesPanel);
+        this.add(scrollPane);
         this.add(Box.createVerticalStrut(20));
         this.add(home);
     }

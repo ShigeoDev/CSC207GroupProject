@@ -26,7 +26,6 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
     private GetCaloriesController getCaloriesController;;
 
     final JButton SavedRecipes;
-    final JButton SearchRecipes;
     final JButton MealPlan;
     final JButton DishType;
     final JButton GetCalories;
@@ -43,7 +42,6 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
 
         final JPanel buttons = new JPanel();
         SavedRecipes = new JButton(homepageViewModel.Saved_BUTTON_LABEL);
-        SearchRecipes = new JButton(homepageViewModel.Search_BUTTON_LABEL);
         MealPlan = new JButton(homepageViewModel.MealPlan_BUTTON_LABEL);
         DishType = new JButton("Search By Dish Type");
         GetCalories = new JButton(homepageViewModel.GetCalories_BUTTON_LABEL);
@@ -51,7 +49,6 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
         buttons.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         buttons.add(MealPlan);
-        buttons.add(SearchRecipes);
         buttons.add(SavedRecipes);
         buttons.add(DishType);
         buttons.add(GetCalories);
@@ -87,7 +84,6 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
                     }
                 }
         );
-        SearchRecipes.addActionListener(this);
 
         /**
          * Add dish type button listener.
@@ -95,7 +91,8 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
         DishType.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        dishTypeController.switchToDishType();
+                        final HomepageState currentState = homepageViewModel.getState();
+                        dishTypeController.switchToDishType(currentState.getUsername());
                     }
                 }
         );

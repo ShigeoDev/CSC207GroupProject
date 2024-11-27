@@ -57,8 +57,8 @@ public class DishTypeInteractor implements DishTypeInputBoundary {
      * This method delegates to the presenter to handle the UI transition.
      */
     @Override
-    public void switchToDishType() {
-        userPresenter.prepareDishType();
+    public void switchToDishType(String username) {
+        userPresenter.prepareDishType(username);
     }
 }
 

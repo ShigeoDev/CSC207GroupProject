@@ -17,8 +17,4 @@ public class MealPlanController {
         mealPlanInputBoundary.execute(mealPlanInputData);
     }
 
-    public void goHome() {
-        mealPlanInputBoundary.goHome();
-    }
-
 }

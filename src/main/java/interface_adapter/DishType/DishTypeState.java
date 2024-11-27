@@ -11,6 +11,7 @@ public class DishTypeState {
     private String DishType = null;
     private String error;
     private JSONArray recipes = null;
+    private String username;
 
     /**
      * Get the current dish type.
@@ -64,5 +65,13 @@ public class DishTypeState {
      */
     public JSONArray getRecipes(){
         return recipes;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getUsername() {
+        return username;
     }
 }

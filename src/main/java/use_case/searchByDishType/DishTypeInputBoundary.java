@@ -20,5 +20,5 @@ public interface DishTypeInputBoundary {
      * Switches the context or system mode to focus on dish type operations,
      * such as filtering or categorizing items by dish type.
      */
-    void switchToDishType();
+    void switchToDishType(String username);
 }

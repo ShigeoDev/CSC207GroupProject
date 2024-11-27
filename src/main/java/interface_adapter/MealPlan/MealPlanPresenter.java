@@ -32,9 +32,4 @@ public class MealPlanPresenter implements MealPlanOutputBoundary {
         viewManagerModel.firePropertyChanged();
     }
 
-    @Override
-    public void goHome() {
-        viewManagerModel.setState(homepageViewModel.getViewName());
-        viewManagerModel.firePropertyChanged();
-    }
 }

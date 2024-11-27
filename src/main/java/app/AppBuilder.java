@@ -176,7 +176,7 @@ public class AppBuilder {
     public AppBuilder addHomepageUseCase() {
         final HomepageOutputBoundary homepageOutputBoundary = new HomepagePresenter(viewManagerModel,
                 homepageViewModel, storeRecipeViewModel, mealPlanViewModel, dishTypeViewModel, getCaloriesViewModel);
-        final HomepageInputBoundary userStoreRecipeInteractor = new HomepageInteractor(userDataAccessObject, homepageOutputBoundary, apiDataAccessObject);
+        final HomepageInputBoundary userStoreRecipeInteractor = new HomepageInteractor(homepageOutputBoundary);
 
         final HomepageController controller = new HomepageController(userStoreRecipeInteractor);
         homepageView.setHomepageController(controller);
@@ -229,6 +229,7 @@ public class AppBuilder {
         homepageView.setStoreRecipeController(controller);
         mealPlanView.setStoreRecipeController(controller);
         returnCaloriesView.setStoreRecipeController(controller);
+        dishTypeView.setStoreRecipeController(controller);
         return this;
     }
 
