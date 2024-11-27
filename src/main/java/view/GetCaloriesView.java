@@ -13,6 +13,10 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+/**
+ * View class that allows users to input a recipe name and request calorie information.
+ * Panel provides a text field to enter recipe name and a button to submit.
+ */
 public class GetCaloriesView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String name = "CaloriesView";
     private final GetCaloriesViewModel getCaloriesViewModel;
@@ -23,6 +27,10 @@ public class GetCaloriesView extends JPanel implements ActionListener, PropertyC
     final JButton Submit;
     final JButton backButton;
 
+    /**
+     * Constructs a new GetCaloriesView.
+     * @param getCaloriesViewModel The view model for calorie lookup
+     */
     public GetCaloriesView(GetCaloriesViewModel getCaloriesViewModel) {
         this.getCaloriesViewModel = getCaloriesViewModel;
         this.getCaloriesViewModel.addPropertyChangeListener(this);
@@ -50,12 +58,17 @@ public class GetCaloriesView extends JPanel implements ActionListener, PropertyC
         this.add(buttons);
     }
 
+    /**
+     * Getter for the name of this view.
+     * @return The view name "CaloriesView"
+     */
     public String getName() {
         return this.name;
     }
 
     /**
-     * React to a button click that results in evt.
+     * Handles button clicks.
+     * @param evt the event to be processed
      */
     public void actionPerformed(ActionEvent evt) {
         if (evt.getSource().equals(Submit)) {
@@ -66,13 +79,28 @@ public class GetCaloriesView extends JPanel implements ActionListener, PropertyC
         }
     }
 
+    /**
+     * Setter for the GetCalories controller.
+     * @param controller Controller for GetCalories
+     */
     public void setGetCaloriesController(GetCaloriesController controller) {
         this.getCaloriesController = controller;
     }
+
+    /**
+     * Setter for the Homepage controller
+     * @param controller Controller for Homepage
+     */
     public void setHomepageController(HomepageController controller) {
         this.homepageController = controller;
     }
 
+    /**
+     * Handles updates to the view model.
+     * Displays error messages accordingly.
+     * @param evt A PropertyChangeEvent object describing the event source
+     *          and the property that has changed.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         GetCaloriesState state = (GetCaloriesState) evt.getNewValue();
