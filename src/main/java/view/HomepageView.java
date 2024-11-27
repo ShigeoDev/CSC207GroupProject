@@ -1,5 +1,6 @@
 package view;
 
+import interface_adapter.DishType.DishTypeController;
 import interface_adapter.GetCalories.GetCaloriesController;
 import interface_adapter.Homepage.HomepageController;
 import interface_adapter.Homepage.HomepageState;
@@ -21,11 +22,13 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
     private HomepageController homepageController;
     private StoreRecipeController storeRecipeController;
     private MealPlanController mealPlanController;
+    private DishTypeController dishTypeController;
     private GetCaloriesController getCaloriesController;;
 
     final JButton SavedRecipes;
     final JButton SearchRecipes;
     final JButton MealPlan;
+    final JButton DishType;
     final JButton GetCalories;
 
     /**
@@ -42,6 +45,7 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
         SavedRecipes = new JButton(homepageViewModel.Saved_BUTTON_LABEL);
         SearchRecipes = new JButton(homepageViewModel.Search_BUTTON_LABEL);
         MealPlan = new JButton(homepageViewModel.MealPlan_BUTTON_LABEL);
+        DishType = new JButton("Search By Dish Type");
         GetCalories = new JButton(homepageViewModel.GetCalories_BUTTON_LABEL);
 
         buttons.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -49,6 +53,7 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
         buttons.add(MealPlan);
         buttons.add(SearchRecipes);
         buttons.add(SavedRecipes);
+        buttons.add(DishType);
         buttons.add(GetCalories);
 
         GetCalories.addActionListener(
@@ -84,6 +89,17 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
         );
         SearchRecipes.addActionListener(this);
 
+        /**
+         * Add dish type button listener.
+         */
+        DishType.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        dishTypeController.switchToDishType();
+                    }
+                }
+        );
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(title);
@@ -115,6 +131,13 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
     }
     public void setStoreRecipeController(StoreRecipeController controller) {
         this.storeRecipeController = controller;
+    }
+
+    /**
+     * Set Dish Type Controller.
+     */
+    public void setDishTypeController(DishTypeController controller) {
+        this.dishTypeController = controller;
     }
     public void setGetCaloriesController(GetCaloriesController controller) {
         this.getCaloriesController = controller;

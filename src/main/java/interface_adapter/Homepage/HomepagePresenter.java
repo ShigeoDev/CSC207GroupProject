@@ -1,5 +1,6 @@
 package interface_adapter.Homepage;
 
+import interface_adapter.DishType.DishTypeViewModel;
 import interface_adapter.GetCalories.GetCaloriesViewModel;
 import interface_adapter.MealPlan.MealPlanState;
 import interface_adapter.MealPlan.MealPlanViewModel;
@@ -18,17 +19,18 @@ public class HomepagePresenter implements HomepageOutputBoundary {
     private final ViewManagerModel viewManagerModel;
     private final StoreRecipeViewModel storeRecipeViewModel;
     private final MealPlanViewModel mealPlanViewModel;
+    private final DishTypeViewModel dishTypeViewModel;
     private final GetCaloriesViewModel getCaloriesViewModel;
 
     public HomepagePresenter(ViewManagerModel viewManagerModel,
                              HomepageViewModel homepageViewModel,
                              StoreRecipeViewModel storeRecipeViewModel,
-                             MealPlanViewModel mealPlanViewModel,
-                             GetCaloriesViewModel getCaloriesViewModel) {
+                             MealPlanViewModel mealPlanViewModel, DishTypeViewModel dishTypeViewModel, GetCaloriesViewModel getCaloriesViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.homepageViewModel = homepageViewModel;
         this.storeRecipeViewModel = storeRecipeViewModel;
         this.mealPlanViewModel = mealPlanViewModel;
+        this.dishTypeViewModel = dishTypeViewModel;
         this.getCaloriesViewModel = getCaloriesViewModel;
     }
 

@@ -6,12 +6,15 @@ import okhttp3.Response;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import use_case.searchByDishType.DishTypeUserDataAccessInterface;
 import org.json.JSONArray;
 import use_case.MealPlan.MealPlanDataAccessInterface;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.ArrayList;
 
-public class ApiDataAccessObject implements MealPlanDataAccessInterface {
+public class ApiDataAccessObject implements DishTypeUserDataAccessInterface, MealPlanDataAccessInterface {
     public final String Url = "https://api.edamam.com";
     public final String Key = System.getenv("Key");
     public final String Id = System.getenv("Id");
@@ -65,4 +68,27 @@ public class ApiDataAccessObject implements MealPlanDataAccessInterface {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public JSONArray getRecipeByDishType(String dishType) {
+        final OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        final Request request = new Request.Builder()
+                .url(String.format("%s/api/recipes/v2?type=public&app_id=%s&app_key=%s&dishType=%s&random=True", Url, Id, Key, dishType))
+                .build();
+
+        try {
+            final Response response = client.newCall(request).execute();
+            final JSONObject responseBody = new JSONObject(response.body().string());
+            if (response.isSuccessful()) {
+                return responseBody.getJSONArray("hits");
+            } else {
+                throw new RuntimeException(responseBody.getString(MESSAGE));
+            }
+        }
+        catch (IOException | JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
