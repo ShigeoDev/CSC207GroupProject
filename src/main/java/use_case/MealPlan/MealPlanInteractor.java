@@ -28,8 +28,4 @@ public class MealPlanInteractor implements MealPlanInputBoundary {
         presenter.prepareSuccessView(mealPlanOutputData);
     }
 
-    @Override
-    public void goHome() {
-        presenter.goHome();
-    }
 }
