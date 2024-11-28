@@ -12,6 +12,7 @@ import entity.User;
 import entity.UserFactory;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import use_case.GetCalories.GetCaloriesDataAccessInterface;
 import use_case.Login.LoginUserDataAccessInterface;
 import use_case.MealPlan.MealPlanDataAccessInterface;
 import use_case.Signup.SignupUserDataAccessInterface;
@@ -25,7 +26,7 @@ import java.util.Map;
  * DAO for user data implemented using a File to persist the data.
  */
 public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
-        LoginUserDataAccessInterface, StoreRecipeDataAccessInterface {
+        LoginUserDataAccessInterface, StoreRecipeDataAccessInterface, GetCaloriesDataAccessInterface {
 
     private final File file;
     private final ArrayList<User> accounts = new ArrayList<>();

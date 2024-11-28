@@ -1,6 +1,5 @@
 package use_case.GetCalories;
 
-import data_access.FileUserDataAccessObject;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -14,20 +13,20 @@ import data_access.ApiDataAccessObject;
 public class GetCaloriesInteractor implements GetCaloriesInputBoundary {
     final GetCaloriesOutputBoundary getCaloriesPresenter;
     final ApiDataAccessObject apiDataAccessObject;
-    final FileUserDataAccessObject fileUserDataAccessObject;
+    final GetCaloriesDataAccessInterface userDataAccessObject;
 
     /**
      * Constructs a new GetCaloriesInteractor.
      * @param apiDataAccessObject For making API calls to retrieve the data
      * @param getCaloriesOutputBoundary For presenting the results
-     * @param fileUserDataAccessObject For saving recipe data
+     * @param userDataAccessObject For saving recipe data
      */
     public GetCaloriesInteractor(ApiDataAccessObject apiDataAccessObject,
                                  GetCaloriesOutputBoundary getCaloriesOutputBoundary,
-                                 FileUserDataAccessObject fileUserDataAccessObject) {
+                                 GetCaloriesDataAccessInterface userDataAccessObject) {
         this.apiDataAccessObject = apiDataAccessObject;
         this.getCaloriesPresenter = getCaloriesOutputBoundary;
-        this.fileUserDataAccessObject = fileUserDataAccessObject;
+        this.userDataAccessObject = userDataAccessObject;
     }
 
     /**
@@ -61,7 +60,7 @@ public class GetCaloriesInteractor implements GetCaloriesInputBoundary {
      */
     @Override
     public void saveRecipe(JSONObject recipe, String username) {
-        fileUserDataAccessObject.saveRecipe(recipe, username);
+        userDataAccessObject.saveRecipe(recipe, username);
     }
 
     /**

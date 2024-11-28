@@ -2,6 +2,7 @@ package data_access;
 
 import entity.User;
 import org.json.JSONObject;
+import use_case.GetCalories.GetCaloriesDataAccessInterface;
 import use_case.MealPlan.MealPlanDataAccessInterface;
 import use_case.Login.LoginUserDataAccessInterface;
 import use_case.Signup.SignupUserDataAccessInterface;
@@ -17,7 +18,8 @@ import java.util.Map;
  * NOT persist data between runs of the program.
  */
 public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterface,
-        LoginUserDataAccessInterface, StoreRecipeDataAccessInterface, MealPlanDataAccessInterface {
+        LoginUserDataAccessInterface, StoreRecipeDataAccessInterface,
+        MealPlanDataAccessInterface, GetCaloriesDataAccessInterface {
 
     private final List<User> users = new ArrayList<User>();
     private final Map<User, ArrayList<JSONObject>> recipes = new HashMap<>();
