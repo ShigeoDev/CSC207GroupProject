@@ -21,4 +21,6 @@ public interface DishTypeInputBoundary {
      * such as filtering or categorizing items by dish type.
      */
     void switchToDishType(String username);
+
+    void switchToHomepage(String username);
 }

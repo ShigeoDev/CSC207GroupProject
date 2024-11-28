@@ -14,8 +14,10 @@ public class DishTypeViewModel extends ViewModel<DishTypeState> {
      * DishTypeState.
      */
     public DishTypeViewModel(){
-        super("Dish Type");  // Sets the view's name as "Dish Type"
-        setState(new DishTypeState());  // Initializes the state with a new DishTypeState
+        // Sets the view's name as "Dish Type"
+        super("Dish Type");
+        // Initializes the state with a new DishTypeState
+        setState(new DishTypeState());
     }
 }
 

@@ -7,7 +7,7 @@ import use_case.searchByDishType.DishTypeInputData;
 /**
  * The DishTypeController serves as the interface between the user input
  * and the use case logic for searching recipes by dish type.
- * It acts as an adapter that interacts with the use case (Interactor) and
+ * It acts as an adapter that interacts with the use case Interactor and
  * processes the input data to produce the required output.
  */
 public class DishTypeController {
@@ -34,10 +34,14 @@ public class DishTypeController {
     }
 
     /**
-     * Switches to the dish type view (may be used for navigation or UI-related logic).
+     * Switches to the dish type view
      */
     public void switchToDishType(String username) {
         dishTypeInteractor.switchToDishType(username);
+    }
+
+    public void switchToHomepageView(String username) {
+        dishTypeInteractor.switchToHomepage(username);
     }
 }
 

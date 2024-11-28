@@ -1,5 +1,6 @@
 package interface_adapter.DishType;
 
+import interface_adapter.Homepage.HomepageViewModel;
 import interface_adapter.ViewManagerModel;
 import org.json.JSONArray;
 import use_case.searchByDishType.DishTypeOutputBoundary;
@@ -17,6 +18,7 @@ public class DishTypePresenter implements DishTypeOutputBoundary {
 
     private final DishTypeViewModel dishTypeViewModel;
     private final ViewManagerModel viewManagerModel;
+    private final HomepageViewModel homepageViewModel;
 
     /**
      * Constructs a DishTypePresenter with the provided dishTypeViewModel and ViewManager.
@@ -24,9 +26,11 @@ public class DishTypePresenter implements DishTypeOutputBoundary {
      * @param dishTypeViewModel the ViewModel responsible for managing dish type data.
      * @param viewManagerModel the ViewManager responsible for managing the view state.
      */
-    public DishTypePresenter(DishTypeViewModel dishTypeViewModel, ViewManagerModel viewManagerModel) {
+    public DishTypePresenter(DishTypeViewModel dishTypeViewModel, ViewManagerModel viewManagerModel,
+                             HomepageViewModel homepageViewModel) {
         this.dishTypeViewModel = dishTypeViewModel;
         this.viewManagerModel = viewManagerModel;
+        this.homepageViewModel = homepageViewModel;
     }
 
     /**
@@ -62,8 +66,17 @@ public class DishTypePresenter implements DishTypeOutputBoundary {
         DishTypeState state = new DishTypeState();
         state.setUsername(username);
         dishTypeViewModel.setState(state);
-        dishTypeViewModel.firePropertyChanged();  // Notifies that the ViewModel state has changed
-        viewManagerModel.setState(dishTypeViewModel.getViewName());  // Sets the current view state
-        viewManagerModel.firePropertyChanged();  // Notifies that the ViewManager state has changed
+        // Show that the ViewModel state has changed
+        dishTypeViewModel.firePropertyChanged();
+        // Sets the current view state
+        viewManagerModel.setState(dishTypeViewModel.getViewName());
+        // Show that the ViewManager state has changed
+        viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void prepareHomepage(String username) {
+        viewManagerModel.setState(homepageViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 }

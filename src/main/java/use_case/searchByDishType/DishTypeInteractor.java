@@ -60,5 +60,10 @@ public class DishTypeInteractor implements DishTypeInputBoundary {
     public void switchToDishType(String username) {
         userPresenter.prepareDishType(username);
     }
+
+    @Override
+    public void switchToHomepage(String username) {
+        userPresenter.prepareHomepage(username);
+    }
 }
 
