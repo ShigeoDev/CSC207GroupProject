@@ -14,6 +14,10 @@ import use_case.Homepage.HomepageOutputData;
 import use_case.store_recipe.StoreRecipeOutputBoundary;
 import view.GetCaloriesView;
 
+/**
+ * Presenter for the Homepage view component.
+ * Handles the presentation for the homepage.
+ */
 public class HomepagePresenter implements HomepageOutputBoundary {
     private final HomepageViewModel homepageViewModel;
     private final ViewManagerModel viewManagerModel;
@@ -22,6 +26,15 @@ public class HomepagePresenter implements HomepageOutputBoundary {
     private final DishTypeViewModel dishTypeViewModel;
     private final GetCaloriesViewModel getCaloriesViewModel;
 
+    /**
+     * Constructor for a new HomepagePresenter.
+     * @param viewManagerModel View manager model for Homepage use case
+     * @param homepageViewModel Homepage view model
+     * @param storeRecipeViewModel Store recipe view model
+     * @param mealPlanViewModel Meal plan view model
+     * @param dishTypeViewModel Dish type view model
+     * @param getCaloriesViewModel Get calories view model
+     */
     public HomepagePresenter(ViewManagerModel viewManagerModel,
                              HomepageViewModel homepageViewModel,
                              StoreRecipeViewModel storeRecipeViewModel,
@@ -34,6 +47,10 @@ public class HomepagePresenter implements HomepageOutputBoundary {
         this.getCaloriesViewModel = getCaloriesViewModel;
     }
 
+    /**
+     * Prepares the success view for the homepage.
+     * Updates the state.
+     */
     public void prepareSuccessView() {
         // On success, switch to the login view.
         viewManagerModel.setState(homepageViewModel.getViewName());
