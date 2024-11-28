@@ -3,6 +3,7 @@ package view;
 import interface_adapter.DishType.DishTypeController;
 import interface_adapter.DishType.DishTypeState;
 import interface_adapter.DishType.DishTypeViewModel;
+import interface_adapter.Homepage.HomepageState;
 import interface_adapter.store_recipe.StoreRecipeController;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,6 +30,7 @@ public class DishTypeView extends JPanel implements ActionListener, PropertyChan
     private String viewName = "Dish Type";  // The name of the view for identifying purposes
     private final JLabel dishType = new JLabel("Select Dish Types:");  // Label for the dish type selection
     private final JButton searchButton = new JButton("Search");  // Button to trigger search
+    private final JButton homeButton = new JButton("Home");
     private DishTypeController dishTypeController;  // Controller for handling dish type logic
     private StoreRecipeController storeRecipeController;
     private final JPanel resultsPanel = new JPanel();  // Panel to display search results
@@ -49,38 +51,61 @@ public class DishTypeView extends JPanel implements ActionListener, PropertyChan
      * @param dishTypeViewModel the view model that holds the state for the dish type view
      */
     public DishTypeView(DishTypeViewModel dishTypeViewModel) {
-        dishType.setAlignmentX(Component.CENTER_ALIGNMENT);  // Center-align the label
+        // Center-align the label
+        dishType.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.dishTypeViewModel = dishTypeViewModel;
-        this.dishTypeViewModel.addPropertyChangeListener(this);  // Register for property changes
+        // Register for property changes
+        this.dishTypeViewModel.addPropertyChangeListener(this);
 
         // Create checkboxes for each dish type
         final JPanel checkBoxPanel = new JPanel();
-        checkBoxPanel.setLayout(new GridLayout(0, 2));  // Arrange checkboxes in a grid layout
+
+        // Arrange checkboxes in a grid layout
+        checkBoxPanel.setLayout(new GridLayout(0, 2));
+
+        // Avoid choose two dish type at one time.
+        ButtonGroup buttonGroup = new ButtonGroup();
 
         for (String type : dishTypes) {
             JCheckBox checkBox = new JCheckBox(type);
             checkBoxList.add(checkBox);
             checkBoxPanel.add(checkBox);
+            // Add the checkbox to the ButtonGroup
+            buttonGroup.add(checkBox);
         }
 
         // Button panel with search button
         final JPanel buttons = new JPanel();
         buttons.add(searchButton);
+        buttons.add(homeButton);
+
+        // Set action listener for home button
+        homeButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        final DishTypeState currentState = dishTypeViewModel.getState();
+                        dishTypeController.switchToHomepageView(currentState.getUsername());
+                    }
+                }
+        );
 
         // Set action listener for search button
         searchButton.addActionListener(
                 evt -> {
                     if (evt.getSource().equals(searchButton)) {
                         String selectedTypes = getSelectedDishTypes();
-                        recipes = dishTypeController.execute(selectedTypes);  // Call the controller to fetch recipes
-                        updateResultsPanel(recipes);  // Update the results panel
+                        // Call the controller to search recipes
+                        recipes = dishTypeController.execute(selectedTypes);
+                        // Update the results panel
+                        updateResultsPanel(recipes);
                     }
                 }
         );
 
         // Setup results panel layout and scroll pane
         resultsPanel.setLayout(new BoxLayout(resultsPanel, BoxLayout.Y_AXIS));
-        resultsScrollPane.setPreferredSize(new Dimension(400, 300));  // Set preferred size for scroll pane
+        // Set preferred size for scroll pane
+        resultsScrollPane.setPreferredSize(new Dimension(400, 300));
 
         // Main layout for the DishTypeView
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -96,7 +121,8 @@ public class DishTypeView extends JPanel implements ActionListener, PropertyChan
      * @param evt the ActionEvent triggered by a button click
      */
     public void actionPerformed(ActionEvent evt) {
-        System.out.println("Click " + evt.getActionCommand());  // Print the action command of the clicked button
+        // Print the action command of the clicked button
+        System.out.println("Click " + evt.getActionCommand());
     }
 
     /**

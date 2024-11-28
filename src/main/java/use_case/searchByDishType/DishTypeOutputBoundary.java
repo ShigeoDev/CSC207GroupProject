@@ -1,7 +1,7 @@
 package use_case.searchByDishType;
 
 /**
- * The DishTypeOutputBoundary interface defines the methods for preparing the output views
+ * The DishTypeOutputBoundary interface include the methods for preparing the output
  * in the search by dish type use case. It provides methods for both successful
  * and failed cases, as well as for preparing the dish type view.
  */
@@ -32,4 +32,6 @@ public interface DishTypeOutputBoundary {
      * the user interface related to dish types.
      */
     void prepareDishType(String username);
+
+    void prepareHomepage(String username);
 }

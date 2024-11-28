@@ -241,10 +241,14 @@ public class AppBuilder {
      * @return the AppBuilder.
      */
     public AppBuilder addDishTypeView() {
-        dishTypeViewModel = new DishTypeViewModel();  // Creates a new DishTypeViewModel instance
-        dishTypeView = new DishTypeView(dishTypeViewModel);  // Creates a new DishTypeView with the view model
-        cardPanel.add(dishTypeView, dishTypeView.getName());  // Adds the view to the card panel
-        return this;  // Returns the current instance for method chaining
+        // Creates a new DishTypeViewModel instance
+        dishTypeViewModel = new DishTypeViewModel();
+        // Creates a new DishTypeView with the view model
+        dishTypeView = new DishTypeView(dishTypeViewModel);
+        // Adds the view to the card panel
+        cardPanel.add(dishTypeView, dishTypeView.getName());
+        // Returns the current instance
+        return this;
     }
 
     /**
@@ -258,13 +262,16 @@ public class AppBuilder {
      * @return the current instance of the AppBuilder to allow method chaining
      */
     public AppBuilder addDishTypeUseCase() {
-        final DishTypeOutputBoundary dishTypeOutputBoundary = new DishTypePresenter(dishTypeViewModel, viewManagerModel);
+        final DishTypeOutputBoundary dishTypeOutputBoundary = new DishTypePresenter(dishTypeViewModel, viewManagerModel, homepageViewModel);
         final DishTypeInputBoundary dishTypeInteractor = new DishTypeInteractor(apiDataAccessObject, dishTypeOutputBoundary);
         final DishTypeController controller = new DishTypeController(dishTypeInteractor);
 
-        homepageView.setDishTypeController(controller);  // Sets the controller for the homepage view
-        dishTypeView.setDishTypeController(controller);  // Sets the controller for the dish type view
-        return this;  // Returns the current instance for method chaining
+        // Sets the controller for the homepage view
+        homepageView.setDishTypeController(controller);
+        // Sets the controller for the dish type view
+        dishTypeView.setDishTypeController(controller);
+        // Returns the current instance
+        return this;
     }
 
     public JFrame build() {

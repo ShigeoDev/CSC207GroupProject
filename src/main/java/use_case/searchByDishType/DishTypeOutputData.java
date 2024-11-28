@@ -8,8 +8,10 @@ import org.json.JSONArray;
  */
 public class DishTypeOutputData {
 
-    private JSONArray recipe;  // The list of recipes returned by the use case.
-    private final boolean useCaseFailed;  // A flag indicating whether the use case failed.
+    // The list of recipes returned by the use case.
+    private JSONArray recipe;
+    // A flag indicating whether the use case failed.
+    private final boolean useCaseFailed;
 
     /**
      * Constructs a new instance of DishTypeOutputData.
