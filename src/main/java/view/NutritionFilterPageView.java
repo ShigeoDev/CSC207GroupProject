@@ -1,6 +1,5 @@
 package view;
 
-import entity.Recipe;
 import interface_adapter.NutritionFilterPage.NutritionFilterPageController;
 import interface_adapter.NutritionFilterPage.NutritionFilterPageState;
 import interface_adapter.NutritionFilterPage.NutritionFilterPageViewModel;
@@ -37,13 +36,13 @@ public class NutritionFilterPageView extends JPanel implements ActionListener, P
     private final JCheckBox carbsCheckBox = new JCheckBox("CARBOHYDRATES");
     private final JCheckBox fatCheckBox = new JCheckBox("FAT");
     private final JCheckBox sugarCheckBox = new JCheckBox("SUGAR");
-    private final JCheckBox fiberCheckBox = new JCheckBox("Fiber");
-    private final JCheckBox proteinCheckBox = new JCheckBox("Protein");
-    private final JCheckBox ironCheckBox = new JCheckBox("Iron");
-    private final JCheckBox calciumCheckBox = new JCheckBox("Calcium");
+    private final JCheckBox fiberCheckBox = new JCheckBox("FIBER");
+    private final JCheckBox proteinCheckBox = new JCheckBox("PROTEIN");
+    private final JCheckBox ironCheckBox = new JCheckBox("IRON");
+    private final JCheckBox calciumCheckBox = new JCheckBox("CALCIUM");
     private final JCheckBox potassiumCheckBox = new JCheckBox("POTASSIUM");
     private final JCheckBox sodiumCheckBox = new JCheckBox("SODIUM");
-    private final JCheckBox magnesiumCheckBox = new JCheckBox("Magnesium");
+    private final JCheckBox magnesiumCheckBox = new JCheckBox("MAGNESIUM");
     private final JCheckBox phosphorusCheckBox = new JCheckBox("PHOSPHORUS");
 
     private final JLabel errorLabel = new JLabel();
@@ -127,6 +126,13 @@ public class NutritionFilterPageView extends JPanel implements ActionListener, P
         phosphorusCheckBox.addActionListener(e -> updateSelectedNutrients());
     }
 
+    /**
+     * Updates the selected nutrients in the view model based on the current state of the nutrient checkboxes.
+     * <p>
+     * This method collects the nutrients that are currently selected by the user and updates the
+     * {@code NutritionFilterPageState} in the view model. It ensures that the view model always reflects
+     * the latest selections made by the user.
+     */
     private void updateSelectedNutrients() {
         ArrayList<String> selectedNutrients = new ArrayList<>();
         if (vitaminACheckBox.isSelected()) {
@@ -169,16 +175,16 @@ public class NutritionFilterPageView extends JPanel implements ActionListener, P
             selectedNutrients.add("SUGAR");
         }
         if (fiberCheckBox.isSelected()) {
-            selectedNutrients.add("Fiber");
+            selectedNutrients.add("FIBER");
         }
         if (proteinCheckBox.isSelected()) {
-            selectedNutrients.add("Protein");
+            selectedNutrients.add("PROTEIN");
         }
         if (ironCheckBox.isSelected()) {
-            selectedNutrients.add("Iron");
+            selectedNutrients.add("IRON");
         }
         if (calciumCheckBox.isSelected()) {
-            selectedNutrients.add("Calcium");
+            selectedNutrients.add("CALCIUM");
         }
         if (potassiumCheckBox.isSelected()) {
             selectedNutrients.add("POTASSIUM");
@@ -216,6 +222,13 @@ public class NutritionFilterPageView extends JPanel implements ActionListener, P
         }
     }
 
+    /**
+     * Handles action events triggered by user interactions, such as button clicks.
+     * <p>
+     * Specifically, this method reacts to the submit button click by invoking the controller's execute method
+     * with the currently selected nutrients. It initiates the use case to find recipes based on the user's selections.
+     * @param evt the {@code ActionEvent} that triggered this method
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         NutritionFilterPageState state = (NutritionFilterPageState) evt.getNewValue();
@@ -225,21 +238,29 @@ public class NutritionFilterPageView extends JPanel implements ActionListener, P
             resultsArea.setText("");
         } else if (state.getRecipeDetails() != null) {
             errorLabel.setText("");
-            StringBuilder results = new StringBuilder();
-            for (Recipe recipe : state.getRecipeDetails()) {
-                results.append("Name: ").append(recipe.getName()).append("\n")
-                        .append("Calories: ").append(recipe.getCalories()).append("\n")
-                        .append("Ingredients: ").append(String.join(", ", recipe.getIngredients())).append("\n")
-                        .append("URL: ").append(recipe.getInstructions()).append("\n\n");
-            }
-            resultsArea.setText(results.toString());
+            String results = String.join("\n", state.getRecipeDetails());
+            resultsArea.setText(results);
         }
     }
 
+    /**
+     * Returns the name of this view.
+     * <p>
+     * This method is used to identify the view, typically when switching between different views
+     * in a card layout or view manager.
+     * @return the name of the view as a {@code String}
+     */
     public String getViewName() {
         return viewName;
     }
 
+    /**
+     * Sets the controller for this view.
+     * <p>
+     * The controller handles user actions and interacts with the interactor (use case).
+     * This method establishes the connection between the view and its controller.
+     * @param controller the {@code NutritionFilterPageController} to handle user actions
+     */
     public void setController(NutritionFilterPageController controller) {
         this.controller = controller;
     }

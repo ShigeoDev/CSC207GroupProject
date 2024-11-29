@@ -1,9 +1,9 @@
 package data_access;
 
-import entity.Recipe;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,26 +19,6 @@ public class ApiDataAccessObject implements NutritionFilterPageDataAccessInterfa
     public final String Key = System.getenv("Key");
     public final String Id = System.getenv("Id");
     private static final String MESSAGE = "message";
-    private static final Map<String, String> NUTRIENT_NAME_TO_ID = new HashMap<>();
-
-    static {
-        NUTRIENT_NAME_TO_ID.put("Vitamin A", "VITA_RAE");
-        NUTRIENT_NAME_TO_ID.put("Vitamin C", "VITC");
-        NUTRIENT_NAME_TO_ID.put("Vitamin D", "VITD");
-        NUTRIENT_NAME_TO_ID.put("Vitamin E", "TOCPHA");
-        NUTRIENT_NAME_TO_ID.put("Vitamin K", "VITK1");
-        NUTRIENT_NAME_TO_ID.put("Carbohydrates", "CHOCDF");
-        NUTRIENT_NAME_TO_ID.put("Fat", "FAT");
-        NUTRIENT_NAME_TO_ID.put("Sugar", "SUGAR");
-        NUTRIENT_NAME_TO_ID.put("Fiber", "FIBTG");
-        NUTRIENT_NAME_TO_ID.put("Protein", "PROCNT");
-        NUTRIENT_NAME_TO_ID.put("Iron", "FE");
-        NUTRIENT_NAME_TO_ID.put("Calcium", "CA");
-        NUTRIENT_NAME_TO_ID.put("Potassium", "K");
-        NUTRIENT_NAME_TO_ID.put("Sodium", "NA");
-        NUTRIENT_NAME_TO_ID.put("Magnesium", "MG");
-        NUTRIENT_NAME_TO_ID.put("Phosphorus", "P");
-    }
 
     public JSONObject getRecipebyName(String recipeName) {
         final OkHttpClient client = new OkHttpClient().newBuilder()
@@ -91,18 +71,27 @@ public class ApiDataAccessObject implements NutritionFilterPageDataAccessInterfa
         }
     }
 
+    /**
+     * Retrieves a list of recipes from the Edamam API that are high in the specified nutrients.
+     * @param selectedNutrients a list of nutrient names selected by the user for filtering recipes
+     * @return a {@code JSONArray} containing the recipes that match the nutrient criteria
+     * @throws RuntimeException if an error occurs during the API call or JSON parsing
+     */
     @Override
-    public List<Recipe> getRecipesByNutrients(List<String> selectedNutrients) {
+    public JSONArray getRecipesByNutrients(List<String> selectedNutrients) {
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
-        String baseUrl = String.format("%s/api/recipes/v2?type=public&app_id=%s&app_key=%s", Url, Id, Key);
+        String baseUrl = String.format("%s/api/recipes/v2?type=public&app_id=%s&app_key=%s&random=true", Url, Id, Key);
+
+        // Map of nutrient names to their IDs
+        Map<String, String> nutrientNameToId = getNutrientNameToId();
 
         StringBuilder nutrientParams = new StringBuilder();
-        for (String selectNutrient : selectedNutrients) {
-            String nutrientId = NUTRIENT_NAME_TO_ID.get(selectNutrient);
+        for (String nutrientName : selectedNutrients) {
+            String nutrientId = nutrientNameToId.get(nutrientName);
             if (nutrientId != null) {
                 String paramName = String.format("nutrients[%s]", nutrientId);
-                String paramValue = "gte 10";
+                String paramValue = "5+";
 
                 String encodedParamName = URLEncoder.encode(paramName, StandardCharsets.UTF_8);
                 String encodedParamValue = URLEncoder.encode(paramValue, StandardCharsets.UTF_8);
@@ -121,8 +110,10 @@ public class ApiDataAccessObject implements NutritionFilterPageDataAccessInterfa
             assert response.body() != null;
             final JSONObject responseBody = new JSONObject(response.body().string());
 
+            System.out.println(response);
+
             if (response.isSuccessful()) {
-                return parseRecipes(responseBody);
+                return responseBody.getJSONArray("hits");
             } else {
                 throw new RuntimeException(responseBody.optString(MESSAGE, "Unknown error occurred."));
             }
@@ -131,53 +122,35 @@ public class ApiDataAccessObject implements NutritionFilterPageDataAccessInterfa
         }
     }
 
-    private List<Recipe> parseRecipes(JSONObject json) throws JSONException {
-        List<Recipe> recipes = new ArrayList<>();
-        JSONArray hits = json.getJSONArray("hits");
-        for (int i = 0; i < hits.length(); i++) {
-            JSONObject hit = hits.getJSONObject(i);
-            JSONObject recipeJson = hit.getJSONObject("recipe");
-            Recipe recipe = parseRecipe(recipeJson);
-            recipes.add(recipe);
-        }
-        return recipes;
-    }
-
-    private Recipe parseRecipe(JSONObject json) throws JSONException {
-        String name = json.optString("label");
-        List<String> dishType = jsonArrayToList(json.optJSONArray("dishType"));
-        List<String> mealType = jsonArrayToList(json.optJSONArray("mealType"));
-        List<String> ingredients = jsonArrayToList(json.optJSONArray("ingredientLines"));
-        String url = json.optString("url");
-        double calories = json.optDouble("calories");
-        Map<String, Double> nutrients = parseNutrients(json.optJSONObject("totalNutrients"));
-
-        return new Recipe(name, dishType, mealType, ingredients, url, calories, nutrients);
-    }
-
-    // Helper Method: Convert JSONArray to List<String>
-    private List<String> jsonArrayToList(JSONArray jsonArray) {
-        List<String> list = new ArrayList<>();
-        if (jsonArray != null) {
-            for (int i = 0; i < jsonArray.length(); i++) {
-                list.add(jsonArray.optString(i));
-            }
-        }
-        return list;
-    }
-
-    // Helper Method
-    private Map<String, Double> parseNutrients(JSONObject nutrientsJson) throws JSONException {
-        Map<String, Double> nutrients = new HashMap<>();
-        if (nutrientsJson != null) {
-            Iterator<String> keys = nutrientsJson.keys();
-            while (keys.hasNext()) {
-                String key = keys.next();
-                JSONObject nutrientInfo = nutrientsJson.getJSONObject(key);
-                double quantity = nutrientInfo.optDouble("quantity");
-                nutrients.put(key, quantity);
-            }
-        }
-        return nutrients;
+    //Helper method.
+    /**
+     * Creates and returns a mapping between nutrient names and their corresponding nutrient IDs used by the Edamam API.
+     * @return a {@code Map<String, String>} containing nutrient names as keys and their API nutrient IDs as values
+     */
+    @NotNull
+    private static Map<String, String> getNutrientNameToId() {
+        Map<String, String> nutrientNameToId = new HashMap<>();
+        nutrientNameToId.put("Vitamin A", "VITA_RAE");
+        nutrientNameToId.put("Vitamin C", "VITC");
+        nutrientNameToId.put("Vitamin B1", "THIA");
+        nutrientNameToId.put("Vitamin B2", "RIBF");
+        nutrientNameToId.put("Vitamin B3", "NIA");
+        nutrientNameToId.put("Vitamin B6", "VITB6A");
+        nutrientNameToId.put("Vitamin B12", "VITB12");
+        nutrientNameToId.put("Vitamin D", "VITD");
+        nutrientNameToId.put("Vitamin E", "TOCPHA");
+        nutrientNameToId.put("Vitamin K", "VITK1");
+        nutrientNameToId.put("CARBOHYDRATES", "CHOCDF");
+        nutrientNameToId.put("FAT", "FAT");
+        nutrientNameToId.put("SUGAR", "SUGAR");
+        nutrientNameToId.put("FIBER", "FIBTG");
+        nutrientNameToId.put("PROTEIN", "PROCNT");
+        nutrientNameToId.put("IRON", "FE");
+        nutrientNameToId.put("CALCIUM", "CA");
+        nutrientNameToId.put("POTASSIUM", "K");
+        nutrientNameToId.put("SODIUM", "NA");
+        nutrientNameToId.put("MAGNESIUM", "MG");
+        nutrientNameToId.put("PHOSPHORUS", "P");
+        return nutrientNameToId;
     }
 }
