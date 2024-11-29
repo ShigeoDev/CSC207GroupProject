@@ -9,9 +9,6 @@ import entity.UserFactory;
 import interface_adapter.MealPlan.MealPlanController;
 import interface_adapter.MealPlan.MealPlanPresenter;
 import interface_adapter.MealPlan.MealPlanViewModel;
-import interface_adapter.NutritionFilterPage.NutritionFilterPageController;
-import interface_adapter.NutritionFilterPage.NutritionFilterPagePresenter;
-import interface_adapter.NutritionFilterPage.NutritionFilterPageViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
@@ -24,9 +21,6 @@ import use_case.Login.LoginOutputBoundary;
 import use_case.MealPlan.MealPlanInputBoundary;
 import use_case.MealPlan.MealPlanInteractor;
 import use_case.MealPlan.MealPlanOutputBoundary;
-import use_case.NutritionFilterPage.NutritionFilterPageInputBoundrary;
-import use_case.NutritionFilterPage.NutritionFilterPageInteractor;
-import use_case.NutritionFilterPage.NutritionFilterPageOutputBoundary;
 import use_case.Signup.SignupInputBoundary;
 import use_case.Signup.SignupInteractor;
 import use_case.Signup.SignupOutputBoundary;
@@ -91,9 +85,6 @@ public class AppBuilder {
 
     private MealPlanViewModel mealPlanViewModel;
     private MealPlanView mealPlanView;
-
-    private NutritionFilterPageView nutritionFilterPageView;
-    private NutritionFilterPageViewModel nutritionFilterPageViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -181,12 +172,11 @@ public class AppBuilder {
 
     public AppBuilder addHomepageUseCase() {
         final HomepageOutputBoundary homepageOutputBoundary = new HomepagePresenter(viewManagerModel,
-                homepageViewModel, storeRecipeViewModel, mealPlanViewModel, nutritionFilterPageViewModel);
+                homepageViewModel, storeRecipeViewModel, mealPlanViewModel);
         final HomepageInputBoundary userStoreRecipeInteractor = new HomepageInteractor(userDataAccessObject, homepageOutputBoundary, apiDataAccessObject);
 
         final HomepageController controller = new HomepageController(userStoreRecipeInteractor);
         homepageView.setHomepageController(controller);
-        nutritionFilterPageView.setHomepageController(controller);
         return this;
     }
 
@@ -227,32 +217,6 @@ public class AppBuilder {
 
         //final DishTypeController controller = new DishTypeController(dishTypeInteractor);
         //dishTypeView.setDishTypeController(controller);
-        return this;
-    }
-
-    /**
-     * Adds the Nutrition Filter Page View to the application.
-     * @return this builder instance for method chaining
-     */
-    public AppBuilder addNutritionFilterPageView() {
-        nutritionFilterPageViewModel = new NutritionFilterPageViewModel();
-        nutritionFilterPageView = new NutritionFilterPageView(nutritionFilterPageViewModel);
-        cardPanel.add(nutritionFilterPageView, nutritionFilterPageView.getViewName());
-        return this;
-    }
-
-    /**
-     * Sets up the Nutrition Filter Page use case by creating the presenter, interactor,
-     * and controller, and linking them together.
-     * @return this builder instance for method chaining
-     */
-    public AppBuilder addNutritionFilterPageUseCase() {
-        final NutritionFilterPageOutputBoundary outputBoundary = new NutritionFilterPagePresenter(
-                nutritionFilterPageViewModel, viewManagerModel, homepageViewModel);
-        final NutritionFilterPageInputBoundrary interactor = new NutritionFilterPageInteractor(
-                apiDataAccessObject, outputBoundary);
-        final NutritionFilterPageController controller = new NutritionFilterPageController(interactor);
-        nutritionFilterPageView.setController(controller);
         return this;
     }
 

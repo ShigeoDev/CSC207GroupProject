@@ -12,7 +12,9 @@ import entity.User;
 import entity.UserFactory;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import use_case.GetCalories.GetCaloriesDataAccessInterface;
 import use_case.Login.LoginUserDataAccessInterface;
+import use_case.MealPlan.MealPlanDataAccessInterface;
 import use_case.Signup.SignupUserDataAccessInterface;
 import use_case.store_recipe.StoreRecipeDataAccessInterface;
 
@@ -24,48 +26,42 @@ import java.util.Map;
  * DAO for user data implemented using a File to persist the data.
  */
 public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
-        LoginUserDataAccessInterface, StoreRecipeDataAccessInterface {
+        LoginUserDataAccessInterface, StoreRecipeDataAccessInterface, GetCaloriesDataAccessInterface {
 
     private final File file;
-    private final Map<String, User> accounts = new HashMap<>();
-    private Map<String, ArrayList> recipes = new HashMap<>();
+    private final ArrayList<User> accounts = new ArrayList<>();
+    private Map<String, ArrayList<JSONObject>> recipes = new HashMap<>();
+
     private String currentUsername;
 
     public FileUserDataAccessObject(String filename, UserFactory userFactory) {
         file = new File(filename);
-        if (file.length() == 0) {
-            save();
-        }
-        else {
-            try {
-                final Path path = Paths.get("src/main/java/data_access/" + filename);
-                final String jsonString = Files.readString(path.toAbsolutePath());
+        final Path path = Paths.get("src/main/java/data_access/" + filename);
+        try {
+            final String jsonString = Files.readString(path.toAbsolutePath());
 
-                final JSONArray jsonArray = new JSONArray(jsonString);
+            final JSONArray jsonArray = new JSONArray(jsonString);
 
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    final JSONObject userJSON = jsonArray.getJSONObject(i);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                final JSONObject userJSON = jsonArray.getJSONObject(i);
 
-                    String username = userJSON.getString("username");
-                    String password = userJSON.getString("password");
-                    User user = userFactory.create(username, password);
-                    accounts.put(username, user);
+                String username = userJSON.getString("username");
+                String password = userJSON.getString("password");
+                User user = userFactory.create(username, password);
+                accounts.add(user);
 
-                    final JSONArray jsonrecipes = userJSON.getJSONArray("recipes");
-                    System.out.println(jsonrecipes.toList());
-                    final ArrayList<JSONObject> recipeArray = new ArrayList<>();
-                    for (int j = 0; j < jsonrecipes.length(); j++) {
-                        final JSONObject recipe = jsonrecipes.getJSONObject(j);
-                        recipeArray.add(recipe);
-                    }
-                    recipes.put(username, recipeArray);
+                final JSONArray jsonrecipes = userJSON.getJSONArray("recipes");
+                final ArrayList<JSONObject> recipeArray = new ArrayList<>();
+                for (int j = 0; j < jsonrecipes.length(); j++) {
+                    final JSONObject recipe = jsonrecipes.getJSONObject(j);
+                    recipeArray.add(recipe);
                 }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                recipes.put(username, recipeArray);
             }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
-
 
     private void save() {
         Path path = Paths.get("src/main/java/data_access/" + file.getName());
@@ -82,10 +78,9 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
             jsonArray = new JSONArray();
         }
 
-        for (Map.Entry<String, User> entry : accounts.entrySet()) {
-            String username = entry.getKey();
+        for (int n = 0; n < accounts.size(); n++) {
+            String username = accounts.get(n).getName();
             boolean userExists = false;
-
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject existingUser = jsonArray.getJSONObject(i);
                 if (existingUser.getString("username").equals(username)) {
@@ -95,11 +90,10 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
             }
 
             if (!userExists) {
-                User user = entry.getValue();
                 JSONObject userJSON = new JSONObject();
                 userJSON.put("username", username);
-                userJSON.put("password", user.getPassword());
-                accounts.put(username, user);
+                userJSON.put("password", accounts.get(n).getPassword());
+                accounts.add(accounts.get(n));
 
                 JSONArray userRecipes = new JSONArray();
                 userJSON.put("recipes", userRecipes);
@@ -117,14 +111,19 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
     }
 
     @Override
-    public void save(User user) {
-        accounts.put(user.getName(), user);
+    public void saveUser(User user) {
+        accounts.add(user);
         this.save();
     }
 
     @Override
-    public User get(String username) {
-        return accounts.get(username);
+    public User get(String user) {
+        for (User account : accounts) {
+            if (account.getName().equals(user)) {
+                return account;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -138,8 +137,23 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
     }
 
     @Override
-    public boolean existsByName(String identifier) {
-        return accounts.containsKey(identifier);
+    public boolean existsByName(User user) {
+        for (User account : accounts) {
+            if (account == user) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean existsByUsername(String username) {
+        for (User account : accounts) {
+            if (account.getName().equals(username)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -147,4 +161,38 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
         return recipes.get(username);
     }
 
+    @Override
+    public void saveRecipe(JSONObject recipe, String username) {
+        boolean in = false;
+        for (int i = 0; i < recipes.get(username).size(); i++) {
+                if (recipes.get(username).get(i).getString("label").equals(recipe.getString("label"))) {
+                    in = true;
+                }
+        }
+        if (!in) {
+            recipes.get(username).add(recipe);
+
+            try {
+                final Path path = Paths.get("src/main/java/data_access/" + file.getName());
+                final String jsonString = Files.readString(path.toAbsolutePath());
+
+                final JSONArray jsonArray = new JSONArray(jsonString);
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    final JSONObject userJSON = jsonArray.getJSONObject(i);
+
+                    if (username.equals(userJSON.getString("username"))) {
+                        final JSONArray jsonrecipes = userJSON.getJSONArray("recipes");
+                        jsonrecipes.put(recipe);
+                        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path.toFile()))) {
+                            writer.write(jsonArray.toString(2));
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 }
+

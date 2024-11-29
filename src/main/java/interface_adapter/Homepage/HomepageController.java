@@ -3,8 +3,6 @@ package interface_adapter.Homepage;
 import use_case.Homepage.HomepageInputBoundary;
 import use_case.Homepage.HomepageInputData;
 
-import java.util.List;
-
 public class HomepageController {
     private final HomepageInputBoundary userHomepageUseCaseInteractor;
 

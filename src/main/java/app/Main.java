@@ -19,8 +19,6 @@ public class Main {
                 .addHomepageUseCase()
                 .addStoreRecipeUseCase()
                 .addMealPlanUseCase()
-                .addNutritionFilterPageView()
-                .addNutritionFilterPageUseCase()
                 .build();
 
         application.pack();

@@ -9,13 +9,19 @@ import java.util.ArrayList;
  */
 public class StoreRecipeOutputData {
     private String username;
+    private ArrayList<JSONObject> recipe;
 
-    public StoreRecipeOutputData(String username) {
+    public StoreRecipeOutputData(String username, ArrayList<JSONObject> recipe) {
         this.username = username;
+        this.recipe = recipe;
     }
 
     public String getUsername() {
         return username;
+    }
+
+    public ArrayList<JSONObject> getRecipes() {
+        return recipe;
     }
 }
 

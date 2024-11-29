@@ -1,7 +1,13 @@
 package use_case.Homepage;
 
+/**
+ * Input boundary interface for the Homepage use case.
+ * Defines the execute method that the interactor must implement.
+ */
 public interface HomepageInputBoundary {
 
-    public void savedRecipe(HomepageInputData homepageInputData);
-    public void mealPlan();
+    /**
+     * Executes the homepage use case logic.
+     */
+    void execute();
 }

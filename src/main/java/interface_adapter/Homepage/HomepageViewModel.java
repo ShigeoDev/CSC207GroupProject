@@ -9,7 +9,6 @@ public class HomepageViewModel extends ViewModel {
     public final String Search_BUTTON_LABEL = "Search";
     public final String Saved_BUTTON_LABEL = "Saved";
     public final String MealPlan_BUTTON_LABEL = "Meal Planner";
-    public final String NutritionFilter_BUTTON_LABEL = "Nutrition Filter";
 
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 

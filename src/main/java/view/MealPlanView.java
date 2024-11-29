@@ -1,8 +1,10 @@
 package view;
 
+import interface_adapter.Homepage.HomepageController;
 import interface_adapter.MealPlan.MealPlanController;
 import interface_adapter.MealPlan.MealPlanState;
 import interface_adapter.MealPlan.MealPlanViewModel;
+import interface_adapter.store_recipe.StoreRecipeController;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -15,12 +17,14 @@ import java.beans.PropertyChangeListener;
 public class MealPlanView extends JPanel implements PropertyChangeListener, ActionListener {
 
     private final MealPlanViewModel mealPlanViewModel;
-    private MealPlanController mealPlanController;
+    private StoreRecipeController storeRecipeController;
+    private HomepageController homepageController;
 
     private String viewName = "MealPlan";
 
     private JLabel title = new JLabel("Meal Plan");
     private JPanel recipesPanel = new JPanel();
+    private JScrollPane scrollPane = new JScrollPane(recipesPanel);
     private JButton home = new JButton("Home");
 
     public MealPlanView(MealPlanViewModel mealPlanViewModel) {
@@ -38,18 +42,24 @@ public class MealPlanView extends JPanel implements PropertyChangeListener, Acti
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        mealPlanController.goHome();
+                        homepageController.execute();
                     }
                 }
         );
 
         this.add(title);
-        this.add(recipesPanel);
+        this.add(Box.createVerticalStrut(20));
+        this.add(scrollPane);
+        this.add(Box.createVerticalStrut(20));
         this.add(home);
     }
 
-    public void setMealPlanController(MealPlanController mealPlanController) {
-        this.mealPlanController = mealPlanController;
+    public void setHomepageController(HomepageController homepageController) {
+        this.homepageController = homepageController;
+    }
+
+    public void setStoreRecipeController(StoreRecipeController storeRecipeController) {
+        this.storeRecipeController = storeRecipeController;
     }
 
     public void actionPerformed(ActionEvent evt) {
@@ -61,12 +71,18 @@ public class MealPlanView extends JPanel implements PropertyChangeListener, Acti
             recipesPanel.removeAll();
             final MealPlanState state = (MealPlanState) evt.getNewValue();
             final JSONObject[] recipes = state.getRecipes();
+            final String[] mealnames = {"Breakfast: ", "Lunch: ", "Dinner: "};
             for (int i = 0; i < recipes.length; i++) {
                 final JSONObject recipe = recipes[i];
-                final String recipeName = recipe.getString("label");
-                final JLabel recipeLabel = new JLabel(recipeName);
-                recipeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                recipesPanel.add(recipeLabel);
+                final RecipeSavePanel recipePanel = new RecipeSavePanel(recipe);
+                recipePanel.getSaveButton().addActionListener(
+                        new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                storeRecipeController.execute(recipe, mealPlanViewModel.getState().getUser());
+                            }
+                        }
+                );
+                recipesPanel.add(recipePanel);
             }
         }
     }
