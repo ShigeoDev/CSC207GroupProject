@@ -1,8 +1,13 @@
 package view;
 
+import interface_adapter.DishType.DishTypeController;
+import interface_adapter.GetCalories.GetCaloriesController;
 import interface_adapter.Homepage.HomepageController;
 import interface_adapter.Homepage.HomepageState;
 import interface_adapter.Homepage.HomepageViewModel;
+import interface_adapter.MealPlan.MealPlanController;
+import interface_adapter.NutritionFilterPage.NutritionFilterPageController;
+import interface_adapter.store_recipe.StoreRecipeController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,18 +16,33 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+/**
+ * Main homepage view of the app.
+ * Displays buttons for various features.
+ * Implements ActionListener to handle button clicks.
+ * Implements PropertyChangeListener to respond to state changes.
+ */
 public class HomepageView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String name = "Homepage";
     private final HomepageViewModel homepageViewModel;
 
     private HomepageController homepageController;
+    private StoreRecipeController storeRecipeController;
+    private MealPlanController mealPlanController;
+    private DishTypeController dishTypeController;
+    private GetCaloriesController getCaloriesController;
+    private NutritionFilterPageController nutritionFilterPageController;
 
     final JButton SavedRecipes;
-    final JButton SearchRecipes;
     final JButton MealPlan;
+    final JButton DishType;
+    final JButton GetCalories;
+    final JButton NutritionFilter;
 
     /**
-     * A window with a title and a JButton.
+     * Constructs a new HomepageView.
+     * Initializes the UI.
+     * @param homepageViewModel View model containing the Homepage state and data
      */
     public HomepageView(HomepageViewModel homepageViewModel) {
         this.homepageViewModel = homepageViewModel;
@@ -33,17 +53,36 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
 
         final JPanel buttons = new JPanel();
         SavedRecipes = new JButton(homepageViewModel.Saved_BUTTON_LABEL);
-        SearchRecipes = new JButton(homepageViewModel.Search_BUTTON_LABEL);
         MealPlan = new JButton(homepageViewModel.MealPlan_BUTTON_LABEL);
+        DishType = new JButton("Search By Dish Type");
+        GetCalories = new JButton(homepageViewModel.GetCalories_BUTTON_LABEL);
+        NutritionFilter = new JButton(homepageViewModel.NutritionFilter_BUTTON_LABEL);
+
+        buttons.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         buttons.add(MealPlan);
-        buttons.add(SearchRecipes);
         buttons.add(SavedRecipes);
+        buttons.add(DishType);
+        buttons.add(GetCalories);
+        buttons.add(NutritionFilter);
+
+        GetCalories.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        final HomepageState currentState = homepageViewModel.getState();
+                        getCaloriesController.getCalories(currentState.getUsername());
+                    }
+                }
+        );
 
         MealPlan.addActionListener(
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        homepageController.MealPlan();
+                        final HomepageState currentState = homepageViewModel.getState();
+
+                        mealPlanController.execute(currentState.getUsername());
                     }
                 }
         );
@@ -54,11 +93,32 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
                     public void actionPerformed(ActionEvent e) {
                         final HomepageState currentState = homepageViewModel.getState();
 
-                        homepageController.savedRecipe(currentState.getUsername());
+                        storeRecipeController.goView(currentState.getUsername());
                     }
                 }
         );
-        SearchRecipes.addActionListener(this);
+
+        /**
+         * Add dish type button listener.
+         */
+        DishType.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        final HomepageState currentState = homepageViewModel.getState();
+                        dishTypeController.switchToDishType(currentState.getUsername());
+                    }
+                }
+        );
+
+        NutritionFilter.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        final HomepageState currentState = homepageViewModel.getState();
+                        nutritionFilterPageController.switchToNutritionFilterPage(currentState.getUsername());
+                    }
+                }
+        );
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -66,6 +126,10 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
         this.add(buttons);
     }
 
+    /**
+     * Getter for the view name.
+     * @return Name of view
+     */
     public String getName() {
         return this.name;
     }
@@ -77,14 +141,63 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
         System.out.println("Click " + evt.getActionCommand());
     }
 
+    /**
+     * Responds to propery change events from the view model.
+     * @param evt A PropertyChangeEvent object describing the event source
+     *          and the property that has changed.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         HomepageState state = (HomepageState) evt.getNewValue();
         // setFields(state);
     }
 
+    /**
+     * Sets the homepage controller.
+     * @param controller Controller to handle homepage
+     */
     public void setHomepageController(HomepageController controller) {
         this.homepageController = controller;
+    }
+
+    /**
+     * Sets the meal plan controller.
+     * @param controller Controller to handle Meal plan use case
+     */
+    public void setMealPlanController(MealPlanController controller) {
+        this.mealPlanController = controller;
+    }
+
+    /**
+     * Sets the store recipe controller.
+     * @param controller Controller to handle store recipe use case
+     */
+    public void setStoreRecipeController(StoreRecipeController controller) {
+        this.storeRecipeController = controller;
+    }
+
+    /**
+     * Sets the dish type controller.
+     * @param controller Controller to handle dish type use case
+     */
+    public void setDishTypeController(DishTypeController controller) {
+        this.dishTypeController = controller;
+    }
+
+    /**
+     * Sets the get calories controller.
+     * @param controller Controller to handle get calories use case
+     */
+    public void setGetCaloriesController(GetCaloriesController controller) {
+        this.getCaloriesController = controller;
+    }
+
+    /**
+     * Sets the NutritionFilterPage controller.
+     * @param controller Controller to handle filter based on Nutrition use case
+     */
+    public void setNutritionFilterPageController(NutritionFilterPageController controller) {
+        this.nutritionFilterPageController = controller;
     }
 }
 

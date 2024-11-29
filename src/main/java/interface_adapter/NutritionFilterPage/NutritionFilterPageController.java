@@ -37,6 +37,9 @@ public class NutritionFilterPageController {
         interactor.switchToNutritionFilterPage(username);
     }
 
+    /**
+     * Switches to the Homepage.
+     */
     public void switchToHomepage(String username) {
         interactor.switchToHomepage(username);
     }

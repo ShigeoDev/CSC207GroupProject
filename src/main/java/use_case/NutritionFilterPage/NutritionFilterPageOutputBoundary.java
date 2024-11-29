@@ -16,6 +16,10 @@ public interface NutritionFilterPageOutputBoundary {
      */
     void prepareFailView(String errorMessage);
 
+    /**
+     * Prepares the NutritionFilter view, typically used for displaying or transitioning to
+     * the user interface related to nutrition filter.
+     */
     void prepareNutritionFilterPage(String username);
 
     void prepareHomepage(String username);

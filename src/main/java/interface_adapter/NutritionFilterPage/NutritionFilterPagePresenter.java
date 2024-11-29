@@ -64,6 +64,10 @@ public class NutritionFilterPagePresenter implements NutritionFilterPageOutputBo
         viewManagerModel.firePropertyChanged();
     }
 
+    /**
+     * Prepares the HomepageView by firing a property change event in the ViewModel
+     * and updating the state in the ViewManager.
+     */
     @Override
     public void prepareHomepage(String username) {
         viewManagerModel.setState(homepageViewModel.getViewName());

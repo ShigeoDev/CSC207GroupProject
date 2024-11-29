@@ -55,11 +55,15 @@ public class NutritionFilterPageInteractor implements NutritionFilterPageInputBo
 
     @Override
     public void switchToHomepage(String username) {
-        outputBoundary.prepareNutritionFilterPage(username);
+        outputBoundary.prepareHomepage(username);
     }
 
+    /**
+     * Switches the user interface to the NutritionFilter view.
+     * This method delegates to the presenter to handle the UI transition.
+     */
     @Override
     public void switchToNutritionFilterPage(String username) {
-        outputBoundary.prepareHomepage(username);
+        outputBoundary.prepareNutritionFilterPage(username);
     }
 }

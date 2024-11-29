@@ -11,6 +11,10 @@ public interface NutritionFilterPageInputBoundrary {
      */
     void execute(NutritionFilterPageInputData nutritionFilterPageInputData);
 
+    /**
+     * Switches the context or system mode to focus on nutrition filter operations,
+     * such as filtering or categorizing items by nutrients.
+     */
     void switchToHomepage(String username);
 
     void switchToNutritionFilterPage(String username);
