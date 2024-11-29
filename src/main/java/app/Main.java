@@ -2,7 +2,7 @@ package app;
 
 import javax.swing.*;
 
-/*
+/**
 Run this to run program
  */
 public class Main {
@@ -14,14 +14,21 @@ public class Main {
                 .addHomepageView()
                 .addStoreRecipeView()
                 .addMealPlanView()
+                .addDishTypeView()
+                .addGetCaloriesView()
+                .addNutritionFilterPageView()
                 .addSignupUseCase()
                 .addLoginUseCase()
                 .addHomepageUseCase()
                 .addStoreRecipeUseCase()
                 .addMealPlanUseCase()
+                .addDishTypeUseCase()
+                .addGetCaloriesUseCase()
+                .addNutritionFilterPageUseCase()
                 .build();
 
         application.pack();
+        application.setSize(1000,800);
         application.setVisible(true);
     }
 }
