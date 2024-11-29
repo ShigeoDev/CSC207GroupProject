@@ -4,35 +4,29 @@ import data_access.ApiDataAccessObject;
 import data_access.FileUserDataAccessObject;
 import org.json.JSONObject;
 
+/**
+ * Interactor class that implements the logic for the Homepage use case.
+ * Handles execution of homepage-related operations
+ */
 public class HomepageInteractor implements HomepageInputBoundary{
 
     private final HomepageOutputBoundary userPresenter;
-    private final FileUserDataAccessObject fileUserDataAccessObject;
-    private final ApiDataAccessObject apiDataAccessObject;
 
-    public HomepageInteractor(FileUserDataAccessObject fileUserDataAccessObject,
-                              HomepageOutputBoundary homepageOutputBoundary,
-                              ApiDataAccessObject apiDataAccessObject) {
+    /**
+     * Constructor for a new HomepageInteractor.
+     * @param homepageOutputBoundary Output boundary to handle the presentation
+     */
+    public HomepageInteractor(HomepageOutputBoundary homepageOutputBoundary) {
         this.userPresenter = homepageOutputBoundary;
-        this.fileUserDataAccessObject = fileUserDataAccessObject;
-        this.apiDataAccessObject = apiDataAccessObject;
     }
 
+    /**
+     * Executes the homepage use case logic.
+     * Prepares the success view.
+     */
     @Override
-    public void savedRecipe(HomepageInputData homepageInputData) {
-        final HomepageOutputData homepageOutputData = new HomepageOutputData(homepageInputData.getUsername(),
-                fileUserDataAccessObject.getRecipes(homepageInputData.getUsername()));
-        userPresenter.prepareSuccessView(homepageOutputData);
+    public void execute() {
+        userPresenter.prepareSuccessView();
     }
 
-    public void mealPlan() {
-        final JSONObject[] recipes = new JSONObject[3];
-        final JSONObject breakfast = apiDataAccessObject.getRecipebyMeal("Breakfast");
-        final JSONObject lunch = apiDataAccessObject.getRecipebyMeal("lunch");
-        final JSONObject dinner = apiDataAccessObject.getRecipebyMeal("dinner");
-        recipes[0] = breakfast;
-        recipes[1] = lunch;
-        recipes[2] = dinner;
-        userPresenter.prepareMealPlanView(recipes);
-    }
 }

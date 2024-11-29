@@ -165,9 +165,9 @@ public class FileUserDataAccessObject implements SignupUserDataAccessInterface,
     public void saveRecipe(JSONObject recipe, String username) {
         boolean in = false;
         for (int i = 0; i < recipes.get(username).size(); i++) {
-                if (recipes.get(username).get(i).getString("label").equals(recipe.getString("label"))) {
-                    in = true;
-                }
+            if (recipes.get(username).get(i).getString("label").equals(recipe.getString("label"))) {
+                in = true;
+            }
         }
         if (!in) {
             recipes.get(username).add(recipe);
