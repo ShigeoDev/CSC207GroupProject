@@ -2,28 +2,34 @@ package interface_adapter.Homepage;
 
 import interface_adapter.MealPlan.MealPlanState;
 import interface_adapter.MealPlan.MealPlanViewModel;
+import interface_adapter.NutritionFilterPage.NutritionFilterPageState;
+import interface_adapter.NutritionFilterPage.NutritionFilterPageViewModel;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.store_recipe.StoreRecipeState;
 import interface_adapter.store_recipe.StoreRecipeViewModel;
 import org.json.JSONObject;
 import use_case.Homepage.HomepageOutputBoundary;
 import use_case.Homepage.HomepageOutputData;
-import use_case.store_recipe.StoreRecipeOutputBoundary;
+
+import java.util.ArrayList;
 
 public class HomepagePresenter implements HomepageOutputBoundary {
     private final HomepageViewModel homepageViewModel;
     private final ViewManagerModel viewManagerModel;
     private final StoreRecipeViewModel storeRecipeViewModel;
     private final MealPlanViewModel mealPlanViewModel;
+    private final NutritionFilterPageViewModel nutritionFilterPageViewModel;
 
     public HomepagePresenter(ViewManagerModel viewManagerModel,
                              HomepageViewModel homepageViewModel,
                              StoreRecipeViewModel storeRecipeViewModel,
-                             MealPlanViewModel mealPlanViewModel) {
+                             MealPlanViewModel mealPlanViewModel,
+                             NutritionFilterPageViewModel nutritionFilterPageViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.homepageViewModel = homepageViewModel;
         this.storeRecipeViewModel = storeRecipeViewModel;
         this.mealPlanViewModel = mealPlanViewModel;
+        this.nutritionFilterPageViewModel = nutritionFilterPageViewModel;
     }
 
     @Override

@@ -10,4 +10,8 @@ public interface NutritionFilterPageInputBoundrary {
      * @param nutritionFilterPageInputData the input data for this use case
      */
     void execute(NutritionFilterPageInputData nutritionFilterPageInputData);
+
+    void switchToHomepage(String username);
+
+    void switchToNutritionFilterPage(String username);
 }

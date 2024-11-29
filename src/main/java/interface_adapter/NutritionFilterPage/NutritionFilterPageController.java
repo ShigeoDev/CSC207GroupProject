@@ -30,4 +30,14 @@ public class NutritionFilterPageController {
         interactor.execute(nutritionFilterPageInputData);
     }
 
+    /**
+     * Switches to the NutritionFilterPage.
+     */
+    public void switchToNutritionFilterPage(String username) {
+        interactor.switchToNutritionFilterPage(username);
+    }
+
+    public void switchToHomepage(String username) {
+        interactor.switchToHomepage(username);
+    }
 }

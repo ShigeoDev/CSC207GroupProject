@@ -52,4 +52,14 @@ public class NutritionFilterPageInteractor implements NutritionFilterPageInputBo
             outputBoundary.prepareFailView("An error occurred while fetching recipes: " + e.getMessage());
         }
     }
+
+    @Override
+    public void switchToHomepage(String username) {
+        outputBoundary.prepareNutritionFilterPage(username);
+    }
+
+    @Override
+    public void switchToNutritionFilterPage(String username) {
+        outputBoundary.prepareHomepage(username);
+    }
 }

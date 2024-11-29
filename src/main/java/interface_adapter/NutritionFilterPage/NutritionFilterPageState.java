@@ -11,12 +11,14 @@ public class NutritionFilterPageState {
     private String selectionError;
     private List<String> recipeDetails = new ArrayList<>();
     private String searchError;
+    private String username;
 
     public NutritionFilterPageState(NutritionFilterPageState copy) {
         this.selectedNutrients = copy.selectedNutrients;
         this.selectionError = copy.selectionError;
         this.recipeDetails = copy.recipeDetails;
         this.searchError = copy.searchError;
+        this.username = copy.username;
     }
 
     // Because of the previous copy constructor, the default constructor must be explicit.
@@ -99,5 +101,13 @@ public class NutritionFilterPageState {
      */
     public void setSearchError(String searchError) {
         this.searchError = searchError;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

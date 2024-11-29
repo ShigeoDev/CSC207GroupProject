@@ -3,6 +3,7 @@ package view;
 import interface_adapter.Homepage.HomepageController;
 import interface_adapter.Homepage.HomepageState;
 import interface_adapter.Homepage.HomepageViewModel;
+import interface_adapter.NutritionFilterPage.NutritionFilterPageController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,10 +17,12 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
     private final HomepageViewModel homepageViewModel;
 
     private HomepageController homepageController;
+    private NutritionFilterPageController nutritionFilterPageController;
 
     final JButton SavedRecipes;
     final JButton SearchRecipes;
     final JButton MealPlan;
+    final JButton NutritionFilter;
 
     /**
      * A window with a title and a JButton.
@@ -35,9 +38,11 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
         SavedRecipes = new JButton(homepageViewModel.Saved_BUTTON_LABEL);
         SearchRecipes = new JButton(homepageViewModel.Search_BUTTON_LABEL);
         MealPlan = new JButton(homepageViewModel.MealPlan_BUTTON_LABEL);
+        NutritionFilter = new JButton(homepageViewModel.NutritionFilter_BUTTON_LABEL);
         buttons.add(MealPlan);
         buttons.add(SearchRecipes);
         buttons.add(SavedRecipes);
+        buttons.add(NutritionFilter);
 
         MealPlan.addActionListener(
                 new ActionListener() {
@@ -58,6 +63,17 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
                     }
                 }
         );
+
+        NutritionFilter.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        final HomepageState currentState = homepageViewModel.getState();
+                        nutritionFilterPageController.switchToNutritionFilterPage(currentState.getUsername());
+                    }
+                }
+        );
+
         SearchRecipes.addActionListener(this);
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

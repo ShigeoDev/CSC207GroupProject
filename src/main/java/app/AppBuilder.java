@@ -186,6 +186,7 @@ public class AppBuilder {
 
         final HomepageController controller = new HomepageController(userStoreRecipeInteractor);
         homepageView.setHomepageController(controller);
+        nutritionFilterPageView.setHomepageController(controller);
         return this;
     }
 
@@ -247,7 +248,7 @@ public class AppBuilder {
      */
     public AppBuilder addNutritionFilterPageUseCase() {
         final NutritionFilterPageOutputBoundary outputBoundary = new NutritionFilterPagePresenter(
-                nutritionFilterPageViewModel);
+                nutritionFilterPageViewModel, viewManagerModel, homepageViewModel);
         final NutritionFilterPageInputBoundrary interactor = new NutritionFilterPageInteractor(
                 apiDataAccessObject, outputBoundary);
         final NutritionFilterPageController controller = new NutritionFilterPageController(interactor);

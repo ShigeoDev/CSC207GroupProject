@@ -1,5 +1,7 @@
 package interface_adapter.NutritionFilterPage;
 
+import interface_adapter.Homepage.HomepageViewModel;
+import interface_adapter.ViewManagerModel;
 import use_case.NutritionFilterPage.NutritionFilterPageOutputBoundary;
 import use_case.NutritionFilterPage.NutritionFilterPageOutputData;
 
@@ -9,9 +11,15 @@ import use_case.NutritionFilterPage.NutritionFilterPageOutputData;
 public class NutritionFilterPagePresenter implements NutritionFilterPageOutputBoundary {
 
     private final NutritionFilterPageViewModel nutritionFilterPageViewModel;
+    private final ViewManagerModel viewManagerModel;
+    private final HomepageViewModel homepageViewModel;
 
-    public NutritionFilterPagePresenter(NutritionFilterPageViewModel nutritionFilterPageViewModel) {
+    public NutritionFilterPagePresenter(NutritionFilterPageViewModel nutritionFilterPageViewModel,
+                                        ViewManagerModel viewManagerModel,
+                                        HomepageViewModel homepageViewModel) {
         this.nutritionFilterPageViewModel = nutritionFilterPageViewModel;
+        this.viewManagerModel = viewManagerModel;
+        this.homepageViewModel = homepageViewModel;
     }
 
     /**
@@ -40,5 +48,25 @@ public class NutritionFilterPagePresenter implements NutritionFilterPageOutputBo
         state.setRecipeDetails(null);
 
         nutritionFilterPageViewModel.setState(state);
+    }
+
+    /**
+     * Prepares the NutritionFilterPageView by firing a property change event in the ViewModel
+     * and updating the state in the ViewManager.
+     */
+    @Override
+    public void prepareNutritionFilterPage(String username) {
+        NutritionFilterPageState state = new NutritionFilterPageState();
+        state.setUsername(username);
+        nutritionFilterPageViewModel.setState(state);
+        nutritionFilterPageViewModel.firePropertyChanged();
+        viewManagerModel.setState(nutritionFilterPageViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void prepareHomepage(String username) {
+        viewManagerModel.setState(homepageViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 }

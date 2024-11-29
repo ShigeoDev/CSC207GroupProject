@@ -1,5 +1,6 @@
 package view;
 
+import interface_adapter.Homepage.HomepageController;
 import interface_adapter.NutritionFilterPage.NutritionFilterPageController;
 import interface_adapter.NutritionFilterPage.NutritionFilterPageState;
 import interface_adapter.NutritionFilterPage.NutritionFilterPageViewModel;
@@ -22,6 +23,14 @@ public class NutritionFilterPageView extends JPanel implements ActionListener, P
     private final NutritionFilterPageViewModel viewModel;
 
     private NutritionFilterPageController controller;
+    private HomepageController homepageController;
+
+    private final JLabel errorLabel = new JLabel();
+
+    private final JTextArea resultsArea = new JTextArea();
+
+    private final JButton submitButton = new JButton("Find Recipes");;
+    private final JButton homeButton = new JButton("Home");
 
     private final JCheckBox vitaminACheckBox = new JCheckBox("Vitamin A");
     private final JCheckBox vitaminCCheckBox = new JCheckBox("Vitamin C");
@@ -45,12 +54,6 @@ public class NutritionFilterPageView extends JPanel implements ActionListener, P
     private final JCheckBox magnesiumCheckBox = new JCheckBox("MAGNESIUM");
     private final JCheckBox phosphorusCheckBox = new JCheckBox("PHOSPHORUS");
 
-    private final JLabel errorLabel = new JLabel();
-
-    private final JTextArea resultsArea = new JTextArea();
-
-    private final JButton submitButton;
-
     public NutritionFilterPageView(NutritionFilterPageViewModel viewModel) {
         this.viewModel = viewModel;
         this.viewModel.addPropertyChangeListener(this);
@@ -60,7 +63,7 @@ public class NutritionFilterPageView extends JPanel implements ActionListener, P
 
         // Nutrient selection panel
         final JPanel nutrientPanel = new JPanel();
-        nutrientPanel.setLayout(new GridLayout(0, 1));
+        nutrientPanel.setLayout(new GridLayout(0, 2));
         nutrientPanel.add(vitaminACheckBox);
         nutrientPanel.add(vitaminCCheckBox);
         nutrientPanel.add(vitaminB1CheckBox);
@@ -83,12 +86,23 @@ public class NutritionFilterPageView extends JPanel implements ActionListener, P
         nutrientPanel.add(magnesiumCheckBox);
         nutrientPanel.add(phosphorusCheckBox);
 
-
         // Error label
         errorLabel.setForeground(Color.RED);
 
-        // Submit button
-        submitButton = new JButton("Find Recipes");
+        // Button panel with submit button
+        final JPanel buttons = new JPanel();
+        buttons.add(submitButton);
+        buttons.add(homeButton);
+
+        // Set action listener for home button
+        homeButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        final NutritionFilterPageState currentState = viewModel.getState();
+                        controller.switchToHomepage(currentState.getUsername());
+                    }
+                }
+        );
 
         resultsArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(resultsArea);
@@ -97,7 +111,7 @@ public class NutritionFilterPageView extends JPanel implements ActionListener, P
         this.add(title);
         this.add(nutrientPanel);
         this.add(errorLabel);
-        this.add(submitButton);
+        this.add(buttons);
         this.add(scrollPane);
 
         submitButton.addActionListener(this);
@@ -263,5 +277,8 @@ public class NutritionFilterPageView extends JPanel implements ActionListener, P
      */
     public void setController(NutritionFilterPageController controller) {
         this.controller = controller;
+    }
+
+    public void setHomepageController(HomepageController controller) { this.homepageController = controller;
     }
 }

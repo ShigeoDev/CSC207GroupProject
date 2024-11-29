@@ -15,4 +15,8 @@ public interface NutritionFilterPageOutputBoundary {
      * @param errorMessage the explanation of the failure
      */
     void prepareFailView(String errorMessage);
+
+    void prepareNutritionFilterPage(String username);
+
+    void prepareHomepage(String username);
 }
