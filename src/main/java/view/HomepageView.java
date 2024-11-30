@@ -6,6 +6,7 @@ import interface_adapter.Homepage.HomepageController;
 import interface_adapter.Homepage.HomepageState;
 import interface_adapter.Homepage.HomepageViewModel;
 import interface_adapter.MealPlan.MealPlanController;
+import interface_adapter.NutritionFilterPage.NutritionFilterPageController;
 import interface_adapter.store_recipe.StoreRecipeController;
 
 import javax.swing.*;
@@ -29,12 +30,14 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
     private StoreRecipeController storeRecipeController;
     private MealPlanController mealPlanController;
     private DishTypeController dishTypeController;
-    private GetCaloriesController getCaloriesController;;
+    private GetCaloriesController getCaloriesController;
+    private NutritionFilterPageController nutritionFilterPageController;
 
     final JButton SavedRecipes;
     final JButton MealPlan;
     final JButton DishType;
     final JButton GetCalories;
+    final JButton NutritionFilter;
 
     /**
      * Constructs a new HomepageView.
@@ -53,6 +56,7 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
         MealPlan = new JButton(homepageViewModel.MealPlan_BUTTON_LABEL);
         DishType = new JButton("Search By Dish Type");
         GetCalories = new JButton(homepageViewModel.GetCalories_BUTTON_LABEL);
+        NutritionFilter = new JButton(homepageViewModel.NutritionFilter_BUTTON_LABEL);
 
         buttons.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -60,6 +64,7 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
         buttons.add(SavedRecipes);
         buttons.add(DishType);
         buttons.add(GetCalories);
+        buttons.add(NutritionFilter);
 
         GetCalories.addActionListener(
                 new ActionListener() {
@@ -101,6 +106,16 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
                     public void actionPerformed(ActionEvent e) {
                         final HomepageState currentState = homepageViewModel.getState();
                         dishTypeController.switchToDishType(currentState.getUsername());
+                    }
+                }
+        );
+
+        NutritionFilter.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        final HomepageState currentState = homepageViewModel.getState();
+                        nutritionFilterPageController.switchToNutritionFilterPage(currentState.getUsername());
                     }
                 }
         );
@@ -175,6 +190,14 @@ public class HomepageView extends JPanel implements ActionListener, PropertyChan
      */
     public void setGetCaloriesController(GetCaloriesController controller) {
         this.getCaloriesController = controller;
+    }
+
+    /**
+     * Sets the NutritionFilterPage controller.
+     * @param controller Controller to handle filter based on Nutrition use case
+     */
+    public void setNutritionFilterPageController(NutritionFilterPageController controller) {
+        this.nutritionFilterPageController = controller;
     }
 }
 

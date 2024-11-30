@@ -15,6 +15,7 @@ public class HomepageViewModel extends ViewModel {
     public final String Saved_BUTTON_LABEL = "Saved";
     public final String MealPlan_BUTTON_LABEL = "Meal Planner";
     public final String GetCalories_BUTTON_LABEL = "Get Calories";
+    public final String NutritionFilter_BUTTON_LABEL = "Nutrition Filter";
 
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 

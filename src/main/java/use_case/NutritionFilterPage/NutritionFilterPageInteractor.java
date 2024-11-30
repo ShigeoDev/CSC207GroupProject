@@ -1,11 +1,8 @@
 package use_case.NutritionFilterPage;
 
-import entity.Nutrient;
-import entity.Recipe;
+import org.json.JSONArray;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * The Filter Based on Nutrition Interactor.
@@ -14,35 +11,64 @@ public class NutritionFilterPageInteractor implements NutritionFilterPageInputBo
     private final NutritionFilterPageDataAccessInterface dataAccess;
     private final NutritionFilterPageOutputBoundary outputBoundary;
 
+    /**
+     * Constructs a new {@code NutritionFilterPageInteractor} with the specified data access interface and output boundary.
+     * <p>
+     * This constructor initializes the interactor for the Nutrition Filter Page use case, setting up
+     * the necessary components for accessing data and presenting output.
+     * </p>
+     *
+     * @param dataAccess      the {@code NutritionFilterPageDataAccessInterface} used for data retrieval
+     * @param outputBoundary  the {@code NutritionFilterPageOutputBoundary} used for presenting the results
+     */
     public NutritionFilterPageInteractor(NutritionFilterPageDataAccessInterface dataAccess,
                                          NutritionFilterPageOutputBoundary outputBoundary) {
         this.dataAccess = dataAccess;
         this.outputBoundary = outputBoundary;
     }
 
+    /**
+     * Executes the Nutrition Filter Page use case by processing the user's selected nutrients.
+     *
+     * @param nutritionFilterPageInputData the input data containing the list of selected nutrients
+     * @return a {@code JSONArray} of recipes matching the selected nutrients,
+     * or {@code null} if an error occurs.
+     */
     @Override
-    public void execute(NutritionFilterPageInputData nutritionFilterPageInputData) {
-        List<Recipe> allRecipes = dataAccess.getAllRecipes();
-        List<String> selectedNutrients = nutritionFilterPageInputData.getSelectedNutrients();
-
-        List<String> matchedRecipes = new ArrayList<>();
-        for (Recipe recipe : allRecipes) {
-            Map<String, Double> nutrientsMap = recipe.getNutrients();
-            boolean containsAllNutrients = true;
-
-            for (String nutrientName : selectedNutrients) {
-                if (!nutrientsMap.containsKey(nutrientName)) {
-                    containsAllNutrients = false;
-                    break;
-                }
+    public JSONArray execute(NutritionFilterPageInputData nutritionFilterPageInputData) {
+        try {
+            ArrayList<String> selectedNutrients = nutritionFilterPageInputData.getSelectedNutrients();
+            if (selectedNutrients == null || selectedNutrients.isEmpty()) {
+                outputBoundary.prepareFailView("No nutrients selected for filtering.");
             }
 
-            if (containsAllNutrients) {
-                matchedRecipes.add(recipe.getName());
+            JSONArray recipes = dataAccess.getRecipesByNutrients(selectedNutrients);
+
+            if (recipes.isEmpty()) {
+                outputBoundary.prepareFailView("No recipes found matching the selected nutrients.");
+            } else {
+                NutritionFilterPageOutputData outputData = new NutritionFilterPageOutputData(recipes,
+                        false);
+                outputBoundary.prepareSuccessView(outputData);
+                return recipes;
             }
+        } catch (RuntimeException e) {
+            outputBoundary.prepareFailView("An error occurred while fetching recipes: " + e.getMessage());
         }
+        return null;
+    }
 
-        NutritionFilterPageOutputData outputData = new NutritionFilterPageOutputData(matchedRecipes, false);
-        outputBoundary.prepareSuccessView(outputData);
+    @Override
+    public void switchToHomepage(String username) {
+        outputBoundary.prepareHomepage(username);
+    }
+
+    /**
+     * Switches the user interface to the NutritionFilter view.
+     * This method delegates to the presenter to handle the UI transition.
+     */
+    @Override
+    public void switchToNutritionFilterPage(String username) {
+        outputBoundary.prepareNutritionFilterPage(username);
     }
 }

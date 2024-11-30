@@ -30,6 +30,8 @@ public class Main {
                 .addDishTypeView()
                 // Add the Get Calories view
                 .addGetCaloriesView()
+                // Add the Nutrition Filter view
+                .addNutritionFilterPageView()
                 // Add the Signup use case
                 .addSignupUseCase()
                 // Add the Login use case
@@ -44,6 +46,8 @@ public class Main {
                 .addDishTypeUseCase()
                 // Add the Get Calories use case
                 .addGetCaloriesUseCase()
+                // Add the Nutrition Filter use case
+                .addNutritionFilterPageUseCase()
                 //Build the application
                 .build();
 

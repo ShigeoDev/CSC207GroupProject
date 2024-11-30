@@ -1,5 +1,9 @@
 package use_case.Homepage;
 
+import data_access.ApiDataAccessObject;
+import data_access.FileUserDataAccessObject;
+import org.json.JSONObject;
+
 /**
  * Interactor class that implements the logic for the Homepage use case.
  * Handles execution of homepage-related operations

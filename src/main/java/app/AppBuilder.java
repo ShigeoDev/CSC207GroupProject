@@ -9,6 +9,9 @@ import entity.UserFactory;
 import interface_adapter.MealPlan.MealPlanController;
 import interface_adapter.MealPlan.MealPlanPresenter;
 import interface_adapter.MealPlan.MealPlanViewModel;
+import interface_adapter.NutritionFilterPage.NutritionFilterPageController;
+import interface_adapter.NutritionFilterPage.NutritionFilterPagePresenter;
+import interface_adapter.NutritionFilterPage.NutritionFilterPageViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
@@ -21,6 +24,9 @@ import use_case.Login.LoginOutputBoundary;
 import use_case.MealPlan.MealPlanInputBoundary;
 import use_case.MealPlan.MealPlanInteractor;
 import use_case.MealPlan.MealPlanOutputBoundary;
+import use_case.NutritionFilterPage.NutritionFilterPageInputBoundrary;
+import use_case.NutritionFilterPage.NutritionFilterPageInteractor;
+import use_case.NutritionFilterPage.NutritionFilterPageOutputBoundary;
 import use_case.Signup.SignupInputBoundary;
 import use_case.Signup.SignupInteractor;
 import use_case.Signup.SignupOutputBoundary;
@@ -45,7 +51,6 @@ import use_case.Homepage.HomepageOutputBoundary;
 import use_case.searchByDishType.DishTypeInputBoundary;
 import use_case.searchByDishType.DishTypeInteractor;
 import use_case.searchByDishType.DishTypeOutputBoundary;
-import use_case.searchByDishType.DishTypeUserDataAccessInterface;
 import view.*;
 import use_case.store_recipe.StoreRecipeInputBoundary;
 import use_case.store_recipe.StoreRecipeInteractor;
@@ -94,6 +99,9 @@ public class AppBuilder {
 
     private MealPlanViewModel mealPlanViewModel;
     private MealPlanView mealPlanView;
+  
+    private NutritionFilterPageView nutritionFilterPageView;
+    private NutritionFilterPageViewModel nutritionFilterPageViewModel;
 
     /**
      * Constructor for AppBuilder.
@@ -199,7 +207,8 @@ public class AppBuilder {
 
     public AppBuilder addHomepageUseCase() {
         final HomepageOutputBoundary homepageOutputBoundary = new HomepagePresenter(viewManagerModel,
-                homepageViewModel, storeRecipeViewModel, mealPlanViewModel, dishTypeViewModel, getCaloriesViewModel);
+                homepageViewModel, storeRecipeViewModel, mealPlanViewModel, dishTypeViewModel, getCaloriesViewModel,
+                nutritionFilterPageViewModel);
         final HomepageInputBoundary userStoreRecipeInteractor = new HomepageInteractor(homepageOutputBoundary);
 
         final HomepageController controller = new HomepageController(userStoreRecipeInteractor);
@@ -298,6 +307,34 @@ public class AppBuilder {
         return this;
     }
 
+    /**
+     * Adds the Nutrition Filter Page View to the application.
+     * @return this builder instance for method chaining
+     */
+    public AppBuilder addNutritionFilterPageView() {
+        nutritionFilterPageViewModel = new NutritionFilterPageViewModel();
+        nutritionFilterPageView = new NutritionFilterPageView(nutritionFilterPageViewModel);
+        cardPanel.add(nutritionFilterPageView, nutritionFilterPageView.getName());
+        return this;
+    }
+
+    /**
+     * Sets up the Nutrition Filter Page use case by creating the presenter, interactor,
+     * and controller, and linking them together.
+     * @return this builder instance for method chaining
+     */
+    public AppBuilder addNutritionFilterPageUseCase() {
+        final NutritionFilterPageOutputBoundary outputBoundary = new NutritionFilterPagePresenter(
+                nutritionFilterPageViewModel, viewManagerModel, homepageViewModel);
+        final NutritionFilterPageInputBoundrary interactor = new NutritionFilterPageInteractor(
+                apiDataAccessObject, outputBoundary);
+        final NutritionFilterPageController controller = new NutritionFilterPageController(interactor);
+
+        homepageView.setNutritionFilterPageController(controller);
+        nutritionFilterPageView.setController(controller);
+        return this;
+    }
+  
     /**
      * Builds and returns the main application frame.
      * Initializes the application frame, sets its default state, and prepares the cardPanel.

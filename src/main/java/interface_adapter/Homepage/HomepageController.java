@@ -1,7 +1,6 @@
 package interface_adapter.Homepage;
 
 import use_case.Homepage.HomepageInputBoundary;
-import use_case.Homepage.HomepageInputData;
 
 /**
  * Controller class for the Homepage view.
@@ -26,4 +25,3 @@ public class HomepageController {
         userHomepageUseCaseInteractor.execute();
     }
 }
-
