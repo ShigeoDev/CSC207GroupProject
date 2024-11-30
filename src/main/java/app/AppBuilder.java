@@ -56,15 +56,23 @@ import javax.swing.*;
 import java.awt.*;
 
 public class AppBuilder {
+    // Panel to hold and switch between different views
     private final JPanel cardPanel = new JPanel();
+    // CardLayout to manage the different views (panels) in the application
     private final CardLayout cardLayout = new CardLayout();
+    // Factory for creating User objects
     private final UserFactory userFactory = new UserFactory();
+    // Model to manage view states
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
+    // Manager to control switching between views
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
+    // Data access object for storing user data
     private final FileUserDataAccessObject userDataAccessObject = new FileUserDataAccessObject("data.json", userFactory);
+    // Data access object for API
     private final ApiDataAccessObject apiDataAccessObject = new ApiDataAccessObject();
 
+    // Various views and their corresponding view models
     private SignupView signupView;
     private SignupViewModel signupViewModel;
 
@@ -88,6 +96,10 @@ public class AppBuilder {
     private MealPlanViewModel mealPlanViewModel;
     private MealPlanView mealPlanView;
 
+    /**
+     * Constructor for AppBuilder.
+     * Initializes the cardPanel with a CardLayout.
+     */
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
     }
@@ -125,6 +137,13 @@ public class AppBuilder {
         return this;
     }
 
+    /**
+     * Adds the MealPlan View to the application.
+     * Creates and initializes the mealPlanView and  mealPlanViewModel.
+     * Add the mealPlanView with the cardPanel.
+     *
+     * @return this builder
+     */
     public AppBuilder addMealPlanView() {
         mealPlanViewModel = new MealPlanViewModel();
         mealPlanView = new MealPlanView(mealPlanViewModel);
@@ -132,6 +151,12 @@ public class AppBuilder {
         return this;
     }
 
+    /**
+     * Sets up the MealPlan use case.
+     * Creates and connects the Presenter, Interactor, and Controller for MealPlan functionality.
+     *
+     * @return this builder
+     */
     public AppBuilder addMealPlanUseCase() {
         final MealPlanOutputBoundary mealPlanOutputBoundary = new MealPlanPresenter(viewManagerModel,
                 homepageViewModel,
@@ -274,6 +299,12 @@ public class AppBuilder {
         return this;
     }
 
+    /**
+     * Builds and returns the main application frame.
+     * Initializes the application frame, sets its default state, and prepares the cardPanel.
+     *
+     * @return the JFrame containing the application
+     */
     public JFrame build() {
         final JFrame application = new JFrame("Recipe Search");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
