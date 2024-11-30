@@ -99,7 +99,7 @@ public class AppBuilder {
 
     private MealPlanViewModel mealPlanViewModel;
     private MealPlanView mealPlanView;
-
+  
     private NutritionFilterPageView nutritionFilterPageView;
     private NutritionFilterPageViewModel nutritionFilterPageViewModel;
 
@@ -334,7 +334,7 @@ public class AppBuilder {
         nutritionFilterPageView.setController(controller);
         return this;
     }
-
+  
     /**
      * Builds and returns the main application frame.
      * Initializes the application frame, sets its default state, and prepares the cardPanel.
