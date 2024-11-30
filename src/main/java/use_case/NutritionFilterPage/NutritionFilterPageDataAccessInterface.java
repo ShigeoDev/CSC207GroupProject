@@ -2,7 +2,7 @@ package use_case.NutritionFilterPage;
 
 import org.json.JSONArray;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * The interface of the DAO for the Filter Based on Nutrition Use Case.
@@ -19,7 +19,6 @@ public interface NutritionFilterPageDataAccessInterface {
      *
      * @param selectedNutrients a list of nutrient names selected by the user for filtering recipes
      * @return a {@code JSONArray} containing the recipes that match the nutrient criteria
-     * @throws RuntimeException if an error occurs during the API call or data parsing
      */
-    JSONArray getRecipesByNutrients(List<String> selectedNutrients);
+    JSONArray getRecipesByNutrients(ArrayList<String> selectedNutrients);
 }

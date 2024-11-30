@@ -1,8 +1,11 @@
 package interface_adapter.NutritionFilterPage;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import use_case.NutritionFilterPage.NutritionFilterPageInputBoundrary;
 import use_case.NutritionFilterPage.NutritionFilterPageInputData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,6 +14,16 @@ import java.util.List;
 public class NutritionFilterPageController {
     private final NutritionFilterPageInputBoundrary interactor;
 
+    /**
+     * Constructs a new {@code NutritionFilterPageController} with the specified interactor.
+     * <p>
+     * This constructor initializes the controller for the Nutrition Filter Page use case,
+     * setting up the interaction between the user's actions and the use case interactor.
+     * </p>
+     *
+     * @param interactor the {@code NutritionFilterPageInputBoundrary} that handles the input processing
+     *                   and use case execution for filtering based on nutrition
+     */
     public NutritionFilterPageController(NutritionFilterPageInputBoundrary interactor) {
         this.interactor = interactor;
     }
@@ -18,8 +31,9 @@ public class NutritionFilterPageController {
     /**
      * Executes the Filter Based on Nutrition Use Case.
      * @param selectedNutrients the selected nutrients
+     * @return @return a {@code JSONArray} of recipes matching the selected nutrients.
      */
-    public void execute(List<String> selectedNutrients) {
+    public JSONArray execute(ArrayList<String> selectedNutrients) {
         if (selectedNutrients == null || selectedNutrients.isEmpty()) {
             throw new IllegalArgumentException("Selected nutrients cannot be null or empty.");
         }
@@ -27,7 +41,7 @@ public class NutritionFilterPageController {
         final NutritionFilterPageInputData nutritionFilterPageInputData = new NutritionFilterPageInputData(
                 selectedNutrients);
 
-        interactor.execute(nutritionFilterPageInputData);
+        return interactor.execute(nutritionFilterPageInputData);
     }
 
     /**

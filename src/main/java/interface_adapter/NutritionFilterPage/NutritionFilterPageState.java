@@ -1,15 +1,16 @@
 package interface_adapter.NutritionFilterPage;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The State for the Filter Based on Nutrition Use Case.
  */
 public class NutritionFilterPageState {
-    private List<String> selectedNutrients = new ArrayList<>();
+    private ArrayList<String> selectedNutrients = new ArrayList<>();
     private String selectionError;
-    private List<String> recipeDetails = new ArrayList<>();
+    private JSONArray recipeDetails = null;
     private String searchError;
     private String username;
 
@@ -29,7 +30,7 @@ public class NutritionFilterPageState {
      * Retrieves the list of nutrients selected by the user.
      * @return a {@code List<String>} containing the names of the selected nutrients; may be empty but not {@code null}
      */
-    public List<String> getSelectedNutrients() {
+    public ArrayList<String> getSelectedNutrients() {
         return selectedNutrients;
     }
 
@@ -41,7 +42,7 @@ public class NutritionFilterPageState {
      * If the provided list is {@code null}, the current list will be cleared.
      * @param selectedNutrients the list of nutrient names selected by the user; may be {@code null}
      */
-    public void setSelectedNutrients(List<String> selectedNutrients) {
+    public void setSelectedNutrients(ArrayList<String> selectedNutrients) {
         this.selectedNutrients.clear();
         if (selectedNutrients != null) {
             this.selectedNutrients.addAll(selectedNutrients);
@@ -66,9 +67,9 @@ public class NutritionFilterPageState {
 
     /**
      * Retrieves the list of recipe details for the current state.
-     * @return a {@code List<String>} containing recipe details; may be empty but not {@code null}
+     * @return a {@code JSONArray} containing recipe details; may be empty but not {@code null}
      */
-    public List<String> getRecipeDetails() {
+    public JSONArray getRecipeDetails() {
         return recipeDetails;
     }
 
@@ -80,11 +81,8 @@ public class NutritionFilterPageState {
      * If the provided list is {@code null}, the current list will be cleared.
      * @param recipeDetails the list of recipe details to set; may be {@code null} to clear the list
      */
-    public void setRecipeDetails(List<String> recipeDetails) {
-        this.recipeDetails.clear();
-        if (recipeDetails != null) {
-            this.recipeDetails.addAll(recipeDetails);
-        }
+    public void setRecipeDetails(JSONArray recipeDetails) {
+        this.recipeDetails = recipeDetails;
     }
 
     /**

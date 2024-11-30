@@ -14,8 +14,8 @@ import use_case.searchByDishType.DishTypeUserDataAccessInterface;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ApiDataAccessObject implements DishTypeUserDataAccessInterface, MealPlanDataAccessInterface,
@@ -100,10 +100,9 @@ public class ApiDataAccessObject implements DishTypeUserDataAccessInterface, Mea
      * Retrieves a list of recipes from the Edamam API that are high in the specified nutrients.
      * @param selectedNutrients a list of nutrient names selected by the user for filtering recipes
      * @return a {@code JSONArray} containing the recipes that match the nutrient criteria
-     * @throws RuntimeException if an error occurs during the API call or JSON parsing
      */
     @Override
-    public JSONArray getRecipesByNutrients(List<String> selectedNutrients) {
+    public JSONArray getRecipesByNutrients(ArrayList<String> selectedNutrients) {
         final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
         String baseUrl = String.format("%s/api/recipes/v2?type=public&app_id=%s&app_key=%s&random=true", Url, Id, Key);
@@ -116,7 +115,7 @@ public class ApiDataAccessObject implements DishTypeUserDataAccessInterface, Mea
             String nutrientId = nutrientNameToId.get(nutrientName);
             if (nutrientId != null) {
                 String paramName = String.format("nutrients[%s]", nutrientId);
-                String paramValue = "5+";
+                String paramValue = "1+";
 
                 String encodedParamName = URLEncoder.encode(paramName, StandardCharsets.UTF_8);
                 String encodedParamValue = URLEncoder.encode(paramValue, StandardCharsets.UTF_8);
@@ -132,18 +131,19 @@ public class ApiDataAccessObject implements DishTypeUserDataAccessInterface, Mea
 
         try {
             final Response response = client.newCall(request).execute();
-            assert response.body() != null;
-            final JSONObject responseBody = new JSONObject(response.body().string());
 
-            System.out.println(response);
-
-            if (response.isSuccessful()) {
-                return responseBody.getJSONArray("hits");
-            } else {
-                throw new RuntimeException(responseBody.optString(MESSAGE, "Unknown error occurred."));
+            if (!response.isSuccessful()) {
+                throw new RuntimeException("API request failed with code: " + response.code() +
+                        " and message: " + response.message());
             }
+
+            String responseBodyString = response.body().string();
+
+            final JSONObject responseBody = new JSONObject(responseBodyString);
+            return responseBody.optJSONArray("hits");
         } catch (IOException | JSONException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            throw new RuntimeException("An error occurred during the API request: " + e.getMessage(), e);
         }
     }
 

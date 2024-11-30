@@ -1,10 +1,8 @@
 package use_case.NutritionFilterPage;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The Filter Based on Nutrition Interactor.
@@ -13,6 +11,16 @@ public class NutritionFilterPageInteractor implements NutritionFilterPageInputBo
     private final NutritionFilterPageDataAccessInterface dataAccess;
     private final NutritionFilterPageOutputBoundary outputBoundary;
 
+    /**
+     * Constructs a new {@code NutritionFilterPageInteractor} with the specified data access interface and output boundary.
+     * <p>
+     * This constructor initializes the interactor for the Nutrition Filter Page use case, setting up
+     * the necessary components for accessing data and presenting output.
+     * </p>
+     *
+     * @param dataAccess      the {@code NutritionFilterPageDataAccessInterface} used for data retrieval
+     * @param outputBoundary  the {@code NutritionFilterPageOutputBoundary} used for presenting the results
+     */
     public NutritionFilterPageInteractor(NutritionFilterPageDataAccessInterface dataAccess,
                                          NutritionFilterPageOutputBoundary outputBoundary) {
         this.dataAccess = dataAccess;
@@ -21,36 +29,33 @@ public class NutritionFilterPageInteractor implements NutritionFilterPageInputBo
 
     /**
      * Executes the Nutrition Filter Page use case by processing the user's selected nutrients.
+     *
      * @param nutritionFilterPageInputData the input data containing the list of selected nutrients
+     * @return a {@code JSONArray} of recipes matching the selected nutrients,
+     * or {@code null} if an error occurs.
      */
     @Override
-    public void execute(NutritionFilterPageInputData nutritionFilterPageInputData) {
+    public JSONArray execute(NutritionFilterPageInputData nutritionFilterPageInputData) {
         try {
-            List<String> selectedNutrients = nutritionFilterPageInputData.getSelectedNutrients();
+            ArrayList<String> selectedNutrients = nutritionFilterPageInputData.getSelectedNutrients();
             if (selectedNutrients == null || selectedNutrients.isEmpty()) {
                 outputBoundary.prepareFailView("No nutrients selected for filtering.");
-                return;
             }
 
-            JSONArray recipesJsonArray = dataAccess.getRecipesByNutrients(selectedNutrients);
+            JSONArray recipes = dataAccess.getRecipesByNutrients(selectedNutrients);
 
-            if (recipesJsonArray.isEmpty()) {
+            if (recipes.isEmpty()) {
                 outputBoundary.prepareFailView("No recipes found matching the selected nutrients.");
             } else {
-                // Parse JSONArray into a list of recipe names or details
-                List<String> recipeNames = new ArrayList<>();
-                for (int i = 0; i < recipesJsonArray.length(); i++) {
-                    JSONObject recipeJson = recipesJsonArray.getJSONObject(i).getJSONObject("recipe");
-                    String recipeName = recipeJson.getString("label");
-                    recipeNames.add(recipeName);
-                }
-                NutritionFilterPageOutputData outputData = new NutritionFilterPageOutputData(recipeNames,
+                NutritionFilterPageOutputData outputData = new NutritionFilterPageOutputData(recipes,
                         false);
                 outputBoundary.prepareSuccessView(outputData);
+                return recipes;
             }
         } catch (RuntimeException e) {
             outputBoundary.prepareFailView("An error occurred while fetching recipes: " + e.getMessage());
         }
+        return null;
     }
 
     @Override

@@ -14,6 +14,18 @@ public class NutritionFilterPagePresenter implements NutritionFilterPageOutputBo
     private final ViewManagerModel viewManagerModel;
     private final HomepageViewModel homepageViewModel;
 
+    /**
+     * Constructs a new {@code NutritionFilterPagePresenter} with the specified view models.
+     * <p>
+     * This constructor initializes the presenter for the Nutrition Filter Page use case.
+     * It sets up the necessary view models to handle the interactions between the Nutrition Filter Page,
+     * the View Manager, and the Homepage.
+     * </p>
+     *
+     * @param nutritionFilterPageViewModel the {@code NutritionFilterPageViewModel} used to manage the state of the Nutrition Filter Page view
+     * @param viewManagerModel             the {@code ViewManagerModel} used to manage and coordinate the overall view state transitions
+     * @param homepageViewModel            the {@code HomepageViewModel} used to manage the state of the Homepage view
+     */
     public NutritionFilterPagePresenter(NutritionFilterPageViewModel nutritionFilterPageViewModel,
                                         ViewManagerModel viewManagerModel,
                                         HomepageViewModel homepageViewModel) {
@@ -30,9 +42,16 @@ public class NutritionFilterPagePresenter implements NutritionFilterPageOutputBo
     public void prepareSuccessView(NutritionFilterPageOutputData outputData) {
         NutritionFilterPageState state = nutritionFilterPageViewModel.getState();
 
-        state.setRecipeDetails(outputData.getRecipeNames());
+        // Ensure the state is not null before modifying it.
+        if (state == null) {
+            state = new NutritionFilterPageState();
+        }
+
+        // Set the new data.
+        state.setRecipeDetails(outputData.getRecipes());
         state.setSearchError(null);
 
+        // Update the state in the ViewModel.
         nutritionFilterPageViewModel.setState(state);
     }
 

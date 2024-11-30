@@ -39,7 +39,6 @@ import interface_adapter.Homepage.HomepageController;
 import interface_adapter.Homepage.HomepagePresenter;
 import interface_adapter.Homepage.HomepageViewModel;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.signup.SignupController;
 import interface_adapter.store_recipe.StoreRecipeController;
 import interface_adapter.store_recipe.StoreRecipePresenter;
 import interface_adapter.store_recipe.StoreRecipeViewModel;
@@ -52,7 +51,6 @@ import use_case.Homepage.HomepageOutputBoundary;
 import use_case.searchByDishType.DishTypeInputBoundary;
 import use_case.searchByDishType.DishTypeInteractor;
 import use_case.searchByDishType.DishTypeOutputBoundary;
-import use_case.searchByDishType.DishTypeUserDataAccessInterface;
 import view.*;
 import use_case.store_recipe.StoreRecipeInputBoundary;
 import use_case.store_recipe.StoreRecipeInteractor;
@@ -194,7 +192,6 @@ public class AppBuilder {
         storeRecipeView.setHomepageController(controller);
         getCaloriesView.setHomepageController(controller);
         returnCaloriesView.setHomepageController(controller);
-        nutritionFilterPageView.setHomepageController(controller);
         return this;
     }
 
@@ -292,7 +289,7 @@ public class AppBuilder {
     public AppBuilder addNutritionFilterPageView() {
         nutritionFilterPageViewModel = new NutritionFilterPageViewModel();
         nutritionFilterPageView = new NutritionFilterPageView(nutritionFilterPageViewModel);
-        cardPanel.add(nutritionFilterPageView, nutritionFilterPageView.getViewName());
+        cardPanel.add(nutritionFilterPageView, nutritionFilterPageView.getName());
         return this;
     }
 

@@ -1,9 +1,12 @@
 package view;
 
-import interface_adapter.Homepage.HomepageController;
 import interface_adapter.NutritionFilterPage.NutritionFilterPageController;
 import interface_adapter.NutritionFilterPage.NutritionFilterPageState;
 import interface_adapter.NutritionFilterPage.NutritionFilterPageViewModel;
+import interface_adapter.store_recipe.StoreRecipeController;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,89 +15,70 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The View for the Nutrition Filter Page.
  */
 public class NutritionFilterPageView extends JPanel implements ActionListener, PropertyChangeListener {
-
     private final String viewName = "Nutrition Filter";
+    private JSONArray recipes;
+    private final String[] nutrients = {
+            "Vitamin A", "Vitamin C", "Vitamin B1", "Vitamin B2", "Vitamin B3",
+            "Vitamin B6", "Vitamin B12", "Vitamin D", "Vitamin E", "Vitamin K",
+            "CARBOHYDRATES", "FAT", "SUGAR", "FIBER", "PROTEIN",
+            "IRON", "CALCIUM", "POTASSIUM", "SODIUM", "MAGNESIUM", "PHOSPHORUS"
+    };
 
     private final NutritionFilterPageViewModel viewModel;
-
     private NutritionFilterPageController controller;
-    private HomepageController homepageController;
+    private StoreRecipeController storeRecipeController;
 
-    private final JLabel errorLabel = new JLabel();
-
-    private final JTextArea resultsArea = new JTextArea();
-
-    private final JButton submitButton = new JButton("Find Recipes");;
+    private final JLabel nutrient = new JLabel("Select Nutrients:");
+    private final JButton submitButton = new JButton("Find Recipes");
     private final JButton homeButton = new JButton("Home");
+    private final JPanel resultsPanel = new JPanel();
+    private final JScrollPane resultsScrollPane = new JScrollPane(resultsPanel);
+    private final List<JCheckBox> checkBoxList = new ArrayList<>();
 
-    private final JCheckBox vitaminACheckBox = new JCheckBox("Vitamin A");
-    private final JCheckBox vitaminCCheckBox = new JCheckBox("Vitamin C");
-    private final JCheckBox vitaminB1CheckBox = new JCheckBox("Vitamin B1");
-    private final JCheckBox vitaminB2CheckBox = new JCheckBox("Vitamin B2");
-    private final JCheckBox vitaminB3CheckBox = new JCheckBox("Vitamin B3");
-    private final JCheckBox vitaminB6CheckBox = new JCheckBox("Vitamin B6");
-    private final JCheckBox vitaminB12CheckBox = new JCheckBox("Vitamin B12");
-    private final JCheckBox vitaminDCheckBox = new JCheckBox("Vitamin D");
-    private final JCheckBox vitaminECheckBox = new JCheckBox("Vitamin E");
-    private final JCheckBox vitaminKCheckBox = new JCheckBox("Vitamin K");
-    private final JCheckBox carbsCheckBox = new JCheckBox("CARBOHYDRATES");
-    private final JCheckBox fatCheckBox = new JCheckBox("FAT");
-    private final JCheckBox sugarCheckBox = new JCheckBox("SUGAR");
-    private final JCheckBox fiberCheckBox = new JCheckBox("FIBER");
-    private final JCheckBox proteinCheckBox = new JCheckBox("PROTEIN");
-    private final JCheckBox ironCheckBox = new JCheckBox("IRON");
-    private final JCheckBox calciumCheckBox = new JCheckBox("CALCIUM");
-    private final JCheckBox potassiumCheckBox = new JCheckBox("POTASSIUM");
-    private final JCheckBox sodiumCheckBox = new JCheckBox("SODIUM");
-    private final JCheckBox magnesiumCheckBox = new JCheckBox("MAGNESIUM");
-    private final JCheckBox phosphorusCheckBox = new JCheckBox("PHOSPHORUS");
+    /**
+     * Constructs a new {@code NutritionFilterPageView} with the specified view model.
+     * <p>
+     * This constructor initializes the Nutrition Filter Page view, setting up the UI components
+     * required for user interaction. It displays nutrient selection options, buttons for submitting the request,
+     * and a panel for showing the search results.
+     * </p>
+     *
+     * <p>
+     * The view listens to changes in the {@code NutritionFilterPageViewModel} and updates the displayed results accordingly.
+     * It also handles button actions for submitting selected nutrients and navigating to the homepage.
+     * </p>
+     *
+     * @param nutritionFilterPageViewModel the {@code NutritionFilterPageViewModel} used to manage the state of the Nutrition Filter Page view
+     */
+    public NutritionFilterPageView(NutritionFilterPageViewModel nutritionFilterPageViewModel) {
+        nutrient.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-    public NutritionFilterPageView(NutritionFilterPageViewModel viewModel) {
-        this.viewModel = viewModel;
+        this.viewModel = nutritionFilterPageViewModel;
         this.viewModel.addPropertyChangeListener(this);
 
-        final JLabel title = new JLabel("Nutrition Filter Page");
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        final JPanel checkBoxPanel = new JPanel();
 
-        // Nutrient selection panel
-        final JPanel nutrientPanel = new JPanel();
-        nutrientPanel.setLayout(new GridLayout(0, 2));
-        nutrientPanel.add(vitaminACheckBox);
-        nutrientPanel.add(vitaminCCheckBox);
-        nutrientPanel.add(vitaminB1CheckBox);
-        nutrientPanel.add(vitaminB2CheckBox);
-        nutrientPanel.add(vitaminB3CheckBox);
-        nutrientPanel.add(vitaminB6CheckBox);
-        nutrientPanel.add(vitaminB12CheckBox);
-        nutrientPanel.add(vitaminDCheckBox);
-        nutrientPanel.add(vitaminECheckBox);
-        nutrientPanel.add(vitaminKCheckBox);
-        nutrientPanel.add(carbsCheckBox);
-        nutrientPanel.add(fatCheckBox);
-        nutrientPanel.add(sugarCheckBox);
-        nutrientPanel.add(fiberCheckBox);
-        nutrientPanel.add(proteinCheckBox);
-        nutrientPanel.add(ironCheckBox);
-        nutrientPanel.add(calciumCheckBox);
-        nutrientPanel.add(potassiumCheckBox);
-        nutrientPanel.add(sodiumCheckBox);
-        nutrientPanel.add(magnesiumCheckBox);
-        nutrientPanel.add(phosphorusCheckBox);
+        checkBoxPanel.setLayout(new GridLayout(0, 2));
 
-        // Error label
-        errorLabel.setForeground(Color.RED);
+        ButtonGroup buttonGroup = new ButtonGroup();
+        for (String nutrient : nutrients) {
+            JCheckBox checkBox = new JCheckBox(nutrient);
+            checkBoxList.add(checkBox);
+            checkBoxPanel.add(checkBox);
+            buttonGroup.add(checkBox);
+        }
 
-        // Button panel with submit button
         final JPanel buttons = new JPanel();
+        buttons.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
         buttons.add(submitButton);
         buttons.add(homeButton);
 
-        // Set action listener for home button
         homeButton.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
@@ -104,168 +88,93 @@ public class NutritionFilterPageView extends JPanel implements ActionListener, P
                 }
         );
 
-        resultsArea.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(resultsArea);
+        submitButton.addActionListener(
+                evt -> {
+                    if (evt.getSource().equals(submitButton)) {
+                        ArrayList<String> selectedNutrients = getSelectedNutrients();
+                        recipes = controller.execute(selectedNutrients);
+                        updateResultsPanel(recipes);
+                    }
+                }
+        );
 
+        // Results Panel inside Scroll Pane
+        resultsPanel.setLayout(new BoxLayout(resultsPanel, BoxLayout.Y_AXIS));
+        resultsScrollPane.setPreferredSize(new Dimension(400, 300));
+
+        // Set the main layout
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.add(title);
-        this.add(nutrientPanel);
-        this.add(errorLabel);
+        this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        // Title Label
+        nutrient.setAlignmentX(Component.CENTER_ALIGNMENT);
+        nutrient.setFont(new Font("Arial", Font.BOLD, 24));
+        this.add(nutrient);
+        this.add(Box.createRigidArea(new Dimension(0, 20)));
+
+        // Nutrient Selection Panel
+        this.add(checkBoxPanel);
+        this.add(Box.createRigidArea(new Dimension(0, 10)));
+
+        // Buttons Panel
         this.add(buttons);
-        this.add(scrollPane);
-
-        submitButton.addActionListener(this);
-
-        // Update the ViewModel when checkboxes change
-        vitaminACheckBox.addActionListener(e -> updateSelectedNutrients());
-        vitaminCCheckBox.addActionListener(e -> updateSelectedNutrients());
-        vitaminB1CheckBox.addActionListener(e -> updateSelectedNutrients());
-        vitaminB2CheckBox.addActionListener(e -> updateSelectedNutrients());
-        vitaminB3CheckBox.addActionListener(e -> updateSelectedNutrients());
-        vitaminB6CheckBox.addActionListener(e -> updateSelectedNutrients());
-        vitaminB12CheckBox.addActionListener(e -> updateSelectedNutrients());
-        vitaminDCheckBox.addActionListener(e -> updateSelectedNutrients());
-        vitaminECheckBox.addActionListener(e -> updateSelectedNutrients());
-        vitaminKCheckBox.addActionListener(e -> updateSelectedNutrients());
-        carbsCheckBox.addActionListener(e -> updateSelectedNutrients());
-        fatCheckBox.addActionListener(e -> updateSelectedNutrients());
-        sugarCheckBox.addActionListener(e -> updateSelectedNutrients());
-        fiberCheckBox.addActionListener(e -> updateSelectedNutrients());
-        proteinCheckBox.addActionListener(e -> updateSelectedNutrients());
-        ironCheckBox.addActionListener(e -> updateSelectedNutrients());
-        calciumCheckBox.addActionListener(e -> updateSelectedNutrients());
-        potassiumCheckBox.addActionListener(e -> updateSelectedNutrients());
-        sodiumCheckBox.addActionListener(e -> updateSelectedNutrients());
-        magnesiumCheckBox.addActionListener(e -> updateSelectedNutrients());
-        phosphorusCheckBox.addActionListener(e -> updateSelectedNutrients());
+        this.add(Box.createRigidArea(new Dimension(0, 20)));
+        this.add(resultsScrollPane);
     }
 
     /**
-     * Updates the selected nutrients in the view model based on the current state of the nutrient checkboxes.
-     * <p>
-     * This method collects the nutrients that are currently selected by the user and updates the
-     * {@code NutritionFilterPageState} in the view model. It ensures that the view model always reflects
-     * the latest selections made by the user.
-     */
-    private void updateSelectedNutrients() {
-        ArrayList<String> selectedNutrients = new ArrayList<>();
-        if (vitaminACheckBox.isSelected()) {
-            selectedNutrients.add("Vitamin A");
-        }
-        if (vitaminCCheckBox.isSelected()) {
-            selectedNutrients.add("Vitamin C");
-        }
-        if (vitaminB1CheckBox.isSelected()) {
-            selectedNutrients.add("Vitamin B1");
-        }
-        if (vitaminB2CheckBox.isSelected()) {
-            selectedNutrients.add("Vitamin B2");
-        }
-        if (vitaminB3CheckBox.isSelected()) {
-            selectedNutrients.add("Vitamin B3");
-        }
-        if (vitaminB6CheckBox.isSelected()) {
-            selectedNutrients.add("Vitamin B6");
-        }
-        if (vitaminB12CheckBox.isSelected()) {
-            selectedNutrients.add("Vitamin B12");
-        }
-        if (vitaminDCheckBox.isSelected()) {
-            selectedNutrients.add("Vitamin D");
-        }
-        if (vitaminECheckBox.isSelected()) {
-            selectedNutrients.add("Vitamin E");
-        }
-        if (vitaminKCheckBox.isSelected()) {
-            selectedNutrients.add("Vitamin K");
-        }
-        if (carbsCheckBox.isSelected()) {
-            selectedNutrients.add("CARBOHYDRATES");
-        }
-        if (fatCheckBox.isSelected()) {
-            selectedNutrients.add("FAT");
-        }
-        if (sugarCheckBox.isSelected()) {
-            selectedNutrients.add("SUGAR");
-        }
-        if (fiberCheckBox.isSelected()) {
-            selectedNutrients.add("FIBER");
-        }
-        if (proteinCheckBox.isSelected()) {
-            selectedNutrients.add("PROTEIN");
-        }
-        if (ironCheckBox.isSelected()) {
-            selectedNutrients.add("IRON");
-        }
-        if (calciumCheckBox.isSelected()) {
-            selectedNutrients.add("CALCIUM");
-        }
-        if (potassiumCheckBox.isSelected()) {
-            selectedNutrients.add("POTASSIUM");
-        }
-        if (sodiumCheckBox.isSelected()) {
-            selectedNutrients.add("SODIUM");
-        }
-        if (magnesiumCheckBox.isSelected()) {
-            selectedNutrients.add("MAGNESIUM");
-        }
-        if (phosphorusCheckBox.isSelected()) {
-            selectedNutrients.add("PHOSPHORUS");
-        }
-
-        NutritionFilterPageState currentState = viewModel.getState();
-        if (currentState == null) {
-            currentState = new NutritionFilterPageState();
-        }
-        currentState.setSelectedNutrients(selectedNutrients);
-        viewModel.setState(currentState);
-    }
-
-    /**
-     * React to a button click that results in evt.
+     * Handles button click events (not used in this specific class but implemented for ActionListener).
      *
-     * @param evt the ActionEvent to react to
+     * @param evt the ActionEvent triggered by a button click
      */
-    @Override
     public void actionPerformed(ActionEvent evt) {
-        if (evt.getSource().equals(submitButton)) {
-            NutritionFilterPageState currentState = viewModel.getState();
-            if (currentState != null && controller != null) {
-                controller.execute(currentState.getSelectedNutrients());
-            }
-        }
+        // Print the action command of the clicked button
+        System.out.println("Click " + evt.getActionCommand());
     }
 
     /**
-     * Handles action events triggered by user interactions, such as button clicks.
+     * Handles property change events from the {@code NutritionFilterPageViewModel}.
      * <p>
-     * Specifically, this method reacts to the submit button click by invoking the controller's execute method
-     * with the currently selected nutrients. It initiates the use case to find recipes based on the user's selections.
-     * @param evt the {@code ActionEvent} that triggered this method
+     * This method is called whenever the state of the view model changes. It checks the new state for
+     * errors and updates the results panel if there are any new recipes available. If an error is detected,
+     * no action is taken, and the method returns early.
+     * </p>
+     *
+     * @param evt the {@code PropertyChangeEvent} containing the updated state of the view model
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         NutritionFilterPageState state = (NutritionFilterPageState) evt.getNewValue();
-
         if (state.getSearchError() != null) {
-            errorLabel.setText(state.getSearchError());
-            resultsArea.setText("");
-        } else if (state.getRecipeDetails() != null) {
-            errorLabel.setText("");
-            String results = String.join("\n", state.getRecipeDetails());
-            resultsArea.setText(results);
+            return;  // If an error is present, no action is taken
+        }
+
+        // If state contains recipe data, update the results panel
+        JSONArray recipes = state.getRecipeDetails();  // Retrieve recipes from the state
+        if (recipes != null) {
+            updateResultsPanel(recipes);  // Update the results panel with the new recipes
         }
     }
 
     /**
-     * Returns the name of this view.
+     * Retrieves the list of nutrients selected by the user.
      * <p>
-     * This method is used to identify the view, typically when switching between different views
-     * in a card layout or view manager.
-     * @return the name of the view as a {@code String}
+     * This method iterates over the list of checkboxes representing different nutrients.
+     * If a checkbox is selected, the corresponding nutrient name is added to the result list.
+     * </p>
+     *
+     * @return an {@code ArrayList<String>} containing the names of the nutrients selected by the user;
+     *         may be empty if no checkboxes are selected
      */
-    public String getViewName() {
-        return viewName;
+    private ArrayList<String> getSelectedNutrients() {
+        ArrayList<String> selectedNutrients = new ArrayList<>();
+        for (JCheckBox checkBox : checkBoxList) {
+            if (checkBox.isSelected()) {
+                selectedNutrients.add(checkBox.getText());
+            }
+        }
+
+        return selectedNutrients;
     }
 
     /**
@@ -279,6 +188,72 @@ public class NutritionFilterPageView extends JPanel implements ActionListener, P
         this.controller = controller;
     }
 
-    public void setHomepageController(HomepageController controller) { this.homepageController = controller;
+    public void setStoreRecipeController(StoreRecipeController controller) {
+        this.storeRecipeController = controller;
+    }
+
+    /**
+     * Retrieves the name of the view (used for view identification).
+     *
+     * @return the name of the view
+     */
+    public String getName() {
+        return this.viewName;
+    }
+
+    /**
+     * Displays a dialog with a list of recipes found based on the search criteria.
+     *
+     * @param recipes a JSONArray containing the recipe data to display
+     */
+    public void showRecipesDialog(JSONArray recipes) {
+        StringBuilder message = new StringBuilder("Recipes Found:\n\n");
+
+        for (int i = 0; i < recipes.length(); i++) {
+            try {
+                JSONObject recipe = recipes.getJSONObject(i);
+                message.append("- ").append(recipe.getString("label")).append("\n");
+            } catch (JSONException e) {
+                message.append("- Error parsing recipe at index ").append(i).append("\n");
+            }
+        }
+
+        JOptionPane.showMessageDialog(this, message.toString(),
+                "Search Results", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    /**
+     * Updates the results panel with the given recipes.
+     * Each recipe is displayed as a label in the results panel.
+     *
+     * @param recipes the recipes to display in the results panel
+     */
+    private void updateResultsPanel(JSONArray recipes) {
+        resultsPanel.removeAll();  // Clear existing results
+
+        resultsPanel.add(new JLabel("Recipes Found:"));
+
+        // Add each recipe label to the results panel
+        for (int i = 0; i < recipes.length(); i++) {
+            try {
+                JSONObject recipe = recipes.getJSONObject(i).getJSONObject("recipe");
+                RecipeSavePanel recipePanel = new RecipeSavePanel(recipe);
+                resultsPanel.add(recipePanel);
+                recipePanel.getSaveButton().addActionListener(
+                        new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                storeRecipeController.execute(recipe, viewModel.getState().getUsername());
+                            }
+                        }
+                );
+            } catch (JSONException e) {
+                resultsPanel.add(new JLabel("- Error parsing recipe at index " + i));
+            }
+        }
+
+        // Revalidate and repaint the panel to reflect the changes
+        resultsPanel.revalidate();
+        resultsPanel.repaint();
     }
 }
