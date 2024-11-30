@@ -1,17 +1,14 @@
 package use_case.store_recipe;
 
-
-import data_access.FileUserDataAccessObject;
-import use_case.Homepage.HomepageOutputData;
-
 /**
- * The Signup Interactor.
+ * The Store Recipe Interactor.
  */
 public class StoreRecipeInteractor implements StoreRecipeInputBoundary {
     private final StoreRecipeOutputBoundary userPresenter;
     private final StoreRecipeDataAccessInterface storeRecipeDAO;
 
-    public StoreRecipeInteractor(StoreRecipeDataAccessInterface storeRecipeDAO, StoreRecipeOutputBoundary signupOutputBoundary) {
+    public StoreRecipeInteractor(StoreRecipeDataAccessInterface storeRecipeDAO,
+                                 StoreRecipeOutputBoundary signupOutputBoundary) {
         this.userPresenter = signupOutputBoundary;
         this.storeRecipeDAO = storeRecipeDAO;
     }
@@ -23,7 +20,8 @@ public class StoreRecipeInteractor implements StoreRecipeInputBoundary {
 
     @Override
     public void goView(String username) {
-        final StoreRecipeOutputData outputData = new StoreRecipeOutputData(username, storeRecipeDAO.getRecipes(username));
+        final StoreRecipeOutputData outputData =
+                new StoreRecipeOutputData(username, storeRecipeDAO.getRecipes(username));
         userPresenter.goView(outputData);
 
     }
