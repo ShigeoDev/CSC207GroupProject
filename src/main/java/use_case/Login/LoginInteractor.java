@@ -1,7 +1,6 @@
 package use_case.Login;
 
 import entity.User;
-import entity.UserFactory;
 
 /**
  * The Login Interactor.

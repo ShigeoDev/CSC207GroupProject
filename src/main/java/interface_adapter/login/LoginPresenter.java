@@ -7,6 +7,8 @@ import interface_adapter.signup.SignupViewModel;
 import use_case.Login.LoginOutputBoundary;
 import use_case.Login.LoginOutputData;
 
+import javax.swing.*;
+
 /**
  * The Presenter for the Login Use Case.
  */
@@ -40,9 +42,7 @@ public class LoginPresenter implements LoginOutputBoundary {
 
     @Override
     public void prepareFailView(String error) {
-        final LoginState loginState = loginViewModel.getState();
-        loginState.setLoginError(error);
-        loginViewModel.firePropertyChanged();
+        JOptionPane.showMessageDialog(null, error, "Login Error", JOptionPane.ERROR_MESSAGE);
     }
 
     @Override
