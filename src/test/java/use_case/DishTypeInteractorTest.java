@@ -77,7 +77,13 @@ public class DishTypeInteractorTest {
             // Get the dish type array
             JSONArray Dishtype = recipe.getJSONArray("dishType");
             // Check if the first dish type matches the input
-            if (!Dishtype.get(Dishtype.length() - 1).equals("salad")) {
+            int contain = 0;
+            for (int j = 0; j < Dishtype.length(); j++) {
+                if (Dishtype.get(j).equals("salad")){
+                    contain++;
+                }
+            }
+            if(contain == 0){
                 count++;
             }
         }
