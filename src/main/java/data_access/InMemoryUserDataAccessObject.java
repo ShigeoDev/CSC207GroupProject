@@ -1,11 +1,13 @@
 package data_access;
 
 import entity.User;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import use_case.GetCalories.GetCaloriesDataAccessInterface;
 import use_case.MealPlan.MealPlanDataAccessInterface;
 import use_case.Login.LoginUserDataAccessInterface;
 import use_case.Signup.SignupUserDataAccessInterface;
+import use_case.searchByDishType.DishTypeUserDataAccessInterface;
 import use_case.store_recipe.StoreRecipeDataAccessInterface;
 
 import java.util.ArrayList;
@@ -19,11 +21,12 @@ import java.util.Map;
  */
 public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface, StoreRecipeDataAccessInterface,
-        MealPlanDataAccessInterface, GetCaloriesDataAccessInterface {
+        MealPlanDataAccessInterface, GetCaloriesDataAccessInterface, DishTypeUserDataAccessInterface {
 
     private final List<User> users = new ArrayList<User>();
     private final Map<User, ArrayList<JSONObject>> recipes = new HashMap<>();
     private JSONObject[] meals = new JSONObject[3];
+    private JSONArray dishes = new JSONArray();
 
     private String currentUsername;
 
@@ -123,5 +126,14 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
         else if (mealName.equals("dinner")) {
             this.meals[2] = recipe;
         }
+    }
+
+    public void save(JSONObject recipe, String username) {
+        this.dishes.put(0, recipe);
+    }
+
+    @Override
+    public JSONArray getRecipeByDishType(String dishType) {
+        return dishes;
     }
 }
