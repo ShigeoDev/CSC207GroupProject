@@ -263,6 +263,7 @@ public class AppBuilder {
         mealPlanView.setStoreRecipeController(controller);
         returnCaloriesView.setStoreRecipeController(controller);
         dishTypeView.setStoreRecipeController(controller);
+        nutritionFilterPageView.setStoreRecipeController(controller);
         return this;
     }
 
