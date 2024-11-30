@@ -59,13 +59,28 @@ as the methods we wanted to implement.
 2. You will be prompted with a SignUp screen. If you don't have an account, put in your details to signup for an account.
 If you already have an account, click the LogIn button which will navigate you to the LogIn screen. Here you can put in your 
 details to log in.
-3. Once you log in, you will be prompted with a screen that includes the features that our application provides. Decide 
+<img width="780" alt="Screenshot 2024-11-30 at 4 05 35 PM" src="https://github.com/user-attachments/assets/c8edeede-fbda-47da-ad48-5283156f121c">
+<img width="803" alt="Screenshot 2024-11-30 at 4 07 30 PM" src="https://github.com/user-attachments/assets/3ff95eea-1626-4af7-926a-55f68965b156">
+
+4. Once you log in, you will be prompted with a screen that includes the features that our application provides. Decide 
 which feature you want to use and click on the correct button.
-   4. Mealplan: Requires no extra User input.
-   5. Saved: Requires no extra User input.
-   6. Search by Dish Type: You will be prompted with a screen that includes numerous different dish types. Select your 
+<img width="569" alt="Screenshot 2024-11-30 at 4 08 26 PM" src="https://github.com/user-attachments/assets/f686ee24-9681-477d-82cf-e961f558237d">
+
+   5. Mealplan: Requires no extra User input.
+   6. Saved: Requires no extra User input.
+   7. Search by Dish Type: You will be prompted with a screen that includes numerous different dish types. Select your 
    desired dish types and click search.
-   7. Get Calories: You will be prompted with a text field. Type in your desired recipe and click submit.
+
+      <img width="577" alt="Screenshot 2024-11-30 at 4 08 56 PM" src="https://github.com/user-attachments/assets/c511958f-30b5-4875-a2c9-e05ac27cc141">
+
+   8. Get Calories: You will be prompted with a text field. Type in your desired recipe and click submit.
+      
+      <img width="564" alt="Screenshot 2024-11-30 at 4 10 00 PM" src="https://github.com/user-attachments/assets/bab1cdcb-ac83-47bd-952d-ef868fb6559c">
+   9. In both the Dish Type and Get Calories feature, once you are presented with the results view, you can then save a desired recipe for later use.
+    
+       <img width="374" alt="Screenshot 2024-11-30 at 4 13 34 PM" src="https://github.com/user-attachments/assets/b14d1113-aa07-4556-9f46-9f2ef0cf31fd">
+
+
 # License
 # Section for Feedback
 # Section for Contributions
