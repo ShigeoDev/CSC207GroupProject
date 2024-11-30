@@ -297,7 +297,6 @@ public class AppBuilder {
         // Returns the current instance
         return this;
     }
-
     /**
      * Builds and returns the main application frame.
      * Initializes the application frame, sets its default state, and prepares the cardPanel.
