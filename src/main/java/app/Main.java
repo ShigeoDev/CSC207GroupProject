@@ -2,7 +2,8 @@ package app;
 
 import javax.swing.*;
 
-/*
+/**
+ *
 Run this to run program
  */
 public class Main {
