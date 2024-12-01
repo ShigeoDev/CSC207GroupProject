@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import use_case.searchByDishType.*;
+import use_case.store_recipe.StoreRecipeInputData;
 import use_case.store_recipe.StoreRecipeInteractor;
 import use_case.store_recipe.StoreRecipeOutputBoundary;
 import use_case.store_recipe.StoreRecipeOutputData;
@@ -44,6 +45,11 @@ public class DishTypeInteractorTest {
     // Input data object containing the dish type
     DishTypeInputData inputData = new DishTypeInputData(dishType);
 
+    String recipeString = "{\"recipe\" : \"Salad\", \"dishType\" : \"salad\"}";
+    JSONObject recipe = new JSONObject(recipeString);
+    private InMemoryUserDataAccessObject dao;
+    User test = new User("test", "test");
+
     @BeforeEach
     public void setUp() {
         // Initialize dependencies and set up the DishTypeInteractor instance
@@ -58,13 +64,16 @@ public class DishTypeInteractorTest {
         homepageViewModel = new HomepageViewModel();
         // Presenter for updating views
         userPresenter = new DishTypePresenter(viewModel, viewManagerModel, homepageViewModel);
+        dao = new InMemoryUserDataAccessObject();
+        dao.save(recipe, test.getName());
         // Main interactor instance
-        dishTypeInteractor = new DishTypeInteractor(userDataAccessInterface, userPresenter);
+        dishTypeInteractor = new DishTypeInteractor(dao, userPresenter);
     }
 
     @Test
     public void test_execute() {
         // Test searching recipes by dish type
+
 
         // Execute the interactor with input data
         recipes = dishTypeInteractor.execute(inputData);
@@ -73,22 +82,9 @@ public class DishTypeInteractorTest {
         int count = 0;
         for (int i = 0; i < recipes.length(); i++) {
             // Get the recipe object
-            JSONObject recipe = recipes.getJSONObject(i).getJSONObject("recipe");
-            // Get the dish type array
-            JSONArray Dishtype = recipe.getJSONArray("dishType");
-            // Check if the first dish type matches the input
-            int contain = 0;
-            for (int j = 0; j < Dishtype.length(); j++) {
-                if (Dishtype.get(j).equals("salad")){
-                    contain++;
-                }
-            }
-            if(contain == 0){
-                count++;
-            }
+            String recipe = recipes.getJSONObject(i).getString("dishType");
+            assertEquals("salad", recipe);
         }
-        // Verify that the count is 0
-        assertEquals(count, 0);
     }
 
     @Test
