@@ -81,6 +81,11 @@ dish type page. By clicking the search button, all the recipes under the specifi
 ### Nutrition Filter Use Case:
 The nutrition filter feature allows users to select the desired nutritions and then be presented with recipes that are high 
 in the selected nutritions.
+
+### Demonstration
+https://github.com/user-attachments/assets/5afed63a-9339-4f34-859c-3ddee3c8030f
+
+
 # Installation Instructions:
 1. Navigate to our Group GitHub Repository and clone the repository
 2. Open up your desired software and pull the code
@@ -110,7 +115,10 @@ which feature you want to use and click on the correct button.
    7. Get Calories: You will be prompted with a text field. Type in your desired recipe and click submit.
       
       <img width="564" alt="Screenshot 2024-11-30 at 4 10 00 PM" src="https://github.com/user-attachments/assets/bab1cdcb-ac83-47bd-952d-ef868fb6559c">
-   8. Once you are presented with the results view, you can then save a  recipe for later use.
+   8. Nutrition Filter: You will be prompted with a screen that includes numerous nutritions. Select your desired nutritions and click Find Recipes.
+       <img width="1246" alt="Screenshot 2024-12-01 at 1 00 27 PM" src="https://github.com/user-attachments/assets/35f4919e-4e9c-44f5-a71d-b5903d9cb9d9">
+
+   9. Once you are presented with the results view for any of these features, you can then save a recipe for later use.
     
        <img width="374" alt="Screenshot 2024-11-30 at 4 13 34 PM" src="https://github.com/user-attachments/assets/b14d1113-aa07-4556-9f46-9f2ef0cf31fd">
 
