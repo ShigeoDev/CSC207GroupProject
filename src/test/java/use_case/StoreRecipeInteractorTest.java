@@ -59,12 +59,19 @@ public class StoreRecipeInteractorTest {
         User test = new User("test", "test");
         InMemoryUserDataAccessObject dao = new InMemoryUserDataAccessObject();
 
+        String recipeString = "{\"recipe\" : \"Chicken\"}";
+        JSONObject recipe = new JSONObject(recipeString);
+
+        dao.saveUser(test);
+        dao.saveRecipe(recipe, test.getName());
+
         // Mocking the presenter to verify the output data.
         StoreRecipeOutputBoundary presenter = new StoreRecipeOutputBoundary() {
             @Override
             public void goView(StoreRecipeOutputData outputData) {
                 // Verifying that the correct username is passed to the presenter.
                 assertEquals(outputData.getUsername(), test.getName());
+                assertEquals(outputData.getRecipes(), dao.getRecipes(test.getName()));
             }
         };
 
