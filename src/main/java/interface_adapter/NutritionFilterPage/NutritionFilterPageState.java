@@ -27,45 +27,6 @@ public class NutritionFilterPageState {
     }
 
     /**
-     * Retrieves the list of nutrients selected by the user.
-     * @return a {@code List<String>} containing the names of the selected nutrients; may be empty but not {@code null}
-     */
-    public ArrayList<String> getSelectedNutrients() {
-        return selectedNutrients;
-    }
-
-    /**
-     * Sets the list of selected nutrients for the current state.
-     * <p>
-     * This method replaces the existing list of selected nutrients with the provided list.
-     * It first clears the current list and then adds all elements from the provided list.
-     * If the provided list is {@code null}, the current list will be cleared.
-     * @param selectedNutrients the list of nutrient names selected by the user; may be {@code null}
-     */
-    public void setSelectedNutrients(ArrayList<String> selectedNutrients) {
-        this.selectedNutrients.clear();
-        if (selectedNutrients != null) {
-            this.selectedNutrients.addAll(selectedNutrients);
-        }
-    }
-
-    /**
-     * Retrieves the error message related to nutrient selection, if any.
-     * @return a {@code String} containing the selection error message, or {@code null} if there is no error
-     */
-    public String getSelectionError() {
-        return selectionError;
-    }
-
-    /**
-     * Sets the selection error message for the current state.
-     * @param selectionError the error message to set; may be {@code null} to clear the error
-     */
-    public void setSelectionError(String selectionError) {
-        this.selectionError = selectionError;
-    }
-
-    /**
      * Retrieves the list of recipe details for the current state.
      * @return a {@code JSONArray} containing recipe details; may be empty but not {@code null}
      */

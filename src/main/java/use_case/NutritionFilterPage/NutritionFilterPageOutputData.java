@@ -8,7 +8,6 @@ import org.json.JSONArray;
 public class NutritionFilterPageOutputData {
 
     private final JSONArray recipes;
-    private final boolean useCaseFailed;
 
     /**
      * Constructs a new {@code NutritionFilterPageOutputData} object with the specified list of recipes and status flag.
@@ -19,12 +18,9 @@ public class NutritionFilterPageOutputData {
      * </p>
      *
      * @param recipes       the {@code JSONArray} containing the recipes resulting from the nutrient filter operation
-     * @param useCaseFailed a {@code boolean} flag indicating whether the use case execution resulted in failure;
-     *                      {@code true} if the use case failed, {@code false} otherwise
      */
-    public NutritionFilterPageOutputData(JSONArray recipes, boolean useCaseFailed) {
+    public NutritionFilterPageOutputData(JSONArray recipes) {
         this.recipes = recipes;
-        this.useCaseFailed = useCaseFailed;
     }
 
     /**
@@ -35,11 +31,4 @@ public class NutritionFilterPageOutputData {
         return recipes;
     }
 
-    /**
-     * Indicates whether the use case execution resulted in a failure.
-     * @return {@code true} if the use case failed; {@code false} otherwise
-     */
-    public boolean isUseCaseFailed() {
-        return useCaseFailed;
-    }
 }

@@ -47,8 +47,7 @@ public class NutritionFilterPageInteractor implements NutritionFilterPageInputBo
             if (recipes.isEmpty()) {
                 outputBoundary.prepareFailView("No recipes found matching the selected nutrients.");
             } else {
-                NutritionFilterPageOutputData outputData = new NutritionFilterPageOutputData(recipes,
-                        false);
+                NutritionFilterPageOutputData outputData = new NutritionFilterPageOutputData(recipes);
                 outputBoundary.prepareSuccessView(outputData);
                 return recipes;
             }

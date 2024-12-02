@@ -200,27 +200,6 @@ public class NutritionFilterPageView extends JPanel implements ActionListener, P
     }
 
     /**
-     * Displays a dialog with a list of recipes found based on the search criteria.
-     *
-     * @param recipes a JSONArray containing the recipe data to display
-     */
-    public void showRecipesDialog(JSONArray recipes) {
-        StringBuilder message = new StringBuilder("Recipes Found:\n\n");
-
-        for (int i = 0; i < recipes.length(); i++) {
-            try {
-                JSONObject recipe = recipes.getJSONObject(i);
-                message.append("- ").append(recipe.getString("label")).append("\n");
-            } catch (JSONException e) {
-                message.append("- Error parsing recipe at index ").append(i).append("\n");
-            }
-        }
-
-        JOptionPane.showMessageDialog(this, message.toString(),
-                "Search Results", JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    /**
      * Updates the results panel with the given recipes.
      * Each recipe is displayed as a label in the results panel.
      *
