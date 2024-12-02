@@ -66,12 +66,10 @@ public class NutritionFilterPageView extends JPanel implements ActionListener, P
 
         checkBoxPanel.setLayout(new GridLayout(0, 2));
 
-        ButtonGroup buttonGroup = new ButtonGroup();
         for (String nutrient : nutrients) {
             JCheckBox checkBox = new JCheckBox(nutrient);
             checkBoxList.add(checkBox);
             checkBoxPanel.add(checkBox);
-            buttonGroup.add(checkBox);
         }
 
         final JPanel buttons = new JPanel();
