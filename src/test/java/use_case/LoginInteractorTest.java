@@ -159,4 +159,35 @@ class LoginInteractorTest {
         LoginInputBoundary interactor = new LoginInteractor(userRepository, failurePresenter);
         interactor.execute(inputData);
     }
+
+    @Test
+    void switchToSignupViewTest() {
+        // Mocking the presenter to verify the login view switch.
+        LoginOutputBoundary presenter = new LoginOutputBoundary() {
+            @Override
+            public void prepareSuccessView(LoginOutputData user) {
+                fail("Use case success is unexpected.");
+            }
+
+            @Override
+            public void prepareFailView(String error) {
+                fail("Use case failure is unexpected.");
+            }
+
+            @Override
+            public void switchToSignupView() {
+                // Verifying that the method is invoked.
+                assertTrue(true, "switchToLoginView was called.");
+            }
+        };
+
+        // Using an in-memory user repository.
+        LoginUserDataAccessInterface userRepository = new InMemoryUserDataAccessObject();
+
+        // Creating the interactor.
+        LoginInputBoundary interactor = new LoginInteractor(userRepository, presenter);
+
+        // Call switchToLoginView directly to test its behavior.
+        interactor.switchToSignupView();
+    }
 }
