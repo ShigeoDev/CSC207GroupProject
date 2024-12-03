@@ -38,14 +38,16 @@ public class NutritionFilterPageInteractor implements NutritionFilterPageInputBo
     public JSONArray execute(NutritionFilterPageInputData nutritionFilterPageInputData) {
         try {
             ArrayList<String> selectedNutrients = nutritionFilterPageInputData.getSelectedNutrients();
-            if (selectedNutrients == null || selectedNutrients.isEmpty()) {
+            if (selectedNutrients.isEmpty()) {
                 outputBoundary.prepareFailView("No nutrients selected for filtering.");
+                return null;
             }
 
             JSONArray recipes = dataAccess.getRecipesByNutrients(selectedNutrients);
 
             if (recipes.isEmpty()) {
                 outputBoundary.prepareFailView("No recipes found matching the selected nutrients.");
+                return null;
             } else {
                 NutritionFilterPageOutputData outputData = new NutritionFilterPageOutputData(recipes);
                 outputBoundary.prepareSuccessView(outputData);
@@ -53,8 +55,8 @@ public class NutritionFilterPageInteractor implements NutritionFilterPageInputBo
             }
         } catch (RuntimeException e) {
             outputBoundary.prepareFailView("An error occurred while fetching recipes: " + e.getMessage());
+            return null;
         }
-        return null;
     }
 
     @Override
