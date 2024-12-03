@@ -21,9 +21,6 @@ public class NutritionFilterPageInputData {
      * @throws IllegalArgumentException if {@code selectedNutrients} is {@code null} or empty
      */
     public NutritionFilterPageInputData(ArrayList<String> selectedNutrients) {
-        if (selectedNutrients == null || selectedNutrients.isEmpty()) {
-            throw new IllegalArgumentException("Selected nutrients cannot be null or empty.");
-        }
         this.selectedNutrients = selectedNutrients;
     }
 

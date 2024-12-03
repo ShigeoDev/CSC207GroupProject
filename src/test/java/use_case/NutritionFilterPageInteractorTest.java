@@ -37,6 +37,23 @@ public class NutritionFilterPageInteractorTest {
     }
 
     @Test
+    public void testExecuteWithEmptySelectedNutrients() {
+        // Test handling when selected nutrients list is empty
+
+        // Set up input data with an empty list of selected nutrients
+        ArrayList<String> selectedNutrients = new ArrayList<>();
+        NutritionFilterPageInputData inputData = new NutritionFilterPageInputData(selectedNutrients);
+
+        // Execute the interactor
+        JSONArray result = interactor.execute(inputData);
+
+        // Verify that result is null and appropriate fail view is prepared
+        assertNull(result);
+        assertNull(outputBoundary.successData);
+        assertEquals("No nutrients selected for filtering.", outputBoundary.failMessage);
+    }
+
+    @Test
     public void testExecuteWithValidSelectedNutrients() {
         // Test filtering recipes with valid selected nutrients
 
