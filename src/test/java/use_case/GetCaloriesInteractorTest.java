@@ -88,25 +88,26 @@ public class GetCaloriesInteractorTest {
             }
         };
 
+        boolean[] noActionsTriggered = {true};
         mockPresenter = new GetCaloriesOutputBoundary() {
             @Override
             public void prepareSuccessView(GetCaloriesOutputData outputData) {
-                fail("Should not have called prepareSuccessView");
+                noActionsTriggered[0] = false;
             }
 
             @Override
             public void prepareFailView(String error) {
-                fail("Should not have called prepareFailView");
+                noActionsTriggered[0] = false;
             }
 
             @Override
             public void prepareHomeView() {
-                fail("Should not have called prepareHomeView");
+                noActionsTriggered[0] = false;
             }
 
             @Override
             public void prepareGetCaloriesView(String username) {
-                fail("Should not have called prepareGetCaloriesView");
+                noActionsTriggered[0] = false;
             }
         };
 
@@ -115,6 +116,9 @@ public class GetCaloriesInteractorTest {
         // Act
         GetCaloriesInputData inputData = new GetCaloriesInputData("Nonexistent Recipe", "testUser");
         interactor.execute(inputData);
+
+        // Assert
+        assertTrue(noActionsTriggered[0], "No presenter methods should be called when no recipes are found");
     }
 
     @Test
@@ -236,5 +240,45 @@ public class GetCaloriesInteractorTest {
 
         // Assert
         assertEquals(testUsername, receivedUsername[0], "Username should be passed correctly");
+    }
+
+    @Test
+    void apiErrorHandling() {
+        // Arrange
+        String expectedErrorMessage = "API Connection Failed";
+        mockApiDao = new ApiDataAccessObject() {
+            @Override
+            public JSONArray getRecipebyName(String recipeName) {
+                throw new RuntimeException(expectedErrorMessage);
+            }
+        };
+
+        mockPresenter = new GetCaloriesOutputBoundary() {
+            @Override
+            public void prepareSuccessView(GetCaloriesOutputData outputData) {
+                fail("Should not have called prepareSuccessView");
+            }
+
+            @Override
+            public void prepareFailView(String error) {
+                assertEquals(expectedErrorMessage, error, "Error message should match the exception");
+            }
+
+            @Override
+            public void prepareHomeView() {
+                fail("Should not have called prepareHomeView");
+            }
+
+            @Override
+            public void prepareGetCaloriesView(String username) {
+                fail("Should not have called prepareGetCaloriesView");
+            }
+        };
+
+        interactor = new GetCaloriesInteractor(mockApiDao, mockPresenter, userDao);
+
+        // Act
+        GetCaloriesInputData inputData = new GetCaloriesInputData("Invalid Recipe", "testUser");
+        interactor.execute(inputData);
     }
 }
